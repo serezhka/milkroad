@@ -12,15 +12,18 @@ CREATE TABLE mr_user (
   birthday   DATE,
   email      VARCHAR(130) NOT NULL,
   pass_hash  VARCHAR(32)  NOT NULL,
-  PRIMARY KEY (id)
+  pass_salt  VARCHAR(32)  NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE (email)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
 CREATE TABLE mr_country (
-  id          BIGINT      NOT NULL AUTO_INCREMENT,
-  coutry_name VARCHAR(45) NOT NULL,
-  PRIMARY KEY (id)
+  id           BIGINT      NOT NULL AUTO_INCREMENT,
+  country_name VARCHAR(45) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE (country_name)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
@@ -30,7 +33,8 @@ CREATE TABLE mr_city (
   country_id BIGINT      NOT NULL,
   city_name  VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (country_id) REFERENCES mr_country (id)
+  FOREIGN KEY (country_id) REFERENCES mr_country (id),
+  UNIQUE (city_name)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
@@ -56,11 +60,13 @@ CREATE TABLE mr_product_category (
   id            BIGINT      NOT NULL AUTO_INCREMENT,
   category_name VARCHAR(45) NOT NULL,
   description   TEXT,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (category_name)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
+# TODO Think about product image
 # Product can have no catergory
 CREATE TABLE mr_product (
   id            BIGINT         NOT NULL AUTO_INCREMENT,
@@ -81,7 +87,8 @@ CREATE TABLE mr_product_attribute (
   id             BIGINT      NOT NULL AUTO_INCREMENT,
   attribute_name VARCHAR(45) NOT NULL,
   description    TEXT,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  UNIQUE (attribute_name)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
@@ -90,17 +97,19 @@ CREATE TABLE mr_product_parameter (
   product_id      BIGINT NOT NULL,
   attribute_id    BIGINT NOT NULL,
   attribute_value VARCHAR(45),
+  PRIMARY KEY (product_id, attribute_id),
   FOREIGN KEY (product_id) REFERENCES mr_product (id),
-  FOREIGN KEY (attribute_id) REFERENCES mr_product_attribute (id)
+  FOREIGN KEY (attribute_id) REFERENCES mr_product_attribute (id),
+  UNIQUE (product_id, attribute_id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-# We need to store address here if delivery address and customer address are not same
+# We need to store delivery address here, because user can have more then one address
 CREATE TABLE mr_order (
   id              BIGINT                      NOT NULL AUTO_INCREMENT,
   customer_id     BIGINT                      NOT NULL,
-  address_id      BIGINT,
+  address_id      BIGINT                      NOT NULL,
   price_total     DECIMAL(10, 2)              NOT NULL,
   payment_method  ENUM('cash', 'online')      NOT NULL DEFAULT 'online',
   shipping_method ENUM('pickup', 'post')      NOT NULL DEFAULT 'post',
@@ -122,8 +131,10 @@ CREATE TABLE mr_order_detail (
   product_id    BIGINT         NOT NULL,
   product_count INT            NOT NULL,
   price_total   DECIMAL(10, 2) NOT NULL,
+  PRIMARY KEY (order_id, product_id),
   FOREIGN KEY (order_id) REFERENCES mr_order (id),
-  FOREIGN KEY (product_id) REFERENCES mr_product (id)
+  FOREIGN KEY (product_id) REFERENCES mr_product (id),
+  UNIQUE (order_id, product_id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
