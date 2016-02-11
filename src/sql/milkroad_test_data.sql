@@ -19,102 +19,95 @@ SET FOREIGN_KEY_CHECKS = 1;
 # TODO Optimize requests with foreign keys (INSERT ... SELECT)
 
 # fill countries table
-INSERT INTO mr_country (id, country_name)
+INSERT INTO mr_country (country_name)
 VALUES
-  (NULL, 'Australia'),
-  (NULL, 'Austria'),
-  (NULL, 'Germany'),
-  (NULL, 'Russian Federation');
+  ('Australia'),
+  ('Austria'),
+  ('Germany'),
+  ('Russian Federation');
 
 # fill cities table
 # @formatter:off (for IntelliJIDEA)
-INSERT INTO mr_city (id, country_id, city_name)
+INSERT INTO mr_city (country_id, city_name)
 VALUES
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Canberra'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Bendigo'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Perth'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Leonora'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Vienna'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Graz'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Linz'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Enns'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Berlin'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Bamberg'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Hamburg'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Magdala'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Saint Petersburg'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Moskow'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Tula'),
-  (NULL, (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Kursk');
+  ((SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Canberra'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Bendigo'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Perth'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Australia'), 'Leonora'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Vienna'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Graz'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Linz'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Austria'), 'Enns'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Berlin'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Bamberg'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Hamburg'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Germany'), 'Magdala'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Saint Petersburg'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Moskow'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Tula'),
+  ((SELECT id FROM mr_country WHERE country_name = 'Russian Federation'), 'Kursk');
 # @formatter:on (for IntelliJIDEA)
 
 # fill users table
 # @formatter:off (for IntelliJIDEA)
-INSERT INTO mr_user (id, first_name, last_name, birthday, email, pass_hash, pass_salt)
+INSERT INTO mr_user (first_name, last_name, birthday, email, pass_hash, pass_salt)
 VALUES
-  (NULL, 'Sergey', 'Fedorov', '1993-03-08', 'serezhka@xakep.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
-  (NULL, 'Anton', 'Laletin', '1989-02-07', 'anton.laletin@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
-  (NULL, 'Alex', 'Petrov', '2000-05-17', 'alex.petrov@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
-  (NULL, 'Ivan', 'Smirnov', '1999-12-22', 'ivan.smirnov@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678');
+  ('Sergey', 'Fedorov', '1993-03-08', 'serezhka@xakep.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
+  ('Anton', 'Laletin', '1989-02-07', 'anton.laletin@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
+  ('Alex', 'Petrov', '2000-05-17', 'alex.petrov@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
+  ('Ivan', 'Smirnov', '1999-12-22', 'ivan.smirnov@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678');
 # @formatter:on (for IntelliJIDEA)
 
 # fill addresses table
 # @formatter:off (for IntelliJIDEA)
-INSERT INTO mr_address (id, user_id, country_id, city_id, postcode, street, building, apartment)
+INSERT INTO mr_address (user_id, country_id, city_id, postcode, street, building, apartment)
 VALUES
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Sergey'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Sergey'),
    (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'),
    (SELECT id FROM mr_city WHERE city_name = 'Saint Petersburg'),
   123456, 'Kondratievsky pr.', '55', '555'),
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Anton'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Anton'),
    (SELECT id FROM mr_country WHERE country_name = 'Australia'),
    (SELECT id FROM mr_city WHERE city_name = 'Leonora'),
   123456, 'First str', '55', '555'),
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Alex'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Alex'),
    (SELECT id FROM mr_country WHERE country_name = 'Austria'),
    (SELECT id FROM mr_city WHERE city_name = 'Enns'),
   123456, 'Second street', '55', '555'),
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Ivan'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Ivan'),
    (SELECT id FROM mr_country WHERE country_name = 'Germany'),
    (SELECT id FROM mr_city WHERE city_name = 'Berlin'),
   123456, 'Ahtung strasse', '55', '555');
 # @formatter:on (for IntelliJIDEA)
 
 # fill product categories table
-INSERT INTO mr_product_category (id, category_name, description)
+INSERT INTO mr_product_category (category_name, description)
 VALUES
-  (NULL, 'Food', 'Food & dining'),
-  (NULL, 'Media', 'Media & entertainment'),
-  (NULL, 'Sport', 'Sport wear, equipment'),
-  (NULL, 'Health', 'Drugs & healthcare');
+  ('Food', 'Food & dining'),
+  ('Media', 'Media & entertainment'),
+  ('Sport', 'Sport wear, equipment'),
+  ('Health', 'Drugs & healthcare');
 
 # fill product attributes table
-INSERT INTO mr_product_attribute (id, attribute_name, description)
+INSERT INTO mr_product_attribute (attribute_name, description)
 VALUES
-  (NULL, 'weight', 'in kilograms'),
-  (NULL, 'height', 'in meters'),
-  (NULL, 'volume', 'in liters'),
-  (NULL, 'power', 'in watts'),
-  (NULL, 'color', '');
+  ('weight', 'in kilograms'),
+  ('height', 'in meters'),
+  ('volume', 'in liters'),
+  ('power', 'in watts'),
+  ('color', '');
 
 # fill products table
 # @formatter:off (for IntelliJIDEA)
-INSERT INTO mr_product (id, seller_id, category_id, product_name, product_price, remain_count, description)
+INSERT INTO mr_product (seller_id, category_id, product_name, product_price, remain_count, description)
 VALUES
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Sergey'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Sergey'),
    (SELECT id FROM mr_product_category WHERE category_name = 'Food'),
   'Pepsi', 10.90, 3, 'Pepsi zero'),
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Sergey'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Sergey'),
    (SELECT id FROM mr_product_category WHERE category_name = 'Food'),
   'Coca cola', 15.90, 2, 'Vanila'),
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Alex'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Alex'),
    (SELECT id FROM mr_product_category WHERE category_name = 'Sport'),
   'Bike', 100.45, 1, 'BMX');
 # @formatter:on (for IntelliJIDEA)
@@ -145,43 +138,39 @@ VALUES
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Anton'),
 #    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Anton'),
-#   2 * 10.90 + 15.90, 'cash', 'pickup', 'awaiting', 'awaiting', 'o1'),
+#   2 * 10.90 + 15.90, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o1'),
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Alex'),
 #    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Alex'),
-#   15.90, 'online', 'pickup', 'paid', 'awaiting', 'o2'),
+#   15.90, 'ONLINE', 'PICKUP', 'PAID', 'AWAITING', 'o2'),
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Ivan'),
 #    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Ivan'),
-#   10.90, 'online', 'post', 'paid', 'shipped', 'o3'),
+#   10.90, 'ONLINE', 'POST', 'PAID', 'SHIPPED', 'o3'),
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Sergey'),
 #    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Sergey'),
-#   111.35, 'cash', 'pickup', 'awaiting', 'awaiting', 'o4');
-INSERT INTO mr_order (id, customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
+#   111.35, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o4');
+INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Anton'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Anton'),
    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Anton'),
-  2 * 10.90 + 15.90, 'cash', 'pickup', 'awaiting', 'awaiting', 'o1');
-INSERT INTO mr_order (id, customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
+  2 * 10.90 + 15.90, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o1');
+INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Alex'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Alex'),
    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Alex'),
-  15.90, 'online', 'pickup', 'paid', 'awaiting', 'o2');
-INSERT INTO mr_order (id, customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
+  15.90, 'ONLINE', 'PICKUP', 'PAID', 'AWAITING', 'o2');
+INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
-  (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Ivan'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Ivan'),
    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Ivan'),
-  10.90, 'online', 'post', 'paid', 'shipped', 'o3');
-INSERT INTO mr_order (id, customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
+  10.90, 'ONLINE', 'POST', 'PAID', 'SHIPPED', 'o3');
+INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
-   (NULL,
-   (SELECT id FROM mr_user WHERE first_name = 'Sergey'),
+   ((SELECT id FROM mr_user WHERE first_name = 'Sergey'),
    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Sergey'),
-  111.35, 'cash', 'pickup', 'awaiting', 'awaiting', 'o4');
+  111.35, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o4');
 # @formatter:on (for IntelliJIDEA)
 
 # fill order details table

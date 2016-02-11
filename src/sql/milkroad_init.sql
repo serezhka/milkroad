@@ -1,4 +1,5 @@
 # MySQL 5.7 init script for milkroad e-shop.
+DROP SCHEMA IF EXISTS milkroad;
 CREATE DATABASE milkroad
   CHARACTER SET 'UTF8';
 USE milkroad;
@@ -6,13 +7,14 @@ USE milkroad;
 # prefix 'mr' - milkroad, to avoid conflict with reserved keywords
 
 CREATE TABLE mr_user (
-  id         BIGINT       NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(45)  NOT NULL,
-  last_name  VARCHAR(45)  NOT NULL,
-  birthday   DATE,
-  email      VARCHAR(130) NOT NULL,
-  pass_hash  VARCHAR(32)  NOT NULL,
-  pass_salt  VARCHAR(32)  NOT NULL,
+  id         BIGINT                       NOT NULL AUTO_INCREMENT,
+  user_type  ENUM('ADMIN', 'SIMPLE_USER') NOT NULL DEFAULT 'SIMPLE_USER',
+  first_name VARCHAR(45)                  NOT NULL,
+  last_name  VARCHAR(45)                  NOT NULL,
+  birthday   DATE                         NOT NULL,
+  email      VARCHAR(130)                 NOT NULL,
+  pass_hash  VARCHAR(32)                  NOT NULL,
+  pass_salt  VARCHAR(32)                  NOT NULL,
   PRIMARY KEY (id),
   UNIQUE (email)
 )
@@ -111,10 +113,10 @@ CREATE TABLE mr_order (
   customer_id     BIGINT                      NOT NULL,
   address_id      BIGINT                      NOT NULL,
   price_total     DECIMAL(10, 2)              NOT NULL,
-  payment_method  ENUM('cash', 'online')      NOT NULL DEFAULT 'online',
-  shipping_method ENUM('pickup', 'post')      NOT NULL DEFAULT 'post',
-  payment_status  ENUM('awaiting', 'paid')    NOT NULL DEFAULT 'awaiting',
-  shipping_status ENUM('awaiting', 'shipped') NOT NULL DEFAULT 'awaiting',
+  payment_method  ENUM('CASH', 'ONLINE')      NOT NULL DEFAULT 'ONLINE',
+  shipping_method ENUM('PICKUP', 'POST')      NOT NULL DEFAULT 'POST',
+  payment_status  ENUM('AWAITING', 'PAID')    NOT NULL DEFAULT 'AWAITING',
+  shipping_status ENUM('AWAITING', 'SHIPPED') NOT NULL DEFAULT 'AWAITING',
   note            TEXT,
   PRIMARY KEY (id),
   FOREIGN KEY (customer_id) REFERENCES mr_user (id),

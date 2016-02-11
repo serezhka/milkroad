@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="MilkroadPersistenceUnit">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.tsystems.javaschool.milkroad.model.MrAddressEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrCityEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrCountryEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrOrderEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrOrderDetailEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrProductEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrProductAttributeEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrProductCategoryEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrProductParameterEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.MrUserEntity</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/milkroad"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="admin"/>
+            <property name="hibernate.connection.password" value="11111111"/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <!--<property name="hibernate.show_sql" value="true"/>-->
+            <!--<property name="hibernate.format_sql" value="true"/>-->
+            <!--<property name="hbm2ddl.auto" value="update"/>-->
+        </properties>
+    </persistence-unit>
+</persistence>
