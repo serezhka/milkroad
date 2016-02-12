@@ -7,6 +7,13 @@
     <version>1.0-SNAPSHOT</version>
     <name>milkroad Maven Webapp</name>
     <url>http://maven.apache.org</url>
+
+    <properties>
+        <src.dir>${project.basedir}/src/java</src.dir>
+        <test.dir>${project.basedir}/src/test</test.dir>
+        <test.resources.dir>${project.basedir}/src/test/resources</test.resources.dir>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -36,8 +43,8 @@
 
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
-            <version>1.0.1.Final</version>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
         </dependency>
 
         <dependency>
@@ -47,7 +54,39 @@
         </dependency>
 
     </dependencies>
+
     <build>
         <finalName>milkroad</finalName>
+        <plugins>
+            <!-- https://maven.apache.org/plugins/maven-compiler-plugin/dependency-info.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <systemPropertyVariables>
+                        <log4j.configuration>file:${test.resources.dir}/log4j.xml</log4j.configuration>
+                    </systemPropertyVariables>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+        </plugins>
+        <sourceDirectory>${src.dir}</sourceDirectory>
+        <testSourceDirectory>${test.dir}</testSourceDirectory>
+        <testResources>
+            <testResource>
+                <directory>${test.resources.dir}</directory>
+            </testResource>
+        </testResources>
     </build>
 </project>
