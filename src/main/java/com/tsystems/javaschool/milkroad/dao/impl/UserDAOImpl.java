@@ -24,6 +24,8 @@ public class UserDAOImpl extends DAOImpl<MrUserEntity, Long> implements UserDAO 
         try {
             final TypedQuery<MrUserEntity> entityTypedQuery = entityManager.createNamedQuery("MrUserEntity.findByEmail", MrUserEntity.class);
             entityTypedQuery.setParameter("email", email);
+            final MrUserEntity userEntity = entityTypedQuery.getSingleResult();
+            userEntity.getAdresses(); // 'cos Addresses have FetchType.LAZY
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
             final String message = "No users found with email " + email;

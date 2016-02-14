@@ -10,7 +10,7 @@
     </appender>
 
     <appender name="file" class="org.apache.log4j.FileAppender">
-        <param name="file" value="milkroad_test.log"/>
+        <param name="file" value="milkroad_main.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{HH:mm:ss.SSS} [%5p] %m at %l%n"/>
         </layout>

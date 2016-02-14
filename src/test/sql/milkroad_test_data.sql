@@ -66,6 +66,10 @@ VALUES
    (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'),
    (SELECT id FROM mr_city WHERE city_name = 'Saint Petersburg'),
   123456, 'Kondratievsky pr.', '55', '555'),
+  ((SELECT id FROM mr_user WHERE first_name = 'Sergey'),
+   (SELECT id FROM mr_country WHERE country_name = 'Russian Federation'),
+   (SELECT id FROM mr_city WHERE city_name = 'Moskow'),
+  123456, 'Moskovskay str.', '44', '444'),
   ((SELECT id FROM mr_user WHERE first_name = 'Anton'),
    (SELECT id FROM mr_country WHERE country_name = 'Australia'),
    (SELECT id FROM mr_city WHERE city_name = 'Leonora'),
@@ -137,39 +141,39 @@ VALUES
 # VALUES
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Anton'),
-#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Anton'),
+#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Anton' LIMIT 1),
 #   2 * 10.90 + 15.90, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o1'),
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Alex'),
-#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Alex'),
+#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Alex' LIMIT 1),
 #   15.90, 'ONLINE', 'PICKUP', 'PAID', 'AWAITING', 'o2'),
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Ivan'),
-#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Ivan'),
+#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Ivan' LIMIT 1),
 #   10.90, 'ONLINE', 'POST', 'PAID', 'SHIPPED', 'o3'),
 #   (NULL,
 #    (SELECT id FROM mr_user WHERE first_name = 'Sergey'),
-#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Sergey'),
+#    (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Sergey' LIMIT 1),
 #   111.35, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o4');
 INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
   ((SELECT id FROM mr_user WHERE first_name = 'Anton'),
-   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Anton'),
+   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Anton' LIMIT 1),
   2 * 10.90 + 15.90, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o1');
 INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
   ((SELECT id FROM mr_user WHERE first_name = 'Alex'),
-   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Alex'),
+   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Alex' LIMIT 1),
   15.90, 'ONLINE', 'PICKUP', 'PAID', 'AWAITING', 'o2');
 INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
   ((SELECT id FROM mr_user WHERE first_name = 'Ivan'),
-   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Ivan'),
+   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Ivan' LIMIT 1),
   10.90, 'ONLINE', 'POST', 'PAID', 'SHIPPED', 'o3');
 INSERT INTO mr_order (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, note)
 VALUES
    ((SELECT id FROM mr_user WHERE first_name = 'Sergey'),
-   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Sergey'),
+   (SELECT mr_address.id FROM mr_address JOIN mr_user ON user_id = mr_user.id WHERE mr_user.first_name = 'Sergey' LIMIT 1),
   111.35, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o4');
 # @formatter:on (for IntelliJIDEA)
 

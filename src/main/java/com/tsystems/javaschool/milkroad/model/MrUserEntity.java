@@ -2,6 +2,7 @@ package com.tsystems.javaschool.milkroad.model;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by Sergey on 11.02.2016.
@@ -20,6 +21,8 @@ public class MrUserEntity {
     private String email;
     private String passHash;
     private String passSalt;
+
+    private List<MrAddressEntity> adresses;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,6 +103,15 @@ public class MrUserEntity {
 
     public void setPassSalt(final String passSalt) {
         this.passSalt = passSalt;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    public List<MrAddressEntity> getAdresses() {
+        return adresses;
+    }
+
+    public void setAdresses(final List<MrAddressEntity> adresses) {
+        this.adresses = adresses;
     }
 
     public MrUserEntity() {

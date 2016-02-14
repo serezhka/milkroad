@@ -2,6 +2,8 @@ package com.tsystems.javaschool.milkroad;
 
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.impl.UserDAOImpl;
+import com.tsystems.javaschool.milkroad.service.UserService;
+import com.tsystems.javaschool.milkroad.service.impl.UserServiceImpl;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,6 +29,9 @@ public class MilkroadAppContext {
 
     /* DAOs */
     private volatile UserDAO userDAO;
+
+    /* Services */
+    private volatile UserService userService;
 
     private MilkroadAppContext() {
     }
@@ -72,6 +77,19 @@ public class MilkroadAppContext {
                 localInstance = userDAO;
                 if (localInstance == null) {
                     userDAO = localInstance = new UserDAOImpl(getEntityManager());
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public UserService getUserService() {
+        UserService localInstance = userService;
+        if (localInstance == null) {
+            synchronized (this) {
+                localInstance = userService;
+                if (localInstance == null) {
+                    userService = localInstance = new UserServiceImpl(getEntityManager(), getUserDAO());
                 }
             }
         }
