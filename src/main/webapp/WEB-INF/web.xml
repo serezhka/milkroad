@@ -24,4 +24,13 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <url-pattern>/productlist</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>OrderListServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.milkroad.servlet.OrderListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderListServlet</servlet-name>
+        <url-pattern>/orderlist</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -24,6 +24,7 @@ public class MrUserEntity {
 
     private List<MrAddressEntity> adresses;
     private List<MrProductEntity> products;
+    private List<MrOrderEntity> orders;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -122,6 +123,15 @@ public class MrUserEntity {
 
     public void setProducts(final List<MrProductEntity> products) {
         this.products = products;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    public List<MrOrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(final List<MrOrderEntity> orders) {
+        this.orders = orders;
     }
 
     public MrUserEntity() {

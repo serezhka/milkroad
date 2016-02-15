@@ -12,21 +12,23 @@ import java.util.List;
  * Created by Sergey on 14.02.2016.
  */
 public class ProductDTO {
-    public UserDTO seller;
-    public String name;
-    public Category category;
-    public BigDecimal price;
-    public int count;
-    public String description;
-    public List<Parameter> parameters;
+    private long article;
+    private UserDTO seller;
+    private String name;
+    private Category category;
+    private BigDecimal price;
+    private int count;
+    private String description;
+    private List<Parameter> parameters;
 
     public ProductDTO() {
         parameters = new ArrayList<>();
     }
 
-    public ProductDTO(final UserDTO seller, final String name, final Category category, final BigDecimal price,
+    public ProductDTO(final long article, final UserDTO seller, final String name, final Category category, final BigDecimal price,
                       final int count, final String description, final List<Parameter> parameters) {
         this();
+        this.article = article;
         this.seller = seller;
         this.name = name;
         this.category = category;
@@ -38,6 +40,7 @@ public class ProductDTO {
 
     public ProductDTO(final MrProductEntity productEntity) {
         this();
+        this.article = productEntity.getId();
         this.seller = new UserDTO(productEntity.getSeller());
         this.name = productEntity.getProductName();
         this.category = new Category(productEntity.getCategory());
@@ -47,6 +50,14 @@ public class ProductDTO {
         for (final MrProductParameterEntity parameterEntity : productEntity.getParameters()) {
             parameters.add(new Parameter(parameterEntity));
         }
+    }
+
+    public long getArticle() {
+        return article;
+    }
+
+    public void setArticle(final long article) {
+        this.article = article;
     }
 
     public UserDTO getSeller() {
@@ -106,8 +117,8 @@ public class ProductDTO {
     }
 
     public class Category {
-        public String name;
-        public String description;
+        private String name;
+        private String description;
 
         public Category() {
         }
@@ -140,8 +151,8 @@ public class ProductDTO {
     }
 
     public class Parameter {
-        public String name;
-        public String value;
+        private String name;
+        private String value;
 
         public Parameter() {
         }

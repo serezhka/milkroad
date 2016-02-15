@@ -105,7 +105,6 @@ public class MrAddressEntity {
         final MrAddressEntity that = (MrAddressEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        // TODO what about 2 users with same address
         if (user != null ? !user.equals(that.user) : that.user != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
         if (city != null ? !city.equals(that.city) : that.city != null) return false;
