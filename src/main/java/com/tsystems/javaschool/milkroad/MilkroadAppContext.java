@@ -6,9 +6,9 @@ import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.impl.OrderDAOImpl;
 import com.tsystems.javaschool.milkroad.dao.impl.ProductDAOImpl;
 import com.tsystems.javaschool.milkroad.dao.impl.UserDAOImpl;
-import com.tsystems.javaschool.milkroad.model.MrOrderEntity;
-import com.tsystems.javaschool.milkroad.model.MrProductEntity;
-import com.tsystems.javaschool.milkroad.model.MrUserEntity;
+import com.tsystems.javaschool.milkroad.model.OrderEntity;
+import com.tsystems.javaschool.milkroad.model.ProductEntity;
+import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.ProductService;
 import com.tsystems.javaschool.milkroad.service.UserService;
@@ -39,9 +39,9 @@ public class MilkroadAppContext {
     private volatile EntityManager entityManager;
 
     /* DAOs */
-    private volatile UserDAO<MrUserEntity, Long> userDAO;
-    private volatile ProductDAO<MrProductEntity, Long> productDAO;
-    private volatile OrderDAO<MrOrderEntity, Long> orderDAO;
+    private volatile UserDAO<UserEntity, Long> userDAO;
+    private volatile ProductDAO<ProductEntity, Long> productDAO;
+    private volatile OrderDAO<OrderEntity, Long> orderDAO;
 
     /* Services */
     private volatile UserService userService;
@@ -85,8 +85,8 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
-    public UserDAO<MrUserEntity, Long> getUserDAO() {
-        UserDAO<MrUserEntity, Long> localInstance = userDAO;
+    public UserDAO<UserEntity, Long> getUserDAO() {
+        UserDAO<UserEntity, Long> localInstance = userDAO;
         if (localInstance == null) {
             synchronized (this) {
                 localInstance = userDAO;
@@ -98,8 +98,8 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
-    public ProductDAO<MrProductEntity, Long> getProductDAO() {
-        ProductDAO<MrProductEntity, Long> localInstance = productDAO;
+    public ProductDAO<ProductEntity, Long> getProductDAO() {
+        ProductDAO<ProductEntity, Long> localInstance = productDAO;
         if (localInstance == null) {
             synchronized (this) {
                 localInstance = productDAO;
@@ -111,8 +111,8 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
-    public OrderDAO<MrOrderEntity, Long> getOrderDAO() {
-        OrderDAO<MrOrderEntity, Long> localInstance = orderDAO;
+    public OrderDAO<OrderEntity, Long> getOrderDAO() {
+        OrderDAO<OrderEntity, Long> localInstance = orderDAO;
         if (localInstance == null) {
             synchronized (this) {
                 localInstance = orderDAO;

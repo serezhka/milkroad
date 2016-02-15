@@ -5,7 +5,7 @@ import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.dto.AddressDTO;
 import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
-import com.tsystems.javaschool.milkroad.model.MrOrderEntity;
+import com.tsystems.javaschool.milkroad.model.OrderEntity;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import org.apache.log4j.Logger;
@@ -20,9 +20,9 @@ import java.util.List;
 public class OrderServiceImpl extends AbstractService implements OrderService {
     private static final Logger LOGGER = Logger.getLogger(OrderServiceImpl.class);
 
-    private final OrderDAO<MrOrderEntity, Long> orderDAO;
+    private final OrderDAO<OrderEntity, Long> orderDAO;
 
-    public OrderServiceImpl(final EntityManager entityManager, final OrderDAO<MrOrderEntity, Long> orderDAO) {
+    public OrderServiceImpl(final EntityManager entityManager, final OrderDAO<OrderEntity, Long> orderDAO) {
         super(entityManager);
         this.orderDAO = orderDAO;
     }
@@ -32,8 +32,8 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
         final List<OrderDTO> orderDTOs = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            final List<MrOrderEntity> orderEntities = orderDAO.getAll();
-            for (final MrOrderEntity orderEntity : orderEntities) {
+            final List<OrderEntity> orderEntities = orderDAO.getAll();
+            for (final OrderEntity orderEntity : orderEntities) {
                 orderDTOs.add(new OrderDTO(
                         new UserDTO(orderEntity.getCustomer()), new AddressDTO(orderEntity.getAddress()), orderEntity
                 ));

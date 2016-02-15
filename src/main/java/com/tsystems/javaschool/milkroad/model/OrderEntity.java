@@ -8,11 +8,11 @@ import java.util.List;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_order", schema = "milkroad")
-public class MrOrderEntity {
+@Table(name = "`order`", schema = "milkroad")
+public class OrderEntity {
     private Long id;
-    private MrUserEntity customer;
-    private MrAddressEntity address;
+    private UserEntity customer;
+    private AddressEntity address;
     private BigDecimal priceTotal;
     private PaymentMethodEnum paymentMethod;
     private ShippingMethodEnum shippingMethod;
@@ -20,7 +20,7 @@ public class MrOrderEntity {
     private ShippingStatusEnum shippingStatus;
     private String note;
 
-    private List<MrOrderDetailEntity> orderDetails;
+    private List<OrderDetailEntity> orderDetails;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -34,21 +34,21 @@ public class MrOrderEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
-    public MrUserEntity getCustomer() {
+    public UserEntity getCustomer() {
         return customer;
     }
 
-    public void setCustomer(final MrUserEntity customer) {
+    public void setCustomer(final UserEntity customer) {
         this.customer = customer;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "address_id")
-    public MrAddressEntity getAddress() {
+    public AddressEntity getAddress() {
         return address;
     }
 
-    public void setAddress(final MrAddressEntity address) {
+    public void setAddress(final AddressEntity address) {
         this.address = address;
     }
 
@@ -113,11 +113,11 @@ public class MrOrderEntity {
     }
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
-    public List<MrOrderDetailEntity> getOrderDetails() {
+    public List<OrderDetailEntity> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(final List<MrOrderDetailEntity> orderDetails) {
+    public void setOrderDetails(final List<OrderDetailEntity> orderDetails) {
         this.orderDetails = orderDetails;
     }
 
@@ -126,7 +126,7 @@ public class MrOrderEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrOrderEntity that = (MrOrderEntity) o;
+        final OrderEntity that = (OrderEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (customer != null ? !customer.equals(that.customer) : that.customer != null) return false;

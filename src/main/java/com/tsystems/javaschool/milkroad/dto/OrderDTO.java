@@ -42,7 +42,7 @@ public class OrderDTO {
         this.details = details;
     }
 
-    public OrderDTO(final UserDTO customer, final AddressDTO address, final MrOrderEntity orderEntity) {
+    public OrderDTO(final UserDTO customer, final AddressDTO address, final OrderEntity orderEntity) {
         this();
         this.id = orderEntity.getId();
         this.customer = customer;
@@ -53,7 +53,7 @@ public class OrderDTO {
         this.shippingMethod = orderEntity.getShippingMethod();
         this.shippingStatus = orderEntity.getShippingStatus();
         this.note = orderEntity.getNote();
-        for (final MrOrderDetailEntity orderDetailEntity : orderEntity.getOrderDetails()) {
+        for (final OrderDetailEntity orderDetailEntity : orderEntity.getOrderDetails()) {
             details.add(new Detail(orderDetailEntity));
         }
     }
@@ -152,7 +152,7 @@ public class OrderDTO {
             this.totalPrice = totalPrice;
         }
 
-        public Detail(final MrOrderDetailEntity orderDetailEntity) {
+        public Detail(final OrderDetailEntity orderDetailEntity) {
             this.product = new ProductDTO(orderDetailEntity.getProduct());
             this.count = orderDetailEntity.getProductCount();
             this.totalPrice = orderDetailEntity.getPriceTotal();

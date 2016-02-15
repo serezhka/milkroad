@@ -6,11 +6,11 @@ import javax.persistence.*;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_product_parameter", schema = "milkroad")
-public class MrProductParameterEntity {
+@Table(name = "product_parameter", schema = "milkroad")
+public class ProductParameterEntity {
     private Long id; // TODO Stub. Fix me. PK must be (product, attribute)
-    private MrProductEntity product;
-    private MrProductAttributeEntity attribute;
+    private ProductEntity product;
+    private ProductAttributeEntity attribute;
     private String attributeValue;
 
     @Id
@@ -26,21 +26,21 @@ public class MrProductParameterEntity {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    public MrProductEntity getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
-    public void setProduct(final MrProductEntity product) {
+    public void setProduct(final ProductEntity product) {
         this.product = product;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "attribute_id")
-    public MrProductAttributeEntity getAttribute() {
+    public ProductAttributeEntity getAttribute() {
         return attribute;
     }
 
-    public void setAttribute(final MrProductAttributeEntity attribute) {
+    public void setAttribute(final ProductAttributeEntity attribute) {
         this.attribute = attribute;
     }
 
@@ -57,16 +57,15 @@ public class MrProductParameterEntity {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof MrProductParameterEntity)) return false;
+        if (!(o instanceof ProductParameterEntity)) return false;
 
-        final MrProductParameterEntity that = (MrProductParameterEntity) o;
+        final ProductParameterEntity that = (ProductParameterEntity) o;
 
         if (!id.equals(that.id)) return false;
         if (!product.equals(that.product)) return false;
         //noinspection SimplifiableIfStatement
         if (!attribute.equals(that.attribute)) return false;
         return attributeValue.equals(that.attributeValue);
-
     }
 
     @Override

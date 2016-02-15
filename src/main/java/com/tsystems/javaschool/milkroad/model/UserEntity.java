@@ -8,11 +8,11 @@ import java.util.List;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_user", schema = "milkroad")
+@Table(name = "user", schema = "milkroad")
 @NamedQueries({
-        @NamedQuery(name = "MrUserEntity.findByEmail", query = "SELECT o FROM MrUserEntity o WHERE o.email = :email")
+        @NamedQuery(name = "UserEntity.findByEmail", query = "SELECT o FROM UserEntity o WHERE o.email = :email")
 })
-public class MrUserEntity {
+public class UserEntity {
     private Long id;
     private UserTypeEnum userType;
     private String firstName;
@@ -22,9 +22,9 @@ public class MrUserEntity {
     private String passHash;
     private String passSalt;
 
-    private List<MrAddressEntity> adresses;
-    private List<MrProductEntity> products;
-    private List<MrOrderEntity> orders;
+    private List<AddressEntity> adresses;
+    private List<ProductEntity> products;
+    private List<OrderEntity> orders;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -108,38 +108,38 @@ public class MrUserEntity {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    public List<MrAddressEntity> getAdresses() {
+    public List<AddressEntity> getAdresses() {
         return adresses;
     }
 
-    public void setAdresses(final List<MrAddressEntity> adresses) {
+    public void setAdresses(final List<AddressEntity> adresses) {
         this.adresses = adresses;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
-    public List<MrProductEntity> getProducts() {
+    public List<ProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(final List<MrProductEntity> products) {
+    public void setProducts(final List<ProductEntity> products) {
         this.products = products;
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-    public List<MrOrderEntity> getOrders() {
+    public List<OrderEntity> getOrders() {
         return orders;
     }
 
-    public void setOrders(final List<MrOrderEntity> orders) {
+    public void setOrders(final List<OrderEntity> orders) {
         this.orders = orders;
     }
 
-    public MrUserEntity() {
+    public UserEntity() {
     }
 
-    public MrUserEntity(final Long id, final UserTypeEnum userType, final String firstName,
-                        final String lastName, final Date birthday, final String email,
-                        final String passHash, final String passSalt) {
+    public UserEntity(final Long id, final UserTypeEnum userType, final String firstName,
+                      final String lastName, final Date birthday, final String email,
+                      final String passHash, final String passSalt) {
         this.id = id;
         this.userType = userType;
         this.firstName = firstName;
@@ -150,7 +150,7 @@ public class MrUserEntity {
         this.passSalt = passSalt;
     }
 
-    public MrUserEntity(final MrUserEntity userEntity) {
+    public UserEntity(final UserEntity userEntity) {
         this.id = userEntity.id;
         this.userType = userEntity.userType;
         this.firstName = userEntity.firstName;
@@ -169,7 +169,7 @@ public class MrUserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrUserEntity that = (MrUserEntity) o;
+        final UserEntity that = (UserEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userType != that.userType) return false;

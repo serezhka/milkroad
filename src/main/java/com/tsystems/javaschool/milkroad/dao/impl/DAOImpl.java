@@ -64,7 +64,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             //noinspection unchecked
             entities = entityManager.createQuery("SELECT o FROM " + entityClass.getSimpleName() + " o").getResultList();
         } catch (final Exception e) {
-            LOGGER.warn("Error on load entities " + entityClass.getSimpleName());
+            LOGGER.error("Error on load entities " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e);
         }
         return new ArrayList<T>(entities);

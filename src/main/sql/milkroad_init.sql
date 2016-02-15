@@ -4,9 +4,7 @@ CREATE DATABASE milkroad
   CHARACTER SET 'UTF8';
 USE milkroad;
 
-# prefix 'mr' - milkroad, to avoid conflict with reserved keywords
-
-CREATE TABLE mr_user (
+CREATE TABLE user (
   id         BIGINT                       NOT NULL AUTO_INCREMENT,
   user_type  ENUM('ADMIN', 'SIMPLE_USER') NOT NULL DEFAULT 'SIMPLE_USER',
   first_name VARCHAR(45)                  NOT NULL,
@@ -21,7 +19,7 @@ CREATE TABLE mr_user (
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-CREATE TABLE mr_country (
+CREATE TABLE country (
   id           BIGINT      NOT NULL AUTO_INCREMENT,
   country_name VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
@@ -30,18 +28,18 @@ CREATE TABLE mr_country (
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-CREATE TABLE mr_city (
+CREATE TABLE city (
   id         BIGINT      NOT NULL AUTO_INCREMENT,
   country_id BIGINT      NOT NULL,
   city_name  VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (country_id) REFERENCES mr_country (id),
+  FOREIGN KEY (country_id) REFERENCES country (id),
   UNIQUE (city_name)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-CREATE TABLE mr_address (
+CREATE TABLE address (
   id         BIGINT      NOT NULL AUTO_INCREMENT,
   user_id    BIGINT      NOT NULL,
   country_id BIGINT      NOT NULL,
@@ -51,14 +49,14 @@ CREATE TABLE mr_address (
   building   VARCHAR(45) NOT NULL,
   apartment  VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES mr_user (id),
-  FOREIGN KEY (country_id) REFERENCES mr_country (id),
-  FOREIGN KEY (city_id) REFERENCES mr_city (id)
+  FOREIGN KEY (user_id) REFERENCES user (id),
+  FOREIGN KEY (country_id) REFERENCES country (id),
+  FOREIGN KEY (city_id) REFERENCES city (id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-CREATE TABLE mr_product_category (
+CREATE TABLE product_category (
   id            BIGINT      NOT NULL AUTO_INCREMENT,
   category_name VARCHAR(45) NOT NULL,
   description   TEXT,
@@ -69,23 +67,22 @@ CREATE TABLE mr_product_category (
   CHARACTER SET = UTF8;
 
 # TODO Think about product image
-# Product can have no catergory
-CREATE TABLE mr_product (
+CREATE TABLE product (
   id            BIGINT         NOT NULL AUTO_INCREMENT,
   seller_id     BIGINT         NOT NULL,
-  category_id   BIGINT,
+  category_id   BIGINT         NOT NULL,
   product_name  VARCHAR(45)    NOT NULL,
   product_price DECIMAL(10, 2) NOT NULL,
   remain_count  INT            NOT NULL,
   description   TEXT,
   PRIMARY KEY (id),
-  FOREIGN KEY (seller_id) REFERENCES mr_user (id),
-  FOREIGN KEY (category_id) REFERENCES mr_product_category (id)
+  FOREIGN KEY (seller_id) REFERENCES user (id),
+  FOREIGN KEY (category_id) REFERENCES product_category (id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-CREATE TABLE mr_product_attribute (
+CREATE TABLE product_attribute (
   id             BIGINT      NOT NULL AUTO_INCREMENT,
   attribute_name VARCHAR(45) NOT NULL,
   description    TEXT,
@@ -97,21 +94,21 @@ CREATE TABLE mr_product_attribute (
 
 # id - is a stub :(
 # // TODO Fix me. JPA mapping without id field : PK should be (product_id, atribute_id)
-CREATE TABLE mr_product_parameter (
+CREATE TABLE product_parameter (
   id              BIGINT NOT NULL AUTO_INCREMENT,
   product_id      BIGINT NOT NULL,
   attribute_id    BIGINT NOT NULL,
   attribute_value VARCHAR(45),
   PRIMARY KEY (id),
-  FOREIGN KEY (product_id) REFERENCES mr_product (id),
-  FOREIGN KEY (attribute_id) REFERENCES mr_product_attribute (id),
+  FOREIGN KEY (product_id) REFERENCES product (id),
+  FOREIGN KEY (attribute_id) REFERENCES product_attribute (id),
   UNIQUE (product_id, attribute_id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
 # We need to store delivery address here, because user can have more then one address
-CREATE TABLE mr_order (
+CREATE TABLE `order` (
   id              BIGINT                      NOT NULL AUTO_INCREMENT,
   customer_id     BIGINT                      NOT NULL,
   address_id      BIGINT                      NOT NULL,
@@ -122,8 +119,8 @@ CREATE TABLE mr_order (
   shipping_status ENUM('AWAITING', 'SHIPPED') NOT NULL DEFAULT 'AWAITING',
   note            TEXT,
   PRIMARY KEY (id),
-  FOREIGN KEY (customer_id) REFERENCES mr_user (id),
-  FOREIGN KEY (address_id) REFERENCES mr_address (id)
+  FOREIGN KEY (customer_id) REFERENCES user (id),
+  FOREIGN KEY (address_id) REFERENCES address (id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
@@ -133,15 +130,15 @@ CREATE TABLE mr_order (
 # - where are may be products from different sellers in the order
 # id - is a stub :(
 # // TODO Fix me. JPA mapping without id field : PK should (order_id, product_id)
-CREATE TABLE mr_order_detail (
+CREATE TABLE order_detail (
   id            BIGINT         NOT NULL AUTO_INCREMENT,
   order_id      BIGINT         NOT NULL,
   product_id    BIGINT         NOT NULL,
   product_count INT            NOT NULL,
   price_total   DECIMAL(10, 2) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (order_id) REFERENCES mr_order (id),
-  FOREIGN KEY (product_id) REFERENCES mr_product (id),
+  FOREIGN KEY (order_id) REFERENCES `order` (id),
+  FOREIGN KEY (product_id) REFERENCES product (id),
   UNIQUE (order_id, product_id)
 )
   ENGINE = INNODB

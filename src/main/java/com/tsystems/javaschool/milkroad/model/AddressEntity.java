@@ -6,12 +6,12 @@ import javax.persistence.*;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_address", schema = "milkroad")
-public class MrAddressEntity {
+@Table(name = "address", schema = "milkroad")
+public class AddressEntity {
     private Long id;
-    private MrUserEntity user;
-    private MrCountryEntity country;
-    private MrCityEntity city;
+    private UserEntity user;
+    private CountryEntity country;
+    private CityEntity city;
     private Integer postcode;
     private String street;
     private String building;
@@ -29,31 +29,31 @@ public class MrAddressEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    public MrUserEntity getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(final MrUserEntity user) {
+    public void setUser(final UserEntity user) {
         this.user = user;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id")
-    public MrCountryEntity getCountry() {
+    public CountryEntity getCountry() {
         return country;
     }
 
-    public void setCountry(final MrCountryEntity country) {
+    public void setCountry(final CountryEntity country) {
         this.country = country;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id")
-    public MrCityEntity getCity() {
+    public CityEntity getCity() {
         return city;
     }
 
-    public void setCity(final MrCityEntity city) {
+    public void setCity(final CityEntity city) {
         this.city = city;
     }
 
@@ -102,7 +102,7 @@ public class MrAddressEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrAddressEntity that = (MrAddressEntity) o;
+        final AddressEntity that = (AddressEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (user != null ? !user.equals(that.user) : that.user != null) return false;

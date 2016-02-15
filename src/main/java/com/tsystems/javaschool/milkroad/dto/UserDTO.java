@@ -1,7 +1,7 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.MrAddressEntity;
-import com.tsystems.javaschool.milkroad.model.MrUserEntity;
+import com.tsystems.javaschool.milkroad.model.AddressEntity;
+import com.tsystems.javaschool.milkroad.model.UserEntity;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -32,15 +32,15 @@ public class UserDTO {
         this.email = email;
     }
 
-    public UserDTO(final MrUserEntity userEntity) {
+    public UserDTO(final UserEntity userEntity) {
         this();
         this.id = userEntity.getId();
         this.firstName = userEntity.getFirstName();
         this.lastName = userEntity.getLastName();
         this.birthday = userEntity.getBirthday();
         this.email = userEntity.getEmail();
-        for (final MrAddressEntity mrAddressEntity : userEntity.getAdresses()) {
-            addresses.add(new AddressDTO(mrAddressEntity));
+        for (final AddressEntity addressEntity : userEntity.getAdresses()) {
+            addresses.add(new AddressDTO(addressEntity));
         }
     }
 

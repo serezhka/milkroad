@@ -6,10 +6,10 @@ import javax.persistence.*;
  * Created by Sergey on 13.02.2016.
  */
 @Entity
-@Table(name = "mr_city", schema = "milkroad")
-public class MrCityEntity {
+@Table(name = "city", schema = "milkroad")
+public class CityEntity {
     private Long id;
-    private MrCountryEntity country;
+    private CountryEntity country;
     private String cityName;
 
     @Id
@@ -24,11 +24,11 @@ public class MrCityEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
-    public MrCountryEntity getCountry() {
+    public CountryEntity getCountry() {
         return country;
     }
 
-    public void setCountry(final MrCountryEntity country) {
+    public void setCountry(final CountryEntity country) {
         this.country = country;
     }
 
@@ -47,7 +47,7 @@ public class MrCityEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrCityEntity that = (MrCityEntity) o;
+        final CityEntity that = (CityEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;

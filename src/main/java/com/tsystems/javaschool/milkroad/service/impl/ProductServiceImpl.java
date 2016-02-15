@@ -3,7 +3,7 @@ package com.tsystems.javaschool.milkroad.service.impl;
 import com.tsystems.javaschool.milkroad.dao.ProductDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
-import com.tsystems.javaschool.milkroad.model.MrProductEntity;
+import com.tsystems.javaschool.milkroad.model.ProductEntity;
 import com.tsystems.javaschool.milkroad.service.ProductService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import org.apache.log4j.Logger;
@@ -18,9 +18,9 @@ import java.util.List;
 public class ProductServiceImpl extends AbstractService implements ProductService {
     private static final Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
 
-    private final ProductDAO<MrProductEntity, Long> productDAO;
+    private final ProductDAO<ProductEntity, Long> productDAO;
 
-    public ProductServiceImpl(final EntityManager entityManager, final ProductDAO<MrProductEntity, Long> productDAO) {
+    public ProductServiceImpl(final EntityManager entityManager, final ProductDAO<ProductEntity, Long> productDAO) {
         super(entityManager);
         this.productDAO = productDAO;
     }
@@ -30,8 +30,8 @@ public class ProductServiceImpl extends AbstractService implements ProductServic
         final List<ProductDTO> productDTOs = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            final List<MrProductEntity> productEntities = productDAO.getAll();
-            for (final MrProductEntity productEntity : productEntities) {
+            final List<ProductEntity> productEntities = productDAO.getAll();
+            for (final ProductEntity productEntity : productEntities) {
                 productDTOs.add(new ProductDTO(productEntity));
             }
             entityManager.getTransaction().commit();

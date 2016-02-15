@@ -1,6 +1,6 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.MrAddressEntity;
+import com.tsystems.javaschool.milkroad.model.AddressEntity;
 
 /**
  * Created by Sergey on 14.02.2016.
@@ -25,7 +25,7 @@ public class AddressDTO {
         this.apartment = apartment;
     }
 
-    public AddressDTO(final MrAddressEntity addressEntity) {
+    public AddressDTO(final AddressEntity addressEntity) {
         this.country = addressEntity.getCountry().getCountryName();
         this.city = addressEntity.getCity().getCityName();
         this.postcode = addressEntity.getPostcode();

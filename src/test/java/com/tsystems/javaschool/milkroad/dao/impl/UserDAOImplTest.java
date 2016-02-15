@@ -3,7 +3,7 @@ package com.tsystems.javaschool.milkroad.dao.impl;
 import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
-import com.tsystems.javaschool.milkroad.model.MrUserEntity;
+import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
 import org.apache.log4j.Logger;
 import org.junit.After;
@@ -22,13 +22,13 @@ public class UserDAOImplTest {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImplTest.class);
 
     private EntityManager entityManager;
-    private UserDAO<MrUserEntity, Long> userDAO;
+    private UserDAO<UserEntity, Long> userDAO;
 
-    private MrUserEntity user1 = new MrUserEntity(null, UserTypeEnum.SIMPLE_USER,
+    private UserEntity user1 = new UserEntity(null, UserTypeEnum.SIMPLE_USER,
             "TestName", "TestSurname", Date.valueOf("2000-01-01"), "test1@mail.ru",
             "12345678123456781234567812345678", "12345678123456781234567812345678");
 
-    private MrUserEntity user2 = new MrUserEntity(null, UserTypeEnum.SIMPLE_USER,
+    private UserEntity user2 = new UserEntity(null, UserTypeEnum.SIMPLE_USER,
             "TestName", "TestSurname", Date.valueOf("2000-01-01"), "test2@mail.ru",
             "12345678123456781234567812345678", "12345678123456781234567812345678");
 
@@ -90,7 +90,7 @@ public class UserDAOImplTest {
 
         /* Get all test */
         LOGGER.info("get all test begin");
-        final List<MrUserEntity> entities;
+        final List<UserEntity> entities;
         entityManager.getTransaction().begin();
         entities = userDAO.getAll();
         entityManager.getTransaction().commit();

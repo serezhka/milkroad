@@ -2,7 +2,7 @@ package com.tsystems.javaschool.milkroad.dao.impl;
 
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
-import com.tsystems.javaschool.milkroad.model.MrUserEntity;
+import com.tsystems.javaschool.milkroad.model.UserEntity;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -12,19 +12,19 @@ import javax.persistence.TypedQuery;
 /**
  * Created by Sergey on 10.02.2016.
  */
-public class UserDAOImpl extends DAOImpl<MrUserEntity, Long> implements UserDAO<MrUserEntity, Long> {
+public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<UserEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
     public UserDAOImpl(final EntityManager entityManager) {
-        super(entityManager, MrUserEntity.class);
+        super(entityManager, UserEntity.class);
     }
 
     @Override
-    public MrUserEntity getByEmail(final String email) throws MilkroadDAOException {
+    public UserEntity getByEmail(final String email) throws MilkroadDAOException {
         try {
-            final TypedQuery<MrUserEntity> entityTypedQuery = entityManager.createNamedQuery("MrUserEntity.findByEmail", MrUserEntity.class);
+            final TypedQuery<UserEntity> entityTypedQuery = entityManager.createNamedQuery("UserEntity.findByEmail", UserEntity.class);
             entityTypedQuery.setParameter("email", email);
-            final MrUserEntity userEntity = entityTypedQuery.getSingleResult();
+            final UserEntity userEntity = entityTypedQuery.getSingleResult();
             userEntity.getAdresses(); // 'cos Addresses have FetchType.LAZY
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {

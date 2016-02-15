@@ -3,7 +3,7 @@ package com.tsystems.javaschool.milkroad.service.impl;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
-import com.tsystems.javaschool.milkroad.model.MrUserEntity;
+import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import org.apache.log4j.Logger;
@@ -18,9 +18,9 @@ import java.util.List;
 public class UserServiceImpl extends AbstractService implements UserService {
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
-    private final UserDAO<MrUserEntity, Long> userDAO;
+    private final UserDAO<UserEntity, Long> userDAO;
 
-    public UserServiceImpl(final EntityManager entityManager, final UserDAO<MrUserEntity, Long> userDAO) {
+    public UserServiceImpl(final EntityManager entityManager, final UserDAO<UserEntity, Long> userDAO) {
         super(entityManager);
         this.userDAO = userDAO;
     }
@@ -30,9 +30,9 @@ public class UserServiceImpl extends AbstractService implements UserService {
         final List<UserDTO> userDTOs = new ArrayList<>();
         try {
             entityManager.getTransaction().begin();
-            final List<MrUserEntity> userEntities = userDAO.getAll();
+            final List<UserEntity> userEntities = userDAO.getAll();
             // TODO Don't forget that addresses have FetchType.LAZY
-            for (final MrUserEntity userEntity : userEntities) {
+            for (final UserEntity userEntity : userEntities) {
                 // TODO Non-obvious addresses fetch
                 userDTOs.add(new UserDTO(userEntity));
             }

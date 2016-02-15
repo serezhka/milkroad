@@ -6,8 +6,8 @@ import javax.persistence.*;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_product_attribute", schema = "milkroad")
-public class MrProductAttributeEntity {
+@Table(name = "product_attribute", schema = "milkroad")
+public class ProductAttributeEntity {
     private Long id;
     private String attributeName;
     private String description;
@@ -47,7 +47,7 @@ public class MrProductAttributeEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrProductAttributeEntity that = (MrProductAttributeEntity) o;
+        final ProductAttributeEntity that = (ProductAttributeEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (attributeName != null ? !attributeName.equals(that.attributeName) : that.attributeName != null)

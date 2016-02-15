@@ -3,16 +3,16 @@
 
     <persistence-unit name="MilkroadPersistenceUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.tsystems.javaschool.milkroad.model.MrAddressEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrCityEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrCountryEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrOrderEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrOrderDetailEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrProductEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrProductAttributeEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrProductCategoryEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrProductParameterEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.MrUserEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.AddressEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.CityEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.CountryEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.OrderEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.OrderDetailEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.ProductEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.ProductAttributeEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.ProductCategoryEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.ProductParameterEntity</class>
+        <class>com.tsystems.javaschool.milkroad.model.UserEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/milkroad"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>

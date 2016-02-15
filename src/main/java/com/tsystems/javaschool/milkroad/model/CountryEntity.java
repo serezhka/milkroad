@@ -7,12 +7,12 @@ import java.util.List;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_country", schema = "milkroad")
-public class MrCountryEntity {
+@Table(name = "country", schema = "milkroad")
+public class CountryEntity {
     private Long id;
     private String countryName;
 
-    private List<MrCityEntity> cities;
+    private List<CityEntity> cities;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,11 +36,11 @@ public class MrCountryEntity {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
-    public List<MrCityEntity> getCities() {
+    public List<CityEntity> getCities() {
         return cities;
     }
 
-    public void setCities(final List<MrCityEntity> cities) {
+    public void setCities(final List<CityEntity> cities) {
         this.cities = cities;
     }
 
@@ -49,7 +49,7 @@ public class MrCountryEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrCountryEntity that = (MrCountryEntity) o;
+        final CountryEntity that = (CountryEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         //noinspection RedundantIfStatement

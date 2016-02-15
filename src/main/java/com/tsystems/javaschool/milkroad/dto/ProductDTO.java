@@ -1,8 +1,8 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.MrProductCategoryEntity;
-import com.tsystems.javaschool.milkroad.model.MrProductEntity;
-import com.tsystems.javaschool.milkroad.model.MrProductParameterEntity;
+import com.tsystems.javaschool.milkroad.model.ProductCategoryEntity;
+import com.tsystems.javaschool.milkroad.model.ProductEntity;
+import com.tsystems.javaschool.milkroad.model.ProductParameterEntity;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class ProductDTO {
         this.parameters = parameters;
     }
 
-    public ProductDTO(final MrProductEntity productEntity) {
+    public ProductDTO(final ProductEntity productEntity) {
         this();
         this.article = productEntity.getId();
         this.seller = new UserDTO(productEntity.getSeller());
@@ -47,7 +47,7 @@ public class ProductDTO {
         this.price = productEntity.getProductPrice();
         this.count = productEntity.getRemainCount();
         this.description = productEntity.getDescription();
-        for (final MrProductParameterEntity parameterEntity : productEntity.getParameters()) {
+        for (final ProductParameterEntity parameterEntity : productEntity.getParameters()) {
             parameters.add(new Parameter(parameterEntity));
         }
     }
@@ -128,7 +128,7 @@ public class ProductDTO {
             this.description = description;
         }
 
-        public Category(final MrProductCategoryEntity categoryEntity) {
+        public Category(final ProductCategoryEntity categoryEntity) {
             this.name = categoryEntity.getCategoryName();
             this.description = categoryEntity.getDescription();
         }
@@ -162,7 +162,7 @@ public class ProductDTO {
             this.value = value;
         }
 
-        public Parameter(final MrProductParameterEntity parameterEntity) {
+        public Parameter(final ProductParameterEntity parameterEntity) {
             this.name = parameterEntity.getAttribute().getAttributeName();
             this.value = parameterEntity.getAttributeValue();
         }

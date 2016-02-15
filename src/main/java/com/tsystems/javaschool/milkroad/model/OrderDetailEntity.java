@@ -7,11 +7,11 @@ import java.math.BigDecimal;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_order_detail", schema = "milkroad")
-public class MrOrderDetailEntity {
+@Table(name = "order_detail", schema = "milkroad")
+public class OrderDetailEntity {
     private Long id; // TODO Stub. Fix me. PK must be (product, attribute)
-    private MrOrderEntity order;
-    private MrProductEntity product;
+    private OrderEntity order;
+    private ProductEntity product;
     private Integer productCount;
     private BigDecimal priceTotal;
 
@@ -28,21 +28,21 @@ public class MrOrderDetailEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    public MrOrderEntity getOrder() {
+    public OrderEntity getOrder() {
         return order;
     }
 
-    public void setOrder(final MrOrderEntity order) {
+    public void setOrder(final OrderEntity order) {
         this.order = order;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    public MrProductEntity getProduct() {
+    public ProductEntity getProduct() {
         return product;
     }
 
-    public void setProduct(final MrProductEntity productId) {
+    public void setProduct(final ProductEntity productId) {
         this.product = productId;
     }
 
@@ -69,9 +69,9 @@ public class MrOrderDetailEntity {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof MrOrderDetailEntity)) return false;
+        if (!(o instanceof OrderDetailEntity)) return false;
 
-        final MrOrderDetailEntity that = (MrOrderDetailEntity) o;
+        final OrderDetailEntity that = (OrderDetailEntity) o;
 
         if (!id.equals(that.id)) return false;
         if (!order.equals(that.order)) return false;

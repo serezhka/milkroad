@@ -8,17 +8,17 @@ import java.util.List;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_product", schema = "milkroad")
-public class MrProductEntity {
+@Table(name = "product", schema = "milkroad")
+public class ProductEntity {
     private Long id;
-    private MrUserEntity seller;
-    private MrProductCategoryEntity category;
+    private UserEntity seller;
+    private ProductCategoryEntity category;
     private String productName;
     private BigDecimal productPrice;
     private Integer remainCount;
     private String description;
 
-    private List<MrProductParameterEntity> parameters;
+    private List<ProductParameterEntity> parameters;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -32,21 +32,21 @@ public class MrProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
-    public MrUserEntity getSeller() {
+    public UserEntity getSeller() {
         return seller;
     }
 
-    public void setSeller(final MrUserEntity seller) {
+    public void setSeller(final UserEntity seller) {
         this.seller = seller;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-    public MrProductCategoryEntity getCategory() {
+    public ProductCategoryEntity getCategory() {
         return category;
     }
 
-    public void setCategory(final MrProductCategoryEntity category) {
+    public void setCategory(final ProductCategoryEntity category) {
         this.category = category;
     }
 
@@ -92,11 +92,11 @@ public class MrProductEntity {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    public List<MrProductParameterEntity> getParameters() {
+    public List<ProductParameterEntity> getParameters() {
         return parameters;
     }
 
-    public void setParameters(final List<MrProductParameterEntity> parameters) {
+    public void setParameters(final List<ProductParameterEntity> parameters) {
         this.parameters = parameters;
     }
 
@@ -105,7 +105,7 @@ public class MrProductEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrProductEntity that = (MrProductEntity) o;
+        final ProductEntity that = (ProductEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (category != null ? !category.equals(that.category) : that.category != null) return false;

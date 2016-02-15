@@ -7,13 +7,13 @@ import java.util.List;
  * Created by Sergey on 11.02.2016.
  */
 @Entity
-@Table(name = "mr_product_category", schema = "milkroad")
-public class MrProductCategoryEntity {
+@Table(name = "product_category", schema = "milkroad")
+public class ProductCategoryEntity {
     private Long id;
     private String categoryName;
     private String description;
 
-    private List<MrProductEntity> products;
+    private List<ProductEntity> products;
 
     @Id
     @Column(name = "id", nullable = false)
@@ -46,11 +46,11 @@ public class MrProductCategoryEntity {
     }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
-    public List<MrProductEntity> getProducts() {
+    public List<ProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(final List<MrProductEntity> products) {
+    public void setProducts(final List<ProductEntity> products) {
         this.products = products;
     }
 
@@ -59,7 +59,7 @@ public class MrProductCategoryEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final MrProductCategoryEntity that = (MrProductCategoryEntity) o;
+        final ProductCategoryEntity that = (ProductCategoryEntity) o;
 
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (categoryName != null ? !categoryName.equals(that.categoryName) : that.categoryName != null) return false;
