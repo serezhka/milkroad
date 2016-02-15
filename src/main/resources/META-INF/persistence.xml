@@ -19,6 +19,7 @@
             <property name="hibernate.connection.username" value="admin"/>
             <property name="hibernate.connection.password" value="11111111"/>
             <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.autocommit" value="false"/>
             <!--<property name="hibernate.show_sql" value="true"/>-->
             <!--<property name="hibernate.format_sql" value="true"/>-->
             <!--<property name="hbm2ddl.auto" value="update"/>-->

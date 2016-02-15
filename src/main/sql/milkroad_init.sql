@@ -95,11 +95,14 @@ CREATE TABLE mr_product_attribute (
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
+# id - is a stub :(
+# // TODO Fix me. JPA mapping without id field : PK should be (product_id, atribute_id)
 CREATE TABLE mr_product_parameter (
+  id              BIGINT NOT NULL AUTO_INCREMENT,
   product_id      BIGINT NOT NULL,
   attribute_id    BIGINT NOT NULL,
   attribute_value VARCHAR(45),
-  PRIMARY KEY (product_id, attribute_id),
+  PRIMARY KEY (id),
   FOREIGN KEY (product_id) REFERENCES mr_product (id),
   FOREIGN KEY (attribute_id) REFERENCES mr_product_attribute (id),
   UNIQUE (product_id, attribute_id)
@@ -128,12 +131,15 @@ CREATE TABLE mr_order (
 # We need to store product price here, because:
 # - product price can be changed in future
 # - where are may be products from different sellers in the order
+# id - is a stub :(
+# // TODO Fix me. JPA mapping without id field : PK should (order_id, product_id)
 CREATE TABLE mr_order_detail (
+  id            BIGINT         NOT NULL AUTO_INCREMENT,
   order_id      BIGINT         NOT NULL,
   product_id    BIGINT         NOT NULL,
   product_count INT            NOT NULL,
   price_total   DECIMAL(10, 2) NOT NULL,
-  PRIMARY KEY (order_id, product_id),
+  PRIMARY KEY (id),
   FOREIGN KEY (order_id) REFERENCES mr_order (id),
   FOREIGN KEY (product_id) REFERENCES mr_product (id),
   UNIQUE (order_id, product_id)

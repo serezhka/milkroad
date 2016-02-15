@@ -1,8 +1,14 @@
 package com.tsystems.javaschool.milkroad;
 
+import com.tsystems.javaschool.milkroad.dao.ProductDAO;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
+import com.tsystems.javaschool.milkroad.dao.impl.ProductDAOImpl;
 import com.tsystems.javaschool.milkroad.dao.impl.UserDAOImpl;
+import com.tsystems.javaschool.milkroad.model.MrProductEntity;
+import com.tsystems.javaschool.milkroad.model.MrUserEntity;
+import com.tsystems.javaschool.milkroad.service.ProductService;
 import com.tsystems.javaschool.milkroad.service.UserService;
+import com.tsystems.javaschool.milkroad.service.impl.ProductServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.UserServiceImpl;
 
 import javax.persistence.EntityManager;
@@ -28,10 +34,12 @@ public class MilkroadAppContext {
     private volatile EntityManager entityManager;
 
     /* DAOs */
-    private volatile UserDAO userDAO;
+    private volatile UserDAO<MrUserEntity, Long> userDAO;
+    private volatile ProductDAO<MrProductEntity, Long> productDAO;
 
     /* Services */
     private volatile UserService userService;
+    private volatile ProductService productService;
 
     private MilkroadAppContext() {
     }
@@ -70,13 +78,26 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
-    public UserDAO getUserDAO() {
-        UserDAO localInstance = userDAO;
+    public UserDAO<MrUserEntity, Long> getUserDAO() {
+        UserDAO<MrUserEntity, Long> localInstance = userDAO;
         if (localInstance == null) {
             synchronized (this) {
                 localInstance = userDAO;
                 if (localInstance == null) {
                     userDAO = localInstance = new UserDAOImpl(getEntityManager());
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public ProductDAO<MrProductEntity, Long> getProductDAO() {
+        ProductDAO<MrProductEntity, Long> localInstance = productDAO;
+        if (localInstance == null) {
+            synchronized (this) {
+                localInstance = productDAO;
+                if (localInstance == null) {
+                    productDAO = localInstance = new ProductDAOImpl(getEntityManager());
                 }
             }
         }
@@ -90,6 +111,19 @@ public class MilkroadAppContext {
                 localInstance = userService;
                 if (localInstance == null) {
                     userService = localInstance = new UserServiceImpl(getEntityManager(), getUserDAO());
+                }
+            }
+        }
+        return localInstance;
+    }
+
+    public ProductService getProductService() {
+        ProductService localInstance = productService;
+        if (localInstance == null) {
+            synchronized (this) {
+                localInstance = productService;
+                if (localInstance == null) {
+                    productService = localInstance = new ProductServiceImpl(getEntityManager(), getProductDAO());
                 }
             }
         }

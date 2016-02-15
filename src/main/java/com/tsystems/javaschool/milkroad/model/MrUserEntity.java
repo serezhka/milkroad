@@ -23,6 +23,7 @@ public class MrUserEntity {
     private String passSalt;
 
     private List<MrAddressEntity> adresses;
+    private List<MrProductEntity> products;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -114,6 +115,15 @@ public class MrUserEntity {
         this.adresses = adresses;
     }
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
+    public List<MrProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(final List<MrProductEntity> products) {
+        this.products = products;
+    }
+
     public MrUserEntity() {
     }
 
@@ -139,6 +149,9 @@ public class MrUserEntity {
         this.email = userEntity.email;
         this.passHash = userEntity.passHash;
         this.passSalt = userEntity.passSalt;
+
+        this.adresses = userEntity.getAdresses();
+        this.products = userEntity.getProducts();
     }
 
     @Override

@@ -15,14 +15,13 @@ import java.util.List;
 /**
  * Created by Sergey on 09.02.2016.
  */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractService implements UserService {
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
-    private final EntityManager entityManager;
-    private final UserDAO userDAO;
+    private final UserDAO<MrUserEntity, Long> userDAO;
 
-    public UserServiceImpl(final EntityManager entityManager, final UserDAO userDAO) {
-        this.entityManager = entityManager;
+    public UserServiceImpl(final EntityManager entityManager, final UserDAO<MrUserEntity, Long> userDAO) {
+        super(entityManager);
         this.userDAO = userDAO;
     }
 
@@ -32,7 +31,9 @@ public class UserServiceImpl implements UserService {
         try {
             entityManager.getTransaction().begin();
             final List<MrUserEntity> userEntities = userDAO.getAll();
+            // TODO Don't forget that addresses have FetchType.LAZY
             for (final MrUserEntity userEntity : userEntities) {
+                // TODO Non-obvious addresses fetch
                 userDTOs.add(new UserDTO(userEntity));
             }
             entityManager.getTransaction().commit();

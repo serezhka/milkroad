@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
 /**
  * Created by Sergey on 10.02.2016.
  */
-public class UserDAOImpl extends DAOImpl<MrUserEntity, Long> implements UserDAO {
+public class UserDAOImpl extends DAOImpl<MrUserEntity, Long> implements UserDAO<MrUserEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
     public UserDAOImpl(final EntityManager entityManager) {

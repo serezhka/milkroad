@@ -13,6 +13,27 @@ public class AddressDTO {
     private String building;
     private String apartment;
 
+    public AddressDTO() {
+    }
+
+    public AddressDTO(final String country, final String city, final Integer postcode, final String street, final String building, final String apartment) {
+        this.country = country;
+        this.city = city;
+        this.postcode = postcode;
+        this.street = street;
+        this.building = building;
+        this.apartment = apartment;
+    }
+
+    public AddressDTO(final MrAddressEntity addressEntity) {
+        this.country = addressEntity.getCountry().getCountryName();
+        this.city = addressEntity.getCity().getCityName();
+        this.postcode = addressEntity.getPostcode();
+        this.street = addressEntity.getStreet();
+        this.building = addressEntity.getBuilding();
+        this.apartment = addressEntity.getApartment();
+    }
+
     public String getCountry() {
         return country;
     }
@@ -59,26 +80,5 @@ public class AddressDTO {
 
     public void setApartment(final String apartment) {
         this.apartment = apartment;
-    }
-
-    public AddressDTO() {
-    }
-
-    public AddressDTO(final String country, final String city, final Integer postcode, final String street, final String building, final String apartment) {
-        this.country = country;
-        this.city = city;
-        this.postcode = postcode;
-        this.street = street;
-        this.building = building;
-        this.apartment = apartment;
-    }
-
-    public AddressDTO(final MrAddressEntity addressEntity) {
-        this.country = addressEntity.getCountry().getCountryName();
-        this.city = addressEntity.getCity().getCityName();
-        this.postcode = addressEntity.getPostcode();
-        this.street = addressEntity.getStreet();
-        this.building = addressEntity.getBuilding();
-        this.apartment = addressEntity.getApartment();
     }
 }

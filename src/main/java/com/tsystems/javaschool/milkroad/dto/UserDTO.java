@@ -16,7 +16,6 @@ public class UserDTO {
     private String lastName;
     private Date birthday;
     private String email;
-
     private List<AddressDTO> addresses;
 
     public UserDTO() {

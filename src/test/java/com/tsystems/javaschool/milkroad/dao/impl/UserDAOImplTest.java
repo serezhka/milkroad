@@ -22,7 +22,7 @@ public class UserDAOImplTest {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImplTest.class);
 
     private EntityManager entityManager;
-    private UserDAO userDAO;
+    private UserDAO<MrUserEntity, Long> userDAO;
 
     private MrUserEntity user1 = new MrUserEntity(null, UserTypeEnum.SIMPLE_USER,
             "TestName", "TestSurname", Date.valueOf("2000-01-01"), "test1@mail.ru",
