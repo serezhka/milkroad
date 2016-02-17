@@ -1,3 +1,6 @@
+/* **************************************************** */
+/* ******************** HEADER TOP ******************** */
+/* **************************************************** */
 .header {
     border-bottom: 1px solid #000;
 }
@@ -7,33 +10,62 @@
     padding: 15px 0;
 }
 
-.header-left{
+.header-left {
     float: right;
     margin-top: 4px;
 }
-.header-left ul{
+
+.header-left ul {
     float: left;
 }
-.header-left ul li{
+
+.header-left ul li {
     display: inline-block;
 }
-.header-left ul li a{
+
+.header-left ul li a {
     text-decoration: none;
-    color:#fff;
+    color: #fff;
     font-size: 1.1em;
     margin: 0 2em 0 0;
 }
-.header-left ul li a:hover{
-    color:  #EF5F21;
+
+.header-left ul li a:hover {
+    color: #EF5F21;
 }
 
-.search{
-    position:relative;
+.header-left .cart {
+    float: right;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.header-left .cart .total {
+    display: inline-block;
+}
+
+.header-left .cart img {
+    margin-left: 5px;
+}
+
+.header-left .cart a {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.header-left .cart a:hover {
+    text-decoration: none;
+    color: #EF5F21;
+}
+
+.search {
+    position: relative;
     float: left;
     width: 25%;
     background-color: #fff;
     margin-top: 11px;
 }
+
 .search input[type="text"] {
     outline: none;
     padding: 3px 15px;
@@ -44,6 +76,7 @@
     color: #000;
     font-weight: 700;
 }
+
 .search input[type="submit"] {
     border: none;
     cursor: pointer;
@@ -57,6 +90,7 @@
     padding: 3px;
     font-weight: 700;
 }
+
 .search input[type="submit"]:hover {
     background: #EF5F21;
     color: #fff;
@@ -67,7 +101,191 @@
     -ms-transition: 0.5s all;
 }
 
-/* Responsive */
+/* **************************************************** */
+/* ************ NAVIGATION HEADER ********************* */
+/* **************************************************** */
+.navbar {
+    margin-bottom: 0;
+}
+
+.navbar-inverse {
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+
+.nav {
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    padding: 0 15px;
+}
+
+.navbar-inverse .navbar-toggle, .navbar-inverse .navbar-toggle, .navbar-inverse.collapsed {
+    background-color: #000000;
+}
+
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    /* TODO change color to #EF5F21 */
+    background-color: #000000;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #EF5F21;
+    background-color: transparent;
+}
+
+/* **************************************************** */
+/* *************** BANNER ***************************** */
+/* **************************************************** */
+.banner {
+    background: url("../images/main-banner.jpg") no-repeat;
+    background-size: cover;
+    width: 100%;
+    min-height: 560px;
+    position: relative;
+}
+
+/* **************************************************** */
+/* *************** FOOTER ***************************** */
+/* **************************************************** */
+.footer-distributed {
+    background-color: #000000;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    box-sizing: border-box;
+    width: 100%;
+    text-align: left;
+    font: bold 16px sans-serif;
+    padding: 55px 50px;
+}
+
+.footer-distributed .footer-left,
+.footer-distributed .footer-center,
+.footer-distributed .footer-right {
+    display: inline-block;
+    vertical-align: top;
+}
+
+/* Footer left */
+
+.footer-distributed .footer-left {
+    width: 33%;
+}
+
+.footer-distributed h3 {
+    color: #ffffff;
+    font: normal 36px 'Cookie', cursive;
+    margin: 0;
+}
+
+.footer-distributed h3 span {
+    color: #5383d3;
+}
+
+.footer-distributed .footer-company-name {
+    color: #8f9296;
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Footer Center */
+
+.footer-distributed .footer-center {
+    width: 33%;
+}
+
+.footer-distributed .footer-center i {
+    background-color: #33383b;
+    color: #ffffff;
+    font-size: 25px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 42px;
+    margin: 10px 15px;
+    vertical-align: middle;
+}
+
+.footer-distributed .footer-center i.fa-envelope {
+    font-size: 17px;
+    line-height: 38px;
+}
+
+.footer-distributed .footer-center p {
+    display: inline-block;
+    color: #ffffff;
+    vertical-align: middle;
+    margin: 0;
+}
+
+.footer-distributed .footer-center p span {
+    display: block;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.footer-distributed .footer-center p a {
+    color: #5383d3;
+    text-decoration: none;;
+}
+
+/* Footer Right */
+
+.footer-distributed .footer-right {
+    width: 33%;
+}
+
+.footer-distributed .footer-company-about {
+    line-height: 20px;
+    color: #92999f;
+    font-size: 13px;
+    font-weight: normal;
+    margin: 0;
+}
+
+.footer-distributed .footer-company-about span {
+    display: block;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.footer-distributed .footer-icons {
+    margin-top: 25px;
+}
+
+.footer-distributed .footer-icons a {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    background-color: #33383b;
+    border-radius: 2px;
+
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 35px;
+
+    margin-right: 3px;
+    margin-bottom: 5px;
+}
+
+.footer-distributed i:hover {
+    color: #EF5F21;
+}
+
+/* Make it responsive */
+@media (min-width: 768px) {
+    .navbar-brand {
+        padding: 15px 0;
+    }
+}
+
 @media (max-width: 480px) {
     .search {
         display: none;
@@ -77,6 +295,31 @@
         float: none;
         margin-top: 0;
         text-align: center;
+    }
+
+    .header-left ul {
+        float: none;
+    }
+
+    .header-left .cart {
+        float: none;
+    }
+
+    .footer-distributed {
+        font: bold 14px sans-serif;
+    }
+
+    .footer-distributed .footer-left,
+    .footer-distributed .footer-center,
+    .footer-distributed .footer-right {
+        display: block;
+        width: 100%;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .footer-distributed .footer-center i {
+        margin-left: 0;
     }
 }
 
@@ -92,6 +335,14 @@
 
     .header-left ul {
         margin-top: 13px;
+    }
+
+    .header-left .cart {
+        font-size: 1em;
+    }
+
+    .header-left .cart a {
+        font-size: 0.9em;
     }
 }
 

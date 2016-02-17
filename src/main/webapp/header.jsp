@@ -8,9 +8,11 @@
 
     <%-- Stylesheets --%>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/milkroad-style.css" rel="stylesheet" type="text/css" media="all"/>
 
     <%-- Fonts --%>
+    <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
 
@@ -27,26 +29,3 @@
     </script>
 </head>
 <body>
-
-<%-- Header --%>
-<div class="header">
-    <div class="header-top">
-        <div class="container">
-            <div class="search">
-                <form>
-                    <input type="text" value="Search " onfocus="this.value = '';"
-                           onblur="if (this.value == '') {this.value = 'Search';}">
-                    <input type="submit" value="Go">
-                </form>
-            </div>
-            <div class="header-left">
-                <ul>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Register</a></li>
-                </ul>
-                <div class="clearfix"></div>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-</div>
