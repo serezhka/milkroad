@@ -9,7 +9,7 @@
     <%-- Stylesheets --%>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="css/milkroad-style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/milkroad-theme.css" rel="stylesheet" type="text/css" media="all"/>
 
     <%-- Fonts --%>
     <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">

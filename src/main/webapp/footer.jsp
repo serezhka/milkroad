@@ -21,8 +21,8 @@
     </div>
     <div class="footer-right">
         <p class="footer-company-about">
-            <span>T-Systems</span>
-            Javaschool #16. Milkroad e-shop
+            <span>Sergey Fedorov</span>
+            T-Systems, Javaschool #16. Milkroad e-shop
         </p>
         <div class="footer-icons">
             <a href="https://github.com/serezhka"><i class="fa fa-github"></i></a>

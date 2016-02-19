@@ -279,10 +279,188 @@
     color: #EF5F21;
 }
 
+/* **************************************************** */
+/* *************** LOGIN AND REGISTER PAGE ************ */
+/* **************************************************** */
+.account h1, .register h1 {
+    font-size: 3em;
+    font-family: 'Lato', sans-serif;
+    color: #000;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+.account-top span {
+    font-size: 1em;
+    display: block;
+    padding: 0 0 0.5em;
+    color: #A09F9F;
+}
+
+.account-top div {
+    padding: 0.5em 0;
+}
+
+.account-top input[type="text"],
+.account-top textarea, .account-top input[type="password"] {
+    padding: 1em;
+    width: 100%;
+    background: none;
+    border: 1px solid #A09F9F;
+    outline: none;
+    font-size: 1em;
+}
+
+.account-top textarea {
+    resize: none;
+    height: 60px;
+}
+
+.account-top input[type="submit"] {
+    outline: none;
+    padding: 7px 20px;
+    color: #FFF;
+    cursor: pointer;
+    background: #EF5F21;
+    border: none;
+    width: 20%;
+    min-width: 100px;
+    margin: 1em auto 2em;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+    font-size: 1.2em;
+}
+
+.account-top input[type="submit"]:hover {
+    background: #000;
+}
+
+.left-account img {
+    width: 100%;
+}
+
+a.create {
+    text-decoration: none;
+    color: #fff;
+    padding: 7px 20px;
+    background: #EF5F21;
+    text-align: center;
+    display: block;
+}
+
+.five {
+    background: #fff;
+    border-radius: 100px;
+    border: 2px solid #EF5F21;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 1%;
+    right: 5%;
+    text-align: center;
+}
+
+.five span {
+    font-size: 1em;
+    color: #EF5F21;
+}
+
+.five h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #000;
+}
+
+/* **************************************************** */
+/* *************** LOGIN AND REGISTER PAGE ************ */
+/* **************************************************** */
+.register h1 {
+    font-size: 3em;
+    font-family: 'Lato', sans-serif;
+    color: #000;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1em;
+}
+
+.register-top-grid h3, .register-bottom-grid h3 {
+    font-size: 1.5em;
+    font-family: 'Lato', sans-serif;
+    color: #000;
+    margin-bottom: 0.5em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.register-top-grid span, .register-bottom-grid span {
+    font-size: 1em;
+    display: block;
+    color: #A09F9F;
+}
+
+.register-top-grid input[type="text"],
+.register-bottom-grid input[type="text"],
+.register-bottom-grid input[type="password"] {
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    background: none;
+    outline: none;
+    border: 1px solid #A09F9F;
+    -webkit-appearance: none;
+}
+.register-bottom-grid input[type="submit"] {
+    background: #EF5F21;
+    padding: 0.4em 1em;
+    color: #fff;
+    font-size:1.2em;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    display: inline-block;
+    border:none;
+    outline:none;
+    margin: 10px;
+    width: 20%;
+    min-width: 100px;
+}
+.register-bottom-grid input[type="submit"]:hover{
+    background:#000;
+
+}
+
 /* Make it responsive */
 @media (min-width: 768px) {
     .navbar-brand {
         padding: 15px 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-distributed {
+        font: bold 14px sans-serif;
+    }
+
+    .footer-distributed .footer-left,
+    .footer-distributed .footer-center,
+    .footer-distributed .footer-right {
+        display: block;
+        width: 100%;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .footer-distributed .footer-center i {
+        margin-left: 0;
+    }
+
+    .left-account {
+        margin-top: 2em;
     }
 }
 
@@ -305,21 +483,13 @@
         float: none;
     }
 
-    .footer-distributed {
-        font: bold 14px sans-serif;
+    .account h1, .register h1 {
+        font-size: 2em;
+        margin-bottom: 0.3em;
     }
 
-    .footer-distributed .footer-left,
-    .footer-distributed .footer-center,
-    .footer-distributed .footer-right {
-        display: block;
-        width: 100%;
-        margin-bottom: 40px;
-        text-align: center;
-    }
-
-    .footer-distributed .footer-center i {
-        margin-left: 0;
+    .register-top-grid h3, .register-bottom-grid h3 {
+        font-size: 1.2em;
     }
 }
 
@@ -344,6 +514,16 @@
     .header-left .cart a {
         font-size: 0.9em;
     }
+
+    .account-top input[type="submit"], .register-bottom-grid input[type="submit"] {
+        font-size: 1em;
+    }
+
+    .account-top, .left-account, .register-top-grid, .register-bottom-grid {
+        padding: 0;
+    }
+
+    .register-top-grid h3, .register-bottom-grid h3 {
+        font-size: 1.1em;
+    }
 }
-
-
