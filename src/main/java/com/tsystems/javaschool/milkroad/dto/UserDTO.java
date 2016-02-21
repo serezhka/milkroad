@@ -11,20 +11,22 @@ import java.util.List;
  * Created by Sergey on 10.02.2016.
  */
 public class UserDTO {
-    private long id;
+    private Long id;
     private String firstName;
     private String lastName;
     private Date birthday;
     private String email;
-    private List<AddressDTO> addresses;
 
-    public UserDTO() {
-        addresses = new ArrayList<>();
+    // TODO It's ok ?
+    private List<AddressDTO> addresses = new ArrayList<>();
+
+    public UserDTO(final String firstName, final String lastName, final Date birthday,
+                   final String email) {
+        this(null, firstName, lastName, birthday, email);
     }
 
-    public UserDTO(final long id, final String firstName, final String lastName, final Date birthday,
+    public UserDTO(final Long id, final String firstName, final String lastName, final Date birthday,
                    final String email) {
-        this();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,7 +35,6 @@ public class UserDTO {
     }
 
     public UserDTO(final UserEntity userEntity) {
-        this();
         this.id = userEntity.getId();
         this.firstName = userEntity.getFirstName();
         this.lastName = userEntity.getLastName();
@@ -44,11 +45,11 @@ public class UserDTO {
         }
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -90,5 +91,31 @@ public class UserDTO {
 
     public void setAddresses(final List<AddressDTO> addresses) {
         this.addresses = addresses;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof UserDTO)) return false;
+
+        final UserDTO userDTO = (UserDTO) o;
+
+        if (id != null ? !id.equals(userDTO.id) : userDTO.id != null) return false;
+        if (!firstName.equals(userDTO.firstName)) return false;
+        if (!lastName.equals(userDTO.lastName)) return false;
+        //noinspection SimplifiableIfStatement
+        if (!birthday.equals(userDTO.birthday)) return false;
+        return email.equals(userDTO.email);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + firstName.hashCode();
+        result = 31 * result + lastName.hashCode();
+        result = 31 * result + birthday.hashCode();
+        result = 31 * result + email.hashCode();
+        return result;
     }
 }

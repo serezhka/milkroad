@@ -13,11 +13,11 @@
             </div>
             <div class="header-left">
                 <ul>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Register</a></li>
+                    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
+                    <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
                 </ul>
                 <div class="cart">
-                    <a href="/cart">
+                    <a href="${pageContext.request.contextPath}/cart">
                         <div class="total">
                             <span class="header_cart_total">$100.00</span> (<span id="header_cart_quantity"
                                                                                   class="header_cart_quantity"></span>3

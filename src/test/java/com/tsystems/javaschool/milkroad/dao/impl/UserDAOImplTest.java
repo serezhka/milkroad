@@ -45,11 +45,11 @@ public class UserDAOImplTest {
         entityManager = null;
     }
 
-    @Test
     /**
      * There are strange things happen
      * if it will be separate test per method
      */
+    @Test
     public void test0UserDAOImpl() throws MilkroadDAOException {
         /* Try to delete test users if exists */
         LOGGER.info("delete test users begin");

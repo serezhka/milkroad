@@ -1,17 +1,22 @@
 package com.tsystems.javaschool.milkroad;
 
+import com.tsystems.javaschool.milkroad.dao.AddressDAO;
 import com.tsystems.javaschool.milkroad.dao.OrderDAO;
 import com.tsystems.javaschool.milkroad.dao.ProductDAO;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
+import com.tsystems.javaschool.milkroad.dao.impl.AddressDAOImpl;
 import com.tsystems.javaschool.milkroad.dao.impl.OrderDAOImpl;
 import com.tsystems.javaschool.milkroad.dao.impl.ProductDAOImpl;
 import com.tsystems.javaschool.milkroad.dao.impl.UserDAOImpl;
+import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import com.tsystems.javaschool.milkroad.model.OrderEntity;
 import com.tsystems.javaschool.milkroad.model.ProductEntity;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
+import com.tsystems.javaschool.milkroad.service.AddressService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.ProductService;
 import com.tsystems.javaschool.milkroad.service.UserService;
+import com.tsystems.javaschool.milkroad.service.impl.AddressServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.ProductServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.UserServiceImpl;
@@ -42,11 +47,13 @@ public class MilkroadAppContext {
     private volatile UserDAO<UserEntity, Long> userDAO;
     private volatile ProductDAO<ProductEntity, Long> productDAO;
     private volatile OrderDAO<OrderEntity, Long> orderDAO;
+    private volatile AddressDAO<AddressEntity, Long> addressDAO;
 
     /* Services */
     private volatile UserService userService;
     private volatile ProductService productService;
     private volatile OrderService orderService;
+    private volatile AddressService addressService;
 
     private MilkroadAppContext() {
     }
@@ -124,6 +131,19 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
+    public AddressDAO<AddressEntity, Long> getAddressDAO() {
+        AddressDAO<AddressEntity, Long> localInstance = addressDAO;
+        if (localInstance == null) {
+            synchronized (this) {
+                localInstance = addressDAO;
+                if (localInstance == null) {
+                    addressDAO = localInstance = new AddressDAOImpl(getEntityManager());
+                }
+            }
+        }
+        return localInstance;
+    }
+
     public UserService getUserService() {
         UserService localInstance = userService;
         if (localInstance == null) {
@@ -157,6 +177,18 @@ public class MilkroadAppContext {
                 localinstance = orderService;
                 if (localinstance == null) {
                     orderService = localinstance = new OrderServiceImpl(getEntityManager(), getOrderDAO());
+                }
+            }
+        }
+        return localinstance;
+    }
+    public AddressService getAddressService() {
+        AddressService localinstance = addressService;
+        if (localinstance == null) {
+            synchronized (this) {
+                localinstance = addressService;
+                if (localinstance == null) {
+                    addressService = localinstance = new AddressServiceImpl(getEntityManager(), getAddressDAO());
                 }
             }
         }

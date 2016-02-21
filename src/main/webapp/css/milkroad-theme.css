@@ -402,6 +402,10 @@ a.create {
     color: #A09F9F;
 }
 
+.register-top-grid span.error, .register-bottom-grid span.error {
+    color: red;
+}
+
 .register-top-grid input[type="text"],
 .register-bottom-grid input[type="text"],
 .register-bottom-grid input[type="password"] {

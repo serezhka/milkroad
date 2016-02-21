@@ -20,6 +20,7 @@ import java.util.List;
 public class ProductListServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(UserListServlet.class);
 
+    @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         try {
             final List<ProductDTO> products = MilkroadAppContext.getInstance().getProductService().getAllProducts();

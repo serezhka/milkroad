@@ -5,19 +5,21 @@
 <jsp:include page="header-top.jsp"/>
 <jsp:include page="header-nav.jsp"/>
 
+<%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
     <div class="account">
         <%--<h1>Sign in</h1>--%>
         <div class="account-pass">
             <div class="col-md-8 account-top">
-                <form>
+                <form action="${pageContext.request.contextPath}/login" method="post">
                     <div>
                         <span>Email</span>
-                        <input type="text">
+                        <input name="email" type="text">
                     </div>
                     <div>
                         <span>Password</span>
-                        <input type="password">
+                        <%-- TODO encrypt? --%>
+                        <input name="pass" type="password">
                     </div>
                     <input type="submit" value="Login">
                 </form>
@@ -27,7 +29,7 @@
                 <div class="five">
                     <h2>25% </h2><span>discount</span>
                 </div>
-                <a href="/register" class="create">Create an account</a>
+                <a href="${pageContext.request.contextPath}/register" class="create">Create an account</a>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>

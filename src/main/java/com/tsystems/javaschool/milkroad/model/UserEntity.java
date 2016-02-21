@@ -1,7 +1,10 @@
 package com.tsystems.javaschool.milkroad.model;
 
+import com.tsystems.javaschool.milkroad.dto.UserDTO;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +25,10 @@ public class UserEntity {
     private String passHash;
     private String passSalt;
 
-    private List<AddressEntity> adresses;
-    private List<ProductEntity> products;
-    private List<OrderEntity> orders;
+    // TODO It's ok ?
+    private List<AddressEntity> adresses = new ArrayList<>();
+    private List<ProductEntity> products = new ArrayList<>();
+    private List<OrderEntity> orders = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +44,7 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
     public UserTypeEnum getUserType() {
-        return userType;
+        return (userType == null) ? UserTypeEnum.SIMPLE_USER : userType;
     }
 
     public void setUserType(final UserTypeEnum userType) {
@@ -107,7 +111,7 @@ public class UserEntity {
         this.passSalt = passSalt;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
     public List<AddressEntity> getAdresses() {
         return adresses;
     }
@@ -116,7 +120,7 @@ public class UserEntity {
         this.adresses = adresses;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "seller", cascade = CascadeType.ALL)
     public List<ProductEntity> getProducts() {
         return products;
     }
@@ -125,7 +129,7 @@ public class UserEntity {
         this.products = products;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
     public List<OrderEntity> getOrders() {
         return orders;
     }
@@ -162,6 +166,15 @@ public class UserEntity {
 
         this.adresses = userEntity.getAdresses();
         this.products = userEntity.getProducts();
+        this.orders = userEntity.getOrders();
+    }
+
+    public UserEntity(final UserDTO userDTO) {
+        this.id = userDTO.getId();
+        this.firstName = userDTO.getFirstName();
+        this.lastName = userDTO.getLastName();
+        this.birthday = userDTO.getBirthday();
+        this.email = userDTO.getEmail();
     }
 
     @Override

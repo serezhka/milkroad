@@ -6,6 +6,7 @@ import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.model.ProductEntity;
 import com.tsystems.javaschool.milkroad.service.ProductService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import com.tsystems.javaschool.milkroad.service.exception.ServiceExceptionType;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -37,7 +38,7 @@ public class ProductServiceImpl extends AbstractService implements ProductServic
             entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading products");
-            throw new MilkroadServiceException(e);
+            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();

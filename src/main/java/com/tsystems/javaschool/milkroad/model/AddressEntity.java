@@ -7,6 +7,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "address", schema = "milkroad")
+@NamedQueries({
+        @NamedQuery(name = "AddressEntity.findAddressesByUserEmail", query = "SELECT o FROM AddressEntity o WHERE o.user.email = :email")
+})
 public class AddressEntity {
     private Long id;
     private UserEntity user;

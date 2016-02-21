@@ -8,6 +8,7 @@ import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.OrderEntity;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import com.tsystems.javaschool.milkroad.service.exception.ServiceExceptionType;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -41,7 +42,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading orders");
-            throw new MilkroadServiceException(e);
+            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();

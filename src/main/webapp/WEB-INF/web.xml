@@ -51,4 +51,13 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
+    <filter>
+        <filter-name>RegisterFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.RegisterFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RegisterFilter</filter-name>
+        <servlet-name>RegisterServlet</servlet-name>
+    </filter-mapping>
+
 </web-app>

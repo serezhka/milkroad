@@ -12,12 +12,12 @@ import java.util.List;
  * Created by Sergey on 14.02.2016.
  */
 public class ProductDTO {
-    private long article;
+    private Long article;
     private UserDTO seller;
     private String name;
     private Category category;
     private BigDecimal price;
-    private int count;
+    private Integer count;
     private String description;
     private List<Parameter> parameters;
 
@@ -25,8 +25,9 @@ public class ProductDTO {
         parameters = new ArrayList<>();
     }
 
-    public ProductDTO(final long article, final UserDTO seller, final String name, final Category category, final BigDecimal price,
-                      final int count, final String description, final List<Parameter> parameters) {
+    public ProductDTO(final Long article, final UserDTO seller, final String name, final Category category,
+                      final BigDecimal price, final Integer count, final String description,
+                      final List<Parameter> parameters) {
         this();
         this.article = article;
         this.seller = seller;
@@ -52,11 +53,11 @@ public class ProductDTO {
         }
     }
 
-    public long getArticle() {
+    public Long getArticle() {
         return article;
     }
 
-    public void setArticle(final long article) {
+    public void setArticle(final Long article) {
         this.article = article;
     }
 
@@ -92,11 +93,11 @@ public class ProductDTO {
         this.price = price;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(final int count) {
+    public void setCount(final Integer count) {
         this.count = count;
     }
 

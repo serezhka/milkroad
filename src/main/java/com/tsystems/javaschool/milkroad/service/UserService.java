@@ -10,4 +10,8 @@ import java.util.List;
  */
 public interface UserService {
     List<UserDTO> getAllUsers() throws MilkroadServiceException;
+
+    UserDTO getUserByEmail(final String email) throws  MilkroadServiceException;
+
+    UserDTO addNewUser(final UserDTO userDTO, final String pass) throws MilkroadServiceException;
 }

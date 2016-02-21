@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.milkroad.dao.impl;
 
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
+import com.tsystems.javaschool.milkroad.dao.exception.DAOErrorType;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import org.apache.log4j.Logger;
@@ -22,18 +23,17 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
     @Override
     public UserEntity getByEmail(final String email) throws MilkroadDAOException {
         try {
-            final TypedQuery<UserEntity> entityTypedQuery = entityManager.createNamedQuery("UserEntity.findByEmail", UserEntity.class);
+            final TypedQuery<UserEntity> entityTypedQuery =
+                    entityManager.createNamedQuery("UserEntity.findByEmail", UserEntity.class);
             entityTypedQuery.setParameter("email", email);
-            final UserEntity userEntity = entityTypedQuery.getSingleResult();
-            userEntity.getAdresses(); // 'cos Addresses have FetchType.LAZY
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
             final String message = "No users found with email " + email;
-            LOGGER.info(message);
-            throw new MilkroadDAOException(message);
+            LOGGER.warn(message);
+            return null;
         } catch (final Exception e1) {
-            LOGGER.warn("Error on find user by email " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e1);
+            LOGGER.error("Error on find user by email " + entityClass.getSimpleName());
+            throw new MilkroadDAOException(e1, DAOErrorType.FIND_ERROR);
         }
     }
 }

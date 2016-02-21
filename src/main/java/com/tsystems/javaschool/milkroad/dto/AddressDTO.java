@@ -6,6 +6,7 @@ import com.tsystems.javaschool.milkroad.model.AddressEntity;
  * Created by Sergey on 14.02.2016.
  */
 public class AddressDTO {
+    private Long id;
     private String country;
     private String city;
     private Integer postcode;
@@ -16,7 +17,8 @@ public class AddressDTO {
     public AddressDTO() {
     }
 
-    public AddressDTO(final String country, final String city, final Integer postcode, final String street, final String building, final String apartment) {
+    public AddressDTO(final Long id, final String country, final String city, final Integer postcode, final String street, final String building, final String apartment) {
+        this.id = id;
         this.country = country;
         this.city = city;
         this.postcode = postcode;
@@ -26,12 +28,21 @@ public class AddressDTO {
     }
 
     public AddressDTO(final AddressEntity addressEntity) {
+        this.id = addressEntity.getId();
         this.country = addressEntity.getCountry().getCountryName();
         this.city = addressEntity.getCity().getCityName();
         this.postcode = addressEntity.getPostcode();
         this.street = addressEntity.getStreet();
         this.building = addressEntity.getBuilding();
         this.apartment = addressEntity.getApartment();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public String getCountry() {

@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Sergey on 15.02.2016.
  */
 public class OrderDTO {
-    private long id;
+    private Long id;
     private UserDTO customer;
     private AddressDTO address;
     private BigDecimal totalPrice;
@@ -25,7 +25,7 @@ public class OrderDTO {
         details = new ArrayList<>();
     }
 
-    public OrderDTO(final long id, final UserDTO customer, final AddressDTO address, final BigDecimal totalPrice,
+    public OrderDTO(final Long id, final UserDTO customer, final AddressDTO address, final BigDecimal totalPrice,
                     final PaymentMethodEnum paymentMethod, final PaymentStatusEnum paymentStatus,
                     final ShippingMethodEnum shippingMethod, final ShippingStatusEnum shippingStatus,
                     final String note, final List<Detail> details) {
@@ -58,11 +58,11 @@ public class OrderDTO {
         }
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
