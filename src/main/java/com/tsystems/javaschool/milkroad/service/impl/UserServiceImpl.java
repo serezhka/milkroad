@@ -6,11 +6,9 @@ import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.service.exception.ServiceExceptionType;
 import com.tsystems.javaschool.milkroad.util.PassHash;
 import com.tsystems.javaschool.milkroad.util.PassUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.exception.ConstraintViolationException;
 
 import javax.persistence.EntityManager;
 import java.security.NoSuchAlgorithmException;
@@ -44,7 +42,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading users");
-            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
@@ -55,31 +53,41 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Override
     public UserDTO getUserByEmail(final String email) throws MilkroadServiceException {
-        final UserDTO userDTO;
-        final UserEntity userEntity;
-        try {
-            entityManager.getTransaction().begin();
-            userEntity = userDAO.getByEmail(email);
-            entityManager.getTransaction().commit();
-        } catch (final MilkroadDAOException e) {
-            LOGGER.error("Error while loading user with email = " + email);
-            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
+        final UserEntity userEntity = getUserEntityByEmail(email);
         if (userEntity != null) {
-            userDTO = new UserDTO(userEntity);
+            return new UserDTO(userEntity);
         } else {
             LOGGER.warn("User with email = " + email + " doesn't exist");
-            userDTO = null;
+            return null;
         }
-        return userDTO;
+    }
+
+    @Override
+    public UserDTO getUserByEmailAndPass(final String email, final String pass) throws MilkroadServiceException {
+        final UserEntity userEntity = getUserEntityByEmail(email);
+        if (userEntity != null) {
+            try {
+                if (PassUtil.verifyPass(pass, userEntity.getPassHash(), userEntity.getPassSalt())) {
+                    return new UserDTO(userEntity);
+                } else {
+                    LOGGER.warn("Pass is invalid. Email = " + email + ", pass =" + pass);
+                    throw new MilkroadServiceException(MilkroadServiceException.Type.PASS_INVALID);
+                }
+            } catch (final NoSuchAlgorithmException e) {
+                LOGGER.error("PassUtils error. Email = " + email + ", pass =" + pass);
+                throw new MilkroadServiceException(MilkroadServiceException.Type.PASS_UTILS_ERROR);
+            }
+        } else {
+            LOGGER.warn("User with email = " + email + " doesn't exist");
+            throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
+        }
     }
 
     @Override
     public UserDTO addNewUser(final UserDTO userDTO, final String pass) throws MilkroadServiceException {
+        if (getUserEntityByEmail(userDTO.getEmail()) != null) {
+            throw new MilkroadServiceException(MilkroadServiceException.Type.USER_EMAIL_ALREADY_EXISTS);
+        }
         final UserEntity userEntity = new UserEntity(userDTO);
         try {
             final PassHash passHash = PassUtil.createPassHash(pass);
@@ -89,22 +97,33 @@ public class UserServiceImpl extends AbstractService implements UserService {
             userDAO.persist(userEntity);
             entityManager.getTransaction().commit();
         } catch (final NoSuchAlgorithmException e) {
-            LOGGER.error("Error while adding new user");
-            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
+            LOGGER.error("PassUtils Error while adding new user");
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
         } catch (final MilkroadDAOException e) {
-            // TODO THIS IS DOG-NAIL, SPIKE-NAIL, CROOKED NAIL
-            try {
-                if (((ConstraintViolationException) e.getCause().getCause()).getSQLException().getMessage().contains("Duplicate")) {
-                    throw new MilkroadServiceException(e, ServiceExceptionType.USER_EMAIL_ALREADY_EXISTS);
-                }
-            } catch (final ClassCastException ignored) {
-            }
-            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
+            LOGGER.error("Error while adding new user");
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();
             }
         }
         return new UserDTO(userEntity);
+    }
+
+    private UserEntity getUserEntityByEmail(final String email) throws MilkroadServiceException {
+        final UserEntity userEntity;
+        try {
+            entityManager.getTransaction().begin();
+            userEntity = userDAO.getByEmail(email);
+            entityManager.getTransaction().commit();
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while loading user with email = " + email);
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        } finally {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+        }
+        return userEntity;
     }
 }

@@ -31,7 +31,7 @@ public class UserServiceImplTest {
 
     @Test
     public void testUserService() throws Exception {
-        final UserDTO userDTO = new UserDTO("User", "Service",  Date.valueOf("1993-03-08"), "userService@test.ru");
+        final UserDTO userDTO = new UserDTO("User", "Service",  Date.valueOf("1993-03-08"), "userService@test.ru", null);
         final String pass = "querty";
 
         /* Add user */

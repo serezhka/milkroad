@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.milkroad.dao.impl;
 
 import com.tsystems.javaschool.milkroad.dao.DAO;
-import com.tsystems.javaschool.milkroad.dao.exception.DAOErrorType;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import org.apache.log4j.Logger;
 
@@ -28,7 +27,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             entityManager.persist(entity);
         } catch (final Exception e) {
             LOGGER.error("Error on persist entity " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e, DAOErrorType.PERSIST_ERROR);
+            throw new MilkroadDAOException(e, MilkroadDAOException.Type.PERSIST_ERROR);
         }
     }
 
@@ -37,7 +36,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             entityManager.merge(entity);
         } catch (final Exception e) {
             LOGGER.error("Error on merge entity " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e, DAOErrorType.MERGE_ERROR);
+            throw new MilkroadDAOException(e, MilkroadDAOException.Type.MERGE_ERROR);
         }
     }
 
@@ -46,7 +45,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             entityManager.remove(entity);
         } catch (final Exception e) {
             LOGGER.error("Error on remove entity " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e, DAOErrorType.REMOVE_ERROR);
+            throw new MilkroadDAOException(e, MilkroadDAOException.Type.REMOVE_ERROR);
         }
     }
 
@@ -55,7 +54,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             return entityManager.find(entityClass, id);
         } catch (final Exception e) {
             LOGGER.error("Error on load entity " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e, DAOErrorType.FIND_ERROR);
+            throw new MilkroadDAOException(e, MilkroadDAOException.Type.FIND_ERROR);
         }
     }
 
@@ -66,7 +65,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             entities = entityManager.createQuery("SELECT o FROM " + entityClass.getSimpleName() + " o").getResultList();
         } catch (final Exception e) {
             LOGGER.error("Error on load entities " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e, DAOErrorType.FIND_ERROR);
+            throw new MilkroadDAOException(e, MilkroadDAOException.Type.FIND_ERROR);
         }
         return new ArrayList<>(entities);
     }

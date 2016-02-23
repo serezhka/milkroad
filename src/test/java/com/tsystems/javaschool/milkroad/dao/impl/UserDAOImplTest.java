@@ -53,13 +53,22 @@ public class UserDAOImplTest {
     public void test0UserDAOImpl() throws MilkroadDAOException {
         /* Try to delete test users if exists */
         LOGGER.info("delete test users begin");
-        entityManager.getTransaction().begin();
         try {
-            userDAO.remove(userDAO.getByEmail(user1.getEmail()));
-            userDAO.remove(userDAO.getByEmail(user2.getEmail()));
+            entityManager.getTransaction().begin();
+            final UserEntity userEntity1 = userDAO.getByEmail(user1.getEmail());
+            if (userEntity1 != null) {
+                userDAO.remove(userEntity1);
+            }
+            final UserEntity userEntity2 = userDAO.getByEmail(user2.getEmail());
+            if (userEntity2 != null) {
+                userDAO.remove(userDAO.getByEmail(user2.getEmail()));
+            }
+            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException ignored) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
         }
-        entityManager.getTransaction().commit();
         LOGGER.info("delete test users end");
 
         /* Persist test */

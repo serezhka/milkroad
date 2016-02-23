@@ -1,7 +1,6 @@
 package com.tsystems.javaschool.milkroad.dao.impl;
 
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
-import com.tsystems.javaschool.milkroad.dao.exception.DAOErrorType;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import org.apache.log4j.Logger;
@@ -33,7 +32,7 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
             return null;
         } catch (final Exception e1) {
             LOGGER.error("Error on find user by email " + entityClass.getSimpleName());
-            throw new MilkroadDAOException(e1, DAOErrorType.FIND_ERROR);
+            throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
     }
 }

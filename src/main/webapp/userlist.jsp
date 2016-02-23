@@ -9,6 +9,7 @@
         <th>Last Name</th>
         <th>Birth date</th>
         <th>E-mail</th>
+        <th>Type</th>
         <th>Country</th>
         <th>City</th>
         <th>Postcode</th>
@@ -25,6 +26,7 @@
         <td rowspan=${address_count}>${user.lastName}</td>
         <td rowspan=${address_count}>${user.birthday}</td>
         <td rowspan=${address_count}>${user.email}</td>
+        <td rowspan=${address_count}>${user.userType}</td>
         <c:forEach items="${user.addresses}" var="address">
             <td>${address.country}</td>
             <td>${address.city}</td>

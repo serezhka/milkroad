@@ -4,19 +4,26 @@ package com.tsystems.javaschool.milkroad.dao.exception;
  * Created by Sergey on 10.02.2016.
  */
 public class MilkroadDAOException extends Exception {
-    private final DAOErrorType daoErrorType;
+    public enum Type {
+        PERSIST_ERROR,
+        MERGE_ERROR,
+        REMOVE_ERROR,
+        FIND_ERROR
+    }
 
-    public MilkroadDAOException(final String message, final DAOErrorType daoErrorType) {
+    private final Type type;
+
+    public MilkroadDAOException(final String message, final Type type) {
         super(message);
-        this.daoErrorType = daoErrorType;
+        this.type = type;
     }
 
-    public MilkroadDAOException(final Throwable cause, final DAOErrorType daoErrorType) {
+    public MilkroadDAOException(final Throwable cause, final Type type) {
         super(cause);
-        this.daoErrorType = daoErrorType;
+        this.type = type;
     }
 
-    public DAOErrorType getDaoErrorType() {
-        return daoErrorType;
+    public Type getType() {
+        return type;
     }
 }

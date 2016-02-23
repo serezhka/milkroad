@@ -2,6 +2,7 @@ package com.tsystems.javaschool.milkroad.dto;
 
 import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
+import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -16,22 +17,24 @@ public class UserDTO {
     private String lastName;
     private Date birthday;
     private String email;
+    private UserTypeEnum userType;
 
     // TODO It's ok ?
     private List<AddressDTO> addresses = new ArrayList<>();
 
     public UserDTO(final String firstName, final String lastName, final Date birthday,
-                   final String email) {
-        this(null, firstName, lastName, birthday, email);
+                   final String email, final UserTypeEnum type) {
+        this(null, firstName, lastName, birthday, email, type);
     }
 
     public UserDTO(final Long id, final String firstName, final String lastName, final Date birthday,
-                   final String email) {
+                   final String email, final UserTypeEnum userType) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
+        this.userType = userType;
     }
 
     public UserDTO(final UserEntity userEntity) {
@@ -40,6 +43,7 @@ public class UserDTO {
         this.lastName = userEntity.getLastName();
         this.birthday = userEntity.getBirthday();
         this.email = userEntity.getEmail();
+        this.userType = userEntity.getUserType();
         for (final AddressEntity addressEntity : userEntity.getAdresses()) {
             addresses.add(new AddressDTO(addressEntity));
         }
@@ -85,6 +89,14 @@ public class UserDTO {
         this.email = email;
     }
 
+    public UserTypeEnum getUserType() {
+        return userType;
+    }
+
+    public void setUserType(final UserTypeEnum userType) {
+        this.userType = userType;
+    }
+
     public List<AddressDTO> getAddresses() {
         return addresses;
     }
@@ -103,8 +115,9 @@ public class UserDTO {
         if (id != null ? !id.equals(userDTO.id) : userDTO.id != null) return false;
         if (!firstName.equals(userDTO.firstName)) return false;
         if (!lastName.equals(userDTO.lastName)) return false;
-        //noinspection SimplifiableIfStatement
         if (!birthday.equals(userDTO.birthday)) return false;
+        //noinspection SimplifiableIfStatement
+        if (!userType.equals(userDTO.userType)) return false;
         return email.equals(userDTO.email);
 
     }
@@ -116,6 +129,7 @@ public class UserDTO {
         result = 31 * result + lastName.hashCode();
         result = 31 * result + birthday.hashCode();
         result = 31 * result + email.hashCode();
+        result = 31 * result + userType.hashCode();
         return result;
     }
 }

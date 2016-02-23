@@ -27,8 +27,8 @@ public class PassUtil {
      * @return true, if it's ok, false - otherwise
      * @throws NoSuchAlgorithmException
      */
-    public boolean verifyPass(final String pass, final String passHash,
-                              final String salt) throws NoSuchAlgorithmException {
+    public static boolean verifyPass(final String pass, final String passHash,
+                                     final String salt) throws NoSuchAlgorithmException {
         final PassHash passHashResult = getPassHashWithSalt(pass, salt);
         return passHashResult.getHash().equals(passHash);
     }

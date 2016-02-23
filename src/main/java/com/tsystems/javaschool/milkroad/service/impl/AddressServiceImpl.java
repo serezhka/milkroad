@@ -7,7 +7,6 @@ import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import com.tsystems.javaschool.milkroad.service.AddressService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.service.exception.ServiceExceptionType;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -39,7 +38,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
             entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading orders");
-            throw new MilkroadServiceException(e, ServiceExceptionType.UNKNOWN_ERROR);
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {
                 entityManager.getTransaction().rollback();

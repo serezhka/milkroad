@@ -175,6 +175,7 @@ public class UserEntity {
         this.lastName = userDTO.getLastName();
         this.birthday = userDTO.getBirthday();
         this.email = userDTO.getEmail();
+        this.userType = userDTO.getUserType();
     }
 
     @Override
