@@ -15,7 +15,7 @@ public class AuthUtil {
      * @return {@code true} if session has authed user, {@code false} - otherwise
      */
     public static boolean isUserAuthed(final HttpSession httpSession) {
-        return httpSession.getAttribute(AUTHED_USER) != null;
+        return getAuthedUser(httpSession) != null;
     }
 
     /**

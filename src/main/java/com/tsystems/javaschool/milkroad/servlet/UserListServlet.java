@@ -26,7 +26,7 @@ public class UserListServlet extends HttpServlet {
             final List<UserDTO> users = MilkroadAppContext.getInstance().getUserService().getAllUsers();
             request.setAttribute("users", users);
         } catch (final MilkroadServiceException e) {
-            // TODO Add error attr to request
+            // TODO Error page ???
             LOGGER.error("Error while loading users");
             throw new RuntimeException(e);
         }

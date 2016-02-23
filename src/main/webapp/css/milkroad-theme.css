@@ -382,7 +382,7 @@ a.create {
 /* **************************************************** */
 /* *************** LOGIN AND REGISTER PAGE ************ */
 /* **************************************************** */
-.register h1 {
+.register h1, .user-info h1 {
     font-size: 3em;
     font-family: 'Lato', sans-serif;
     color: #000;
@@ -391,7 +391,8 @@ a.create {
     margin-bottom: 1em;
 }
 
-.register-top-grid h3, .register-bottom-grid h3 {
+.register-top-grid h3, .register-bottom-grid h3,
+.profile-top-grid h3, .profile-bottom-grid h3 {
     font-size: 1.5em;
     font-family: 'Lato', sans-serif;
     color: #000;
@@ -400,19 +401,24 @@ a.create {
     font-weight: 600;
 }
 
-.register-top-grid span, .register-bottom-grid span {
+.register-top-grid span, .register-bottom-grid span,
+.profile-top-grid span, .profile-bottom-grid span {
     font-size: 1em;
     display: block;
     color: #A09F9F;
 }
 
-.register-top-grid span.error, .register-bottom-grid span.error {
+.register-top-grid span.error, .register-bottom-grid span.error,
+.profile-top-grid span.error, .profile-bottom-grid span.error {
     color: red;
 }
 
 .register-top-grid input[type="text"],
+.profile-top-grid input[type="text"],
 .register-bottom-grid input[type="text"],
-.register-bottom-grid input[type="password"] {
+.profile-bottom-grid input[type="text"],
+.register-bottom-grid input[type="password"],
+.profile-bottom-grid input[type="password"] {
     width: 100%;
     padding: 1em;
     margin: 1em 0;
@@ -422,7 +428,8 @@ a.create {
     -webkit-appearance: none;
 }
 
-.register-bottom-grid input[type="submit"] {
+.register-bottom-grid input[type="submit"],
+.profile-bottom-grid input[type="submit"] {
     background: #EF5F21;
     padding: 0.4em 1em;
     color: #fff;
@@ -439,7 +446,8 @@ a.create {
     min-width: 100px;
 }
 
-.register-bottom-grid input[type="submit"]:hover {
+.register-bottom-grid input[type="submit"]:hover,
+.profile-bottom-grid input[type="submit"]:hover {
     background: #000;
 }
 
@@ -497,7 +505,8 @@ a.create {
         margin-bottom: 0.3em;
     }
 
-    .register-top-grid h3, .register-bottom-grid h3 {
+    .register-top-grid h3, .register-bottom-grid h3,
+    .profile-top-grid h3, .profile-bottom-grid h3 {
         font-size: 1.2em;
     }
 }
@@ -528,11 +537,13 @@ a.create {
         font-size: 1em;
     }
 
-    .account-top, .left-account, .register-top-grid, .register-bottom-grid {
+    .account-top, .left-account, .register-top-grid, .register-bottom-grid,
+    .profile-top-grid, .profile-bottom-grid {
         padding: 0;
     }
 
-    .register-top-grid h3, .register-bottom-grid h3 {
+    .register-top-grid h3, .register-bottom-grid h3,
+    .profile-top-grid h3, .profile-bottom-grid h3 {
         font-size: 1.1em;
     }
 }

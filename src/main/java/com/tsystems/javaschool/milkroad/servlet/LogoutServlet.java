@@ -14,6 +14,7 @@ import java.io.IOException;
  */
 @WebServlet(name = "LogoutServlet")
 public class LogoutServlet extends HttpServlet {
+    @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         AuthUtil.deauthUser(request.getSession());
         response.sendRedirect("/");

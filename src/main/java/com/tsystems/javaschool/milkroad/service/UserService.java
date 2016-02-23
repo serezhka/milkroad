@@ -16,4 +16,8 @@ public interface UserService {
     UserDTO getUserByEmailAndPass(final String email, final String pass) throws MilkroadServiceException;
 
     UserDTO addNewUser(final UserDTO userDTO, final String pass) throws MilkroadServiceException;
+
+    UserDTO updateUserInfo(final UserDTO userDTO) throws MilkroadServiceException;
+
+    UserDTO updateUserPass(final UserDTO userDTO, final String pass) throws MilkroadServiceException;
 }

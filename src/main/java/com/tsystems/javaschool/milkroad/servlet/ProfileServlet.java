@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -17,15 +18,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Sergey on 18.02.2016.
+ * Created by Sergey on 23.02.2016.
  */
-@WebServlet(name = "RegisterServlet")
-public class RegisterServlet extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(RegisterServlet.class);
+@WebServlet(name = "ProfileServlet")
+public class ProfileServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(ProfileServlet.class);
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 
     @Override
@@ -36,28 +37,28 @@ public class RegisterServlet extends HttpServlet {
         errors = (errorsObj == null) ? new HashSet<>() : (Set<String>) errorsObj;
         if (errors.size() == 0) {
             final UserService userService = MilkroadAppContext.getInstance().getUserService();
-            final UserDTO userDTO = new UserDTO(
-                    request.getParameter("firstname"),
-                    request.getParameter("lastname"),
-                    Date.valueOf(request.getParameter("birthday")),
-                    request.getParameter("email"),
-                    null);
+            UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
+            //noinspection ConstantConditions
+            userDTO.setFirstName(request.getParameter("firstname"));
+            userDTO.setLastName(request.getParameter("lastname"));
+            userDTO.setBirthday(Date.valueOf(request.getParameter("birthday")));
             try {
-                userService.addNewUser(userDTO, request.getParameter("pass"));
-                request.setAttribute("message", "Registration successful!");
+                userDTO = userService.updateUserInfo(userDTO);
+                final String pass = request.getParameter("pass");
+                if (!pass.isEmpty()) {
+                    userDTO = userService.updateUserPass(userDTO, pass);
+                }
+                AuthUtil.authUser(request.getSession(), userDTO);
+                request.setAttribute("message", "Profile update successful!");
                 request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                 return;
             } catch (final MilkroadServiceException e) {
-                if (e.getType() == MilkroadServiceException.Type.USER_EMAIL_ALREADY_EXISTS) {
-                    errors.add("USER_EMAIL_ALREADY_EXISTS");
-                } else {
-                    // TODO Error page ???
-                    errors.add("UNKNOWN_ERROR");
-                    throw new RuntimeException(e);
-                }
+                // TODO Error page ???
+                errors.add("UNKNOWN_ERROR");
+                throw new RuntimeException(e);
             }
         }
         request.setAttribute("errors", errors);
-        request.getRequestDispatcher("/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 }

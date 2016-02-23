@@ -26,7 +26,7 @@ public class OrderListServlet extends HttpServlet {
             final List<OrderDTO> orders = MilkroadAppContext.getInstance().getOrderService().getAllOrders();
             request.setAttribute("orders", orders);
         } catch (final MilkroadServiceException e) {
-            // TODO Add error attr to request
+            // TODO Error page ???
             LOGGER.error("Error while loading orders");
             throw new RuntimeException(e);
         }

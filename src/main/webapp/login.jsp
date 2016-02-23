@@ -12,10 +12,10 @@
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
     <div class="account">
-        <%--<h1>Sign in</h1>--%>
         <div class="account-pass">
             <div class="col-md-8 account-top">
                 <form action="${pageContext.request.contextPath}/login" method="post">
+                    <input type="hidden" name="formName" value="loginForm"/>
                     <div>
                         <span>Email</span>
                         <c:if test="${errors.contains('EMAIL_ERROR')}">
@@ -24,7 +24,7 @@
                         <c:if test="${errors.contains('USER_NOT_EXISTS')}">
                             <span class="error">User with email not exists</span>
                         </c:if>
-                        <input name="email" type="text" value=${input.get("email")}>
+                        <input name="email" type="text" value="${input.get('email')}">
                     </div>
                     <div>
                         <span>Password</span>

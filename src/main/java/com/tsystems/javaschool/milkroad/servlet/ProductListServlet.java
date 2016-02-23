@@ -26,7 +26,7 @@ public class ProductListServlet extends HttpServlet {
             final List<ProductDTO> products = MilkroadAppContext.getInstance().getProductService().getAllProducts();
             request.setAttribute("products", products);
         } catch (final MilkroadServiceException e) {
-            // TODO Add error attr to request
+            // TODO Error page ???
             LOGGER.error("Error while loading products");
             throw new RuntimeException(e);
         }

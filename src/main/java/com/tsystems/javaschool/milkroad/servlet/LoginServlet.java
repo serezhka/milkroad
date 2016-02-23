@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     // TODO Error page ???
                     errors.add("UNKNOWN_ERROR");
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }

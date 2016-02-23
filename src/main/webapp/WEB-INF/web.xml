@@ -60,31 +60,33 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.milkroad.servlet.ProfileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProfileServlet</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+
     <filter>
-        <filter-name>RegisterFilter</filter-name>
-        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.RegisterFilter</filter-class>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AccessFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>RegisterFilter</filter-name>
+        <filter-name>AccessFilter</filter-name>
+        <servlet-name>ProfileServlet</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>FormDataFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.FormDataFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>FormDataFilter</filter-name>
         <servlet-name>RegisterServlet</servlet-name>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AuthFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern>*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.LoginFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>LoginFilter</filter-name>
         <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>ProfileServlet</servlet-name>
     </filter-mapping>
 
 </web-app>

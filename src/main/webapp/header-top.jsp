@@ -19,7 +19,7 @@
                 <ul>
                     <c:choose>
                         <c:when test="${not empty AUTHED_USER}">
-                            <li><a href="${pageContext.request.contextPath}/account">Hi, ${AUTHED_USER.firstName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/profile">Hi, ${AUTHED_USER.firstName}</a></li>
                             <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
                         </c:when>
                         <c:otherwise>
