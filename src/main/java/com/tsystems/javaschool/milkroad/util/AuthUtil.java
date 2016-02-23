@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
  * Created by Sergey on 22.02.2016.
  */
 public class AuthUtil {
-    private static final String AUTHED_USER = "AUTHED_USER";
+    public static final String AUTHED_USER = "AUTHED_USER";
 
     /**
      * @param httpSession - session

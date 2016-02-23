@@ -1,4 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
+
 <%-- Top header (search, login, logout, cart) --%>
 <div class="header">
     <div class="header-top">
@@ -13,8 +17,16 @@
             </div>
             <div class="header-left">
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
-                    <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
+                    <c:choose>
+                        <c:when test="${not empty AUTHED_USER}">
+                            <li><a href="${pageContext.request.contextPath}/account">Hi, ${AUTHED_USER.firstName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
+                            <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
                 <div class="cart">
                     <a href="${pageContext.request.contextPath}/cart">
