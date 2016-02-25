@@ -23,7 +23,7 @@ public class ProductListServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         try {
-            final List<ProductDTO> products = MilkroadAppContext.getInstance().getProductService().getAllProducts();
+            final List<ProductDTO> products = MilkroadAppContext.getInstance().getCatalogService().getAllProducts();
             request.setAttribute("products", products);
         } catch (final MilkroadServiceException e) {
             // TODO Error page ???

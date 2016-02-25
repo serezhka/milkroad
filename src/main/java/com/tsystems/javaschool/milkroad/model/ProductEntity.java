@@ -9,6 +9,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "product", schema = "milkroad")
+@NamedQueries({
+        @NamedQuery(name = "ProductEntity.findAllByCategory",
+                query = "SELECT o FROM ProductEntity o WHERE o.category.categoryName = :category")
+})
 public class ProductEntity {
     private Long id;
     private UserEntity seller;

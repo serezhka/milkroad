@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%-- Footer --%>
+
 <footer class="footer-distributed">
     <div class="footer-left">
         <img src="images/milkroad-logo-mini.png" alt="" width="150" height="50">

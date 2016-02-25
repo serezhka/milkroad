@@ -58,7 +58,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             return new UserDTO(userEntity);
         } else {
             LOGGER.warn("User with email = " + email + " doesn't exist");
-            return null;
+            throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
         }
     }
 

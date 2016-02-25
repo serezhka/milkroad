@@ -69,6 +69,15 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <url-pattern>/profile</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CatalogServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.milkroad.servlet.CatalogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CatalogServlet</servlet-name>
+        <url-pattern>/catalog</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AccessFilter</filter-class>

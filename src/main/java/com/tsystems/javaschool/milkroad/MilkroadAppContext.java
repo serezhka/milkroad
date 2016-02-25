@@ -1,24 +1,15 @@
 package com.tsystems.javaschool.milkroad;
 
-import com.tsystems.javaschool.milkroad.dao.AddressDAO;
-import com.tsystems.javaschool.milkroad.dao.OrderDAO;
-import com.tsystems.javaschool.milkroad.dao.ProductDAO;
-import com.tsystems.javaschool.milkroad.dao.UserDAO;
-import com.tsystems.javaschool.milkroad.dao.impl.AddressDAOImpl;
-import com.tsystems.javaschool.milkroad.dao.impl.OrderDAOImpl;
-import com.tsystems.javaschool.milkroad.dao.impl.ProductDAOImpl;
-import com.tsystems.javaschool.milkroad.dao.impl.UserDAOImpl;
-import com.tsystems.javaschool.milkroad.model.AddressEntity;
-import com.tsystems.javaschool.milkroad.model.OrderEntity;
-import com.tsystems.javaschool.milkroad.model.ProductEntity;
-import com.tsystems.javaschool.milkroad.model.UserEntity;
+import com.tsystems.javaschool.milkroad.dao.*;
+import com.tsystems.javaschool.milkroad.dao.impl.*;
+import com.tsystems.javaschool.milkroad.model.*;
 import com.tsystems.javaschool.milkroad.service.AddressService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
-import com.tsystems.javaschool.milkroad.service.ProductService;
+import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.impl.AddressServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.OrderServiceImpl;
-import com.tsystems.javaschool.milkroad.service.impl.ProductServiceImpl;
+import com.tsystems.javaschool.milkroad.service.impl.CatalogServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.UserServiceImpl;
 
 import javax.persistence.EntityManager;
@@ -48,10 +39,11 @@ public class MilkroadAppContext {
     private volatile ProductDAO<ProductEntity, Long> productDAO;
     private volatile OrderDAO<OrderEntity, Long> orderDAO;
     private volatile AddressDAO<AddressEntity, Long> addressDAO;
+    private volatile CategoryDAO<ProductCategoryEntity, Long> categoryDAO;
 
     /* Services */
     private volatile UserService userService;
-    private volatile ProductService productService;
+    private volatile CatalogService catalogService;
     private volatile OrderService orderService;
     private volatile AddressService addressService;
 
@@ -144,6 +136,19 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
+    public CategoryDAO<ProductCategoryEntity, Long> getCategoryDAO() {
+        CategoryDAO<ProductCategoryEntity, Long> localInstance = categoryDAO;
+        if (localInstance == null) {
+            synchronized (this) {
+                localInstance = categoryDAO;
+                if (localInstance == null) {
+                    categoryDAO = localInstance = new CategoryDAOImpl(getEntityManager());
+                }
+            }
+        }
+        return localInstance;
+    }
+
     public UserService getUserService() {
         UserService localInstance = userService;
         if (localInstance == null) {
@@ -157,13 +162,13 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
-    public ProductService getProductService() {
-        ProductService localInstance = productService;
+    public CatalogService getCatalogService() {
+        CatalogService localInstance = catalogService;
         if (localInstance == null) {
             synchronized (this) {
-                localInstance = productService;
+                localInstance = catalogService;
                 if (localInstance == null) {
-                    productService = localInstance = new ProductServiceImpl(getEntityManager(), getProductDAO());
+                    catalogService = localInstance = new CatalogServiceImpl(getEntityManager(), getCategoryDAO(), getProductDAO());
                 }
             }
         }
@@ -182,6 +187,7 @@ public class MilkroadAppContext {
         }
         return localinstance;
     }
+
     public AddressService getAddressService() {
         AddressService localinstance = addressService;
         if (localinstance == null) {

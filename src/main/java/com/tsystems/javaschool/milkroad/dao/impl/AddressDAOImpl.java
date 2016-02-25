@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -31,9 +31,9 @@ public class AddressDAOImpl extends DAOImpl<AddressEntity, Long> implements Addr
         } catch (final NoResultException e) {
             final String message = "No addresses with user email = " + email;
             LOGGER.warn(message);
-            return new ArrayList<>();
+            return Collections.emptyList();
         } catch (final Exception e1) {
-            LOGGER.error("Error on find address by user email " + entityClass.getSimpleName());
+            LOGGER.error("Error on find address by user email = " + email + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
     }

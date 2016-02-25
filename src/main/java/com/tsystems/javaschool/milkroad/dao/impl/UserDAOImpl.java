@@ -31,7 +31,7 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
             LOGGER.warn(message);
             return null;
         } catch (final Exception e1) {
-            LOGGER.error("Error on find user by email " + entityClass.getSimpleName());
+            LOGGER.error("Error on find user by email = " + email + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
     }

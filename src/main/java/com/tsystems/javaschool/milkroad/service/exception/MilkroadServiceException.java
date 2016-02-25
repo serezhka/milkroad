@@ -10,6 +10,7 @@ public class MilkroadServiceException extends Exception {
         USER_NOT_EXISTS,
         DAO_ERROR,
         PASS_UTILS_ERROR,
+        PRODUCT_NOT_EXISTS,
         UNKNOWN_ERROR
     }
 
