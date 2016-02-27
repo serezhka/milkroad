@@ -2,7 +2,6 @@ package com.tsystems.javaschool.milkroad.servlet;
 
 import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
-import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.apache.log4j.Logger;
@@ -23,8 +22,6 @@ import java.util.Set;
 public class LoginServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
 
-    private final UserService userService = MilkroadAppContext.getInstance().getUserService();
-
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -41,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             final String pass = request.getParameter("pass");
             final UserDTO user;
             try {
-                user = userService.getUserByEmailAndPass(email, pass);
+                user = MilkroadAppContext.getInstance().getUserService().getUserByEmailAndPass(email, pass);
                 AuthUtil.authUser(request.getSession(), user);
                 request.setAttribute("message", "Authentication successful! Welcome, " + user.getFirstName());
                 request.getRequestDispatcher("/single-message.jsp").forward(request, response);

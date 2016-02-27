@@ -13,7 +13,15 @@
                 <a href="${productURL}"><img class="img-responsive" src="images/product-item-image.png" alt=""></a>
             </div>
             <p class="product-name">${product.name}</p>
-            <a href="#" class="product-add"><p class="product-price"><i> </i>${product.price}</p></a>
+            <c:url value="/cart" var="cartURL">
+                <c:param name="article" value="${product.article}"/>
+            </c:url>
+            <form action="${pageContext.request.contextPath}/cart" method="post">
+                <input type="hidden" name="article" value="${product.article}"/>
+                <a href="javascript:;" class="product-add" onclick="parentNode.submit();">
+                    <p class="product-price"><i> </i>${product.price}</p>
+                </a>
+            </form>
         </div>
     </c:forEach>
 </div>

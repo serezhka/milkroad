@@ -184,4 +184,20 @@ public class ProductDTO {
             this.value = value;
         }
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProductDTO)) return false;
+
+        final ProductDTO that = (ProductDTO) o;
+
+        return article != null ? article.equals(that.article) : that.article == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return article != null ? article.hashCode() : 0;
+    }
 }

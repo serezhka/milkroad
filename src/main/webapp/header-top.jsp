@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
+<%--@elvariable id="cartTotal" type="java.math.BigDecimal"--%>
 
 <%-- Top header (search, login, logout, cart) --%>
 <div class="header">
@@ -19,7 +20,8 @@
                 <ul>
                     <c:choose>
                         <c:when test="${not empty AUTHED_USER}">
-                            <li><a href="${pageContext.request.contextPath}/profile">Hi, ${AUTHED_USER.firstName}</a></li>
+                            <li><a href="${pageContext.request.contextPath}/profile">Hi, ${AUTHED_USER.firstName}</a>
+                            </li>
                             <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
                         </c:when>
                         <c:otherwise>
@@ -31,9 +33,16 @@
                 <div class="cart">
                     <a href="${pageContext.request.contextPath}/cart">
                         <div class="total">
-                            <span class="header_cart_total">$100.00</span> (<span id="header_cart_quantity"
-                                                                                  class="header_cart_quantity"></span>3
-                            items)
+                            <span class="header_cart_total">
+                                <c:choose>
+                                    <c:when test="${not empty cartTotal}">
+                                        <c:out value="${cartTotal}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="$0.00"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </span>
                         </div>
                         <img src="images/cart.png" alt=""/>
                     </a>
