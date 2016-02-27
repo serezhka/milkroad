@@ -91,6 +91,39 @@ public class FormDataFilter implements Filter {
                     input.put("birthday", birthday);
                     break;
                 }
+
+                case "addAddressForm": {
+                    final String country = request.getParameter("country");
+                    if (!FormDataValidator.validateName(country)) {
+                        errors.add("COUNTRY_ERROR");
+                    }
+                    final String city = request.getParameter("city");
+                    if (!FormDataValidator.validateName(city)) {
+                        errors.add("CITY_ERROR");
+                    }
+                    final String postcode = request.getParameter("postcode");
+                    if (!FormDataValidator.validateInteger(postcode)) {
+                        errors.add("POSTCODE_ERROR");
+                    }
+                    final String street = request.getParameter("street");
+                    if (!FormDataValidator.validateName(street)) {
+                        errors.add("STREET_ERROR");
+                    }
+                    final String building = request.getParameter("building");
+                    if (!FormDataValidator.validateName(building)) {
+                        errors.add("BUILDING_ERROR");
+                    }
+                    final String apartment = request.getParameter("apartment");
+                    if (!FormDataValidator.validateName(apartment)) {
+                        errors.add("APARTMENT_ERROR");
+                    }
+                    input.put("country", country);
+                    input.put("city", city);
+                    input.put("postcode", postcode);
+                    input.put("street", street);
+                    input.put("building", building);
+                    input.put("apartment", apartment);
+                }
             }
             request.setAttribute("input", input);
             request.setAttribute("errors", errors);

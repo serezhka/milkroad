@@ -17,6 +17,10 @@ public class AddressDTO {
     public AddressDTO() {
     }
 
+    public AddressDTO(final String country, final String city, final Integer postcode, final String street, final String building, final String apartment) {
+        this(null, country, city, postcode, street, building, apartment);
+    }
+
     public AddressDTO(final Long id, final String country, final String city, final Integer postcode, final String street, final String building, final String apartment) {
         this.id = id;
         this.country = country;
@@ -29,8 +33,10 @@ public class AddressDTO {
 
     public AddressDTO(final AddressEntity addressEntity) {
         this.id = addressEntity.getId();
-        this.country = addressEntity.getCountry().getCountryName();
-        this.city = addressEntity.getCity().getCityName();
+//        this.country = addressEntity.getCountry().getCountryName();
+        this.country = addressEntity.getCountry();
+//        this.city = addressEntity.getCity().getCityName();
+        this.city = addressEntity.getCity();
         this.postcode = addressEntity.getPostcode();
         this.street = addressEntity.getStreet();
         this.building = addressEntity.getBuilding();
@@ -91,5 +97,10 @@ public class AddressDTO {
 
     public void setApartment(final String apartment) {
         this.apartment = apartment;
+    }
+
+    @Override
+    public String toString() {
+        return postcode + ", " + country + ", " + city + ", " + street + ", " + building + ", " + apartment;
     }
 }

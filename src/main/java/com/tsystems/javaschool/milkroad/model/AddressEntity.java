@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.model;
 
+import com.tsystems.javaschool.milkroad.dto.AddressDTO;
+
 import javax.persistence.*;
 
 /**
@@ -13,14 +15,17 @@ import javax.persistence.*;
 public class AddressEntity {
     private Long id;
     private UserEntity user;
-    private CountryEntity country;
-    private CityEntity city;
+    //    private CountryEntity country;
+//    private CityEntity city;
+    private String country;
+    private String city;
     private Integer postcode;
     private String street;
     private String building;
     private String apartment;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;
@@ -40,7 +45,7 @@ public class AddressEntity {
         this.user = user;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    /*@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id")
     public CountryEntity getCountry() {
         return country;
@@ -57,6 +62,26 @@ public class AddressEntity {
     }
 
     public void setCity(final CityEntity city) {
+        this.city = city;
+    }*/
+
+    @Basic
+    @Column(name = "country_id", nullable = false, length = 45)
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(final String country) {
+        this.country = country;
+    }
+
+    @Basic
+    @Column(name = "city_id", nullable = false, length = 45)
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(final String city) {
         this.city = city;
     }
 
@@ -98,6 +123,18 @@ public class AddressEntity {
 
     public void setApartment(final String apartment) {
         this.apartment = apartment;
+    }
+
+    public AddressEntity() {
+    }
+
+    public AddressEntity(final AddressDTO addressDTO) {
+        this.country = addressDTO.getCountry();
+        this.city = addressDTO.getCity();
+        this.postcode = addressDTO.getPostcode();
+        this.street = addressDTO.getStreet();
+        this.building = addressDTO.getBuilding();
+        this.apartment = addressDTO.getApartment();
     }
 
     @Override

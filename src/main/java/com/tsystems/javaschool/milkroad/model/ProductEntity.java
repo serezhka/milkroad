@@ -25,6 +25,7 @@ public class ProductEntity {
     private List<ProductParameterEntity> parameters;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;

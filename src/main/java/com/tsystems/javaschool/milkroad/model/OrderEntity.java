@@ -23,6 +23,7 @@ public class OrderEntity {
     private List<OrderDetailEntity> orderDetails;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     public Long getId() {
         return id;

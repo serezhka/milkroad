@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.milkroad.service;
 
+import com.tsystems.javaschool.milkroad.dto.AddressDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 
@@ -20,4 +21,6 @@ public interface UserService {
     UserDTO updateUserInfo(final UserDTO userDTO) throws MilkroadServiceException;
 
     UserDTO updateUserPass(final UserDTO userDTO, final String pass) throws MilkroadServiceException;
+
+    UserDTO addAddressToUser(final UserDTO userDTO, final AddressDTO addressDTO) throws MilkroadServiceException;
 }

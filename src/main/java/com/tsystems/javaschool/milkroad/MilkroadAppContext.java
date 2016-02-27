@@ -155,7 +155,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = userService;
                 if (localInstance == null) {
-                    userService = localInstance = new UserServiceImpl(getEntityManager(), getUserDAO());
+                    userService = localInstance = new UserServiceImpl(getEntityManager(), getUserDAO(), getAddressDAO());
                 }
             }
         }

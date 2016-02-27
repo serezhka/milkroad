@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="header.jsp">
     <jsp:param name="pageName" value="Cart"/>
@@ -58,7 +57,7 @@
                     <li><span>${cartTotal}</span></li>
                 </ul>
                 <div class="clearfix"></div>
-                <a class="cart-order" href="#">Order</a>
+                <a class="cart-order" href="${pageContext.request.contextPath}/checkout">Order</a>
             </div>
         </c:when>
         <c:otherwise>

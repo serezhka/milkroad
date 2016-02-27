@@ -19,39 +19,41 @@ CREATE TABLE user (
   ENGINE = INNODB
   CHARACTER SET = UTF8;
 
-CREATE TABLE country (
-  id           BIGINT      NOT NULL AUTO_INCREMENT,
-  country_name VARCHAR(45) NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE (country_name)
-)
-  ENGINE = INNODB
-  CHARACTER SET = UTF8;
+# CREATE TABLE country (
+#   id           BIGINT      NOT NULL AUTO_INCREMENT,
+#   country_name VARCHAR(45) NOT NULL,
+#   PRIMARY KEY (id),
+#   UNIQUE (country_name)
+# )
+#   ENGINE = INNODB
+#   CHARACTER SET = UTF8;
 
-CREATE TABLE city (
-  id         BIGINT      NOT NULL AUTO_INCREMENT,
-  country_id BIGINT      NOT NULL,
-  city_name  VARCHAR(45) NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (country_id) REFERENCES country (id),
-  UNIQUE (city_name)
-)
-  ENGINE = INNODB
-  CHARACTER SET = UTF8;
+# CREATE TABLE city (
+#   id         BIGINT      NOT NULL AUTO_INCREMENT,
+#   country_id BIGINT      NOT NULL,
+#   city_name  VARCHAR(45) NOT NULL,
+#   PRIMARY KEY (id),
+#   FOREIGN KEY (country_id) REFERENCES country (id),
+#   UNIQUE (city_name)
+# )
+#   ENGINE = INNODB
+#   CHARACTER SET = UTF8;
 
 CREATE TABLE address (
   id         BIGINT      NOT NULL AUTO_INCREMENT,
   user_id    BIGINT      NOT NULL,
-  country_id BIGINT      NOT NULL,
-  city_id    BIGINT      NOT NULL,
+  #   country_id BIGINT      NOT NULL,
+  #   city_id    BIGINT      NOT NULL,
+  country_id VARCHAR(45) NOT NULL,
+  city_id    VARCHAR(45) NOT NULL,
   postcode   INT         NOT NULL,
   street     VARCHAR(45) NOT NULL,
   building   VARCHAR(45) NOT NULL,
   apartment  VARCHAR(45) NOT NULL,
   PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES user (id),
-  FOREIGN KEY (country_id) REFERENCES country (id),
-  FOREIGN KEY (city_id) REFERENCES city (id)
+  FOREIGN KEY (user_id) REFERENCES user (id)
+  #   FOREIGN KEY (country_id) REFERENCES country (id),
+  #   FOREIGN KEY (city_id) REFERENCES city (id)
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;

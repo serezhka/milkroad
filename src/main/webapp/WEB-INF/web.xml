@@ -87,6 +87,15 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <url-pattern>/cart</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.milkroad.servlet.CheckoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckoutServlet</servlet-name>
+        <url-pattern>/checkout</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AccessFilter</filter-class>

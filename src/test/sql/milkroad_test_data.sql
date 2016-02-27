@@ -5,8 +5,8 @@ USE milkroad;
 # clear tables
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE address;
-TRUNCATE TABLE city;
-TRUNCATE TABLE country;
+# TRUNCATE TABLE city;
+# TRUNCATE TABLE country;
 TRUNCATE TABLE `order`;
 TRUNCATE TABLE order_detail;
 TRUNCATE TABLE product;
@@ -19,33 +19,33 @@ SET FOREIGN_KEY_CHECKS = 1;
 # TODO Optimize requests with foreign keys (INSERT ... SELECT)
 
 # fill countries table
-INSERT INTO country (country_name)
-VALUES
-  ('Australia'),
-  ('Austria'),
-  ('Germany'),
-  ('Russian Federation');
+# INSERT INTO country (country_name)
+# VALUES
+#   ('Australia'),
+#   ('Austria'),
+#   ('Germany'),
+#   ('Russian Federation');
 
 # fill cities table
 # @formatter:off (for IntelliJIDEA)
-INSERT INTO city (country_id, city_name)
-VALUES
-  ((SELECT id FROM country WHERE country_name = 'Australia'), 'Canberra'),
-  ((SELECT id FROM country WHERE country_name = 'Australia'), 'Bendigo'),
-  ((SELECT id FROM country WHERE country_name = 'Australia'), 'Perth'),
-  ((SELECT id FROM country WHERE country_name = 'Australia'), 'Leonora'),
-  ((SELECT id FROM country WHERE country_name = 'Austria'), 'Vienna'),
-  ((SELECT id FROM country WHERE country_name = 'Austria'), 'Graz'),
-  ((SELECT id FROM country WHERE country_name = 'Austria'), 'Linz'),
-  ((SELECT id FROM country WHERE country_name = 'Austria'), 'Enns'),
-  ((SELECT id FROM country WHERE country_name = 'Germany'), 'Berlin'),
-  ((SELECT id FROM country WHERE country_name = 'Germany'), 'Bamberg'),
-  ((SELECT id FROM country WHERE country_name = 'Germany'), 'Hamburg'),
-  ((SELECT id FROM country WHERE country_name = 'Germany'), 'Magdala'),
-  ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Saint Petersburg'),
-  ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Moskow'),
-  ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Tula'),
-  ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Kursk');
+# INSERT INTO city (country_id, city_name)
+# VALUES
+#   ((SELECT id FROM country WHERE country_name = 'Australia'), 'Canberra'),
+#   ((SELECT id FROM country WHERE country_name = 'Australia'), 'Bendigo'),
+#   ((SELECT id FROM country WHERE country_name = 'Australia'), 'Perth'),
+#   ((SELECT id FROM country WHERE country_name = 'Australia'), 'Leonora'),
+#   ((SELECT id FROM country WHERE country_name = 'Austria'), 'Vienna'),
+#   ((SELECT id FROM country WHERE country_name = 'Austria'), 'Graz'),
+#   ((SELECT id FROM country WHERE country_name = 'Austria'), 'Linz'),
+#   ((SELECT id FROM country WHERE country_name = 'Austria'), 'Enns'),
+#   ((SELECT id FROM country WHERE country_name = 'Germany'), 'Berlin'),
+#   ((SELECT id FROM country WHERE country_name = 'Germany'), 'Bamberg'),
+#   ((SELECT id FROM country WHERE country_name = 'Germany'), 'Hamburg'),
+#   ((SELECT id FROM country WHERE country_name = 'Germany'), 'Magdala'),
+#   ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Saint Petersburg'),
+#   ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Moskow'),
+#   ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Tula'),
+#   ((SELECT id FROM country WHERE country_name = 'Russian Federation'), 'Kursk');
 # @formatter:on (for IntelliJIDEA)
 
 # fill users table
@@ -63,24 +63,29 @@ VALUES
 INSERT INTO address (user_id, country_id, city_id, postcode, street, building, apartment)
 VALUES
   ((SELECT id FROM user WHERE first_name = 'Sergey'),
-   (SELECT id FROM country WHERE country_name = 'Russian Federation'),
-   (SELECT id FROM city WHERE city_name = 'Saint Petersburg'),
+#    (SELECT id FROM country WHERE country_name = 'Russian Federation'),
+#    (SELECT id FROM city WHERE city_name = 'Saint Petersburg'),
+      'Russian Federation', 'Saint Petersburg',
   123456, 'Kondratievsky pr.', '55', '555'),
   ((SELECT id FROM user WHERE first_name = 'Sergey'),
-   (SELECT id FROM country WHERE country_name = 'Russian Federation'),
-   (SELECT id FROM city WHERE city_name = 'Moskow'),
+#    (SELECT id FROM country WHERE country_name = 'Russian Federation'),
+#    (SELECT id FROM city WHERE city_name = 'Moskow'),
+      'Russian Federation', 'Moscow',
   123456, 'Moskovskay str.', '44', '444'),
   ((SELECT id FROM user WHERE first_name = 'Anton'),
-   (SELECT id FROM country WHERE country_name = 'Australia'),
-   (SELECT id FROM city WHERE city_name = 'Leonora'),
+#    (SELECT id FROM country WHERE country_name = 'Australia'),
+#    (SELECT id FROM city WHERE city_name = 'Leonora'),
+      'Australia', 'Leonora',
   123456, 'First str', '55', '555'),
   ((SELECT id FROM user WHERE first_name = 'Alex'),
-   (SELECT id FROM country WHERE country_name = 'Austria'),
-   (SELECT id FROM city WHERE city_name = 'Enns'),
+#    (SELECT id FROM country WHERE country_name = 'Austria'),
+#    (SELECT id FROM city WHERE city_name = 'Enns'),
+      'Austria', 'Enns',
   123456, 'Second street', '55', '555'),
   ((SELECT id FROM user WHERE first_name = 'Ivan'),
-   (SELECT id FROM country WHERE country_name = 'Germany'),
-   (SELECT id FROM city WHERE city_name = 'Berlin'),
+#    (SELECT id FROM country WHERE country_name = 'Germany'),
+#    (SELECT id FROM city WHERE city_name = 'Berlin'),
+      'Germany', 'Berlin',
   123456, 'Ahtung strasse', '55', '555');
 # @formatter:on (for IntelliJIDEA)
 

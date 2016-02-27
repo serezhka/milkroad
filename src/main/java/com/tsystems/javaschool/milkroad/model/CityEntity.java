@@ -5,8 +5,11 @@ import javax.persistence.*;
 /**
  * Created by Sergey on 13.02.2016.
  */
+
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "city", schema = "milkroad")
+@Deprecated
 public class CityEntity {
     private Long id;
     private CountryEntity country;

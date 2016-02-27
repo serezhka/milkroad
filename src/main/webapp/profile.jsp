@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <jsp:include page="header.jsp">
     <jsp:param name="pageName" value="Welcome"/>
 </jsp:include>
@@ -7,6 +8,7 @@
 
 <%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
 <%--@elvariable id="errors" type="java.util.Set<java.lang.String>"--%>
+<%--@elvariable id="input" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
 
 <c:set var="user" value="${AUTHED_USER}"/>
 
@@ -17,10 +19,6 @@
             <input type="hidden" name="formName" value="profileUpdateForm"/>
             <div class="col-md-6 profile-top-grid">
                 <h3>Personal infomation</h3>
-                <div>
-                    <span>ID</span>
-                    <input type="text" value="${user.id}" readonly>
-                </div>
                 <div>
                     <span>First Name</span>
                     <c:if test="${errors.contains('FIRST_NAME_ERROR')}">
@@ -64,6 +62,82 @@
             </div>
             <div class="clearfix"></div>
         </form>
+        <div class="col-md-6 profile-addresses">
+            <h3>Addresses</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Postcode</th>
+                    <th>Street</th>
+                    <th>Building</th>
+                    <th>Apartment</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${user.addresses}" var="address">
+                    <tr>
+                        <td>${address.country}</td>
+                        <td>${address.city}</td>
+                        <td>${address.postcode}</td>
+                        <td>${address.street}</td>
+                        <td>${address.building}</td>
+                        <td>${address.apartment}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6 profile-add-address">
+            <h3>Add address</h3>
+            <form action="${pageContext.request.contextPath}/profile" method="post">
+                <input type="hidden" name="formName" value="addAddressForm"/>
+                <div>
+                    <span>Country</span>
+                    <c:if test="${errors.contains('COUNTRY_ERROR')}">
+                        <span class="error">Incorrect country name</span>
+                    </c:if>
+                    <input name="country" type="text" value="${input.get('country')}">
+                </div>
+                <div>
+                    <span>City</span>
+                    <c:if test="${errors.contains('CITY_ERROR')}">
+                        <span class="error">Incorrect city name</span>
+                    </c:if>
+                    <input name="city" type="text" value="${input.get('city')}">
+                </div>
+                <div>
+                    <span>Postcode</span>
+                    <c:if test="${errors.contains('POSTCODE_ERROR')}">
+                        <span class="error">Incorrect poscode</span>
+                    </c:if>
+                    <input name="postcode" type="text" value="${input.get('postcode')}">
+                </div>
+                <div>
+                    <span>Street</span>
+                    <c:if test="${errors.contains('STREET_ERROR')}">
+                        <span class="error">Incorrect street name</span>
+                    </c:if>
+                    <input name="street" type="text" value="${input.get('street')}">
+                </div>
+                <div>
+                    <span>Building</span>
+                    <c:if test="${errors.contains('BUILDING_ERROR')}">
+                        <span class="error">Incorrect building value</span>
+                    </c:if>
+                    <input name="building" type="text" value="${input.get('building')}">
+                </div>
+                <div>
+                    <span>Apartment</span>
+                    <c:if test="${errors.contains('APARTMENT_ERROR')}">
+                        <span class="error">Incorrect apartment value</span>
+                    </c:if>
+                    <input name="apartment" type="text" value="${input.get('apartment')}">
+                </div>
+                <input type="submit" value="Add">
+            </form>
+        </div>
     </div>
 </div>
 

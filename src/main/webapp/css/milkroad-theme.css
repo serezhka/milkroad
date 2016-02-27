@@ -414,7 +414,8 @@ a.create {
 }
 
 .register-top-grid h3, .register-bottom-grid h3,
-.profile-top-grid h3, .profile-bottom-grid h3 {
+.profile-top-grid h3, .profile-bottom-grid h3,
+.profile-addresses h3, .profile-add-address h3 {
     font-size: 1.5em;
     font-family: 'Lato', sans-serif;
     color: #000;
@@ -424,14 +425,16 @@ a.create {
 }
 
 .register-top-grid span, .register-bottom-grid span,
-.profile-top-grid span, .profile-bottom-grid span {
+.profile-top-grid span, .profile-bottom-grid span,
+.profile-addresses span, .profile-add-address span {
     font-size: 1em;
     display: block;
     color: #A09F9F;
 }
 
 .register-top-grid span.error, .register-bottom-grid span.error,
-.profile-top-grid span.error, .profile-bottom-grid span.error {
+.profile-top-grid span.error, .profile-bottom-grid span.error,
+.profile-addresses span.error, .profile-add-address span.error {
     color: red;
 }
 
@@ -439,6 +442,8 @@ a.create {
 .profile-top-grid input[type="text"],
 .register-bottom-grid input[type="text"],
 .profile-bottom-grid input[type="text"],
+.profile-addresses input[type="text"],
+.profile-add-address input[type="text"],
 .register-bottom-grid input[type="password"],
 .profile-bottom-grid input[type="password"] {
     width: 100%;
@@ -451,6 +456,8 @@ a.create {
 }
 
 .register-bottom-grid input[type="submit"],
+.checkout-order-details input[type="submit"],
+.profile-add-address input[type="submit"],
 .profile-bottom-grid input[type="submit"] {
     background: #EF5F21;
     padding: 0.4em 1em;
@@ -469,6 +476,8 @@ a.create {
 }
 
 .register-bottom-grid input[type="submit"]:hover,
+.checkout-order-details input[type="submit"]:hover,
+.profile-add-address input[type="submit"]:hover,
 .profile-bottom-grid input[type="submit"]:hover {
     background: #000;
 }
@@ -776,6 +785,13 @@ a.cart-order:hover {
     background: #000;
 }
 
+/* **************************************************** */
+/* ****************** CHECKOUT ************************ */
+/* **************************************************** */
+.checkout-order-details .radio {
+    padding-left: 20px;
+}
+
 /* Make it responsive */
 @media (max-width: 1080px) {
     .catalog-left-header h3 {
@@ -868,7 +884,8 @@ a.cart-order:hover {
     }
 
     .register-top-grid h3, .register-bottom-grid h3,
-    .profile-top-grid h3, .profile-bottom-grid h3 {
+    .profile-top-grid h3, .profile-bottom-grid h3,
+    .profile-addresses h3, .profile-add-address h3 {
         font-size: 1.2em;
     }
 
@@ -903,17 +920,23 @@ a.cart-order:hover {
         font-size: 0.9em;
     }
 
-    .account-top input[type="submit"], .register-bottom-grid input[type="submit"] {
+    .account-top input[type="submit"],
+    .register-bottom-grid input[type="submit"],
+    .profile-bottom-grid input[type="submit"],
+    .checkout-order-details input[type="submit"],
+    .profile-add-address input[type="submit"] {
         font-size: 1em;
     }
 
     .account-top, .left-account, .register-top-grid, .register-bottom-grid,
-    .profile-top-grid, .profile-bottom-grid {
+    .profile-top-grid, .profile-bottom-grid,
+    .profile-addresses, .profile-add-address {
         padding: 0;
     }
 
     .register-top-grid h3, .register-bottom-grid h3,
-    .profile-top-grid h3, .profile-bottom-grid h3 {
+    .profile-top-grid h3, .profile-bottom-grid h3,
+    .profile-addresses h3, .profile-add-address h3 {
         font-size: 1.1em;
     }
 

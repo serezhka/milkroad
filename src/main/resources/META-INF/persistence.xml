@@ -4,8 +4,8 @@
     <persistence-unit name="MilkroadPersistenceUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>com.tsystems.javaschool.milkroad.model.AddressEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.CityEntity</class>
-        <class>com.tsystems.javaschool.milkroad.model.CountryEntity</class>
+        <!--<class>com.tsystems.javaschool.milkroad.model.CityEntity</class>-->
+        <!--<class>com.tsystems.javaschool.milkroad.model.CountryEntity</class>-->
         <class>com.tsystems.javaschool.milkroad.model.OrderEntity</class>
         <class>com.tsystems.javaschool.milkroad.model.OrderDetailEntity</class>
         <class>com.tsystems.javaschool.milkroad.model.ProductEntity</class>

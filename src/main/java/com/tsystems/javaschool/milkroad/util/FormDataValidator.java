@@ -21,6 +21,7 @@ public class FormDataValidator {
 
     public static boolean validateDate(final String date) {
         try {
+            //noinspection ResultOfMethodCallIgnored
             Date.valueOf(date);
             return true;
         } catch (final IllegalArgumentException ignored) {
@@ -30,5 +31,15 @@ public class FormDataValidator {
 
     public static boolean validatePass(final String pass) {
         return pass != null && !pass.trim().isEmpty() && !(pass.length() > 45);
+    }
+
+    public static boolean validateInteger(final String integer) {
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            Integer.valueOf(integer);
+            return true;
+        } catch (final NumberFormatException ignored) {
+        }
+        return false;
     }
 }

@@ -6,8 +6,10 @@ import java.util.List;
 /**
  * Created by Sergey on 11.02.2016.
  */
+@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "country", schema = "milkroad")
+@Deprecated
 public class CountryEntity {
     private Long id;
     private String countryName;

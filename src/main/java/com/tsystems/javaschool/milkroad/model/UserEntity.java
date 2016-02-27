@@ -138,6 +138,11 @@ public class UserEntity {
         this.orders = orders;
     }
 
+    public void addAddress(final AddressEntity addressEntity) {
+        this.adresses.add(addressEntity);
+        addressEntity.setUser(this);
+    }
+
     public UserEntity() {
     }
 
