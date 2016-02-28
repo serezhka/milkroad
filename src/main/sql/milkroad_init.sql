@@ -5,14 +5,14 @@ CREATE DATABASE milkroad
 USE milkroad;
 
 CREATE TABLE user (
-  id         BIGINT                       NOT NULL AUTO_INCREMENT,
-  user_type  ENUM('ADMIN', 'SIMPLE_USER') NOT NULL DEFAULT 'SIMPLE_USER',
-  first_name VARCHAR(45)                  NOT NULL,
-  last_name  VARCHAR(45)                  NOT NULL,
-  birthday   DATE                         NOT NULL,
-  email      VARCHAR(130)                 NOT NULL,
-  pass_hash  VARCHAR(32)                  NOT NULL,
-  pass_salt  VARCHAR(32)                  NOT NULL,
+  id         BIGINT                              NOT NULL AUTO_INCREMENT,
+  user_type  ENUM('ADMIN', 'SELLER', 'CUSTOMER') NOT NULL DEFAULT 'CUSTOMER',
+  first_name VARCHAR(45)                         NOT NULL,
+  last_name  VARCHAR(45)                         NOT NULL,
+  birthday   DATE                                NOT NULL,
+  email      VARCHAR(130)                        NOT NULL,
+  pass_hash  VARCHAR(32)                         NOT NULL,
+  pass_salt  VARCHAR(32)                         NOT NULL,
   PRIMARY KEY (id),
   UNIQUE (email)
 )

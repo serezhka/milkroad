@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.servlet.filter;
 
+import com.tsystems.javaschool.milkroad.model.PaymentMethodEnum;
+import com.tsystems.javaschool.milkroad.model.ShippingMethodEnum;
 import com.tsystems.javaschool.milkroad.util.FormDataValidator;
 
 import javax.servlet.*;
@@ -123,6 +125,22 @@ public class FormDataFilter implements Filter {
                     input.put("street", street);
                     input.put("building", building);
                     input.put("apartment", apartment);
+                }
+
+                case "checkoutForm": {
+                    final String paymentMethod = request.getParameter("payment");
+                    if (!FormDataValidator.validateEnum(PaymentMethodEnum.class, paymentMethod)) {
+                        errors.add("PAYMENT_METHOD_ERROR");
+                    }
+                    final String shippingMethod = request.getParameter("shipping");
+                    if (!FormDataValidator.validateEnum(ShippingMethodEnum.class, shippingMethod)) {
+                        errors.add("SHIPPING_METHOD_ERROR");
+                    }
+                    final String addressId = request.getParameter("address");
+                    if (!FormDataValidator.validateLong(addressId)) {
+                        errors.add("ADDRESS_ERRROR");
+                    }
+                    // TODO Validate cart, cart total price
                 }
             }
             request.setAttribute("input", input);

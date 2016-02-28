@@ -51,9 +51,9 @@ public class RegisterServlet extends HttpServlet {
                 if (e.getType() == MilkroadServiceException.Type.USER_EMAIL_ALREADY_EXISTS) {
                     errors.add("USER_EMAIL_ALREADY_EXISTS");
                 } else {
-                    // TODO Error page ???
-                    errors.add("UNKNOWN_ERROR");
-                    throw new RuntimeException(e);
+                    request.setAttribute("message", "DB error! Please, try later");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
                 }
             }
         }

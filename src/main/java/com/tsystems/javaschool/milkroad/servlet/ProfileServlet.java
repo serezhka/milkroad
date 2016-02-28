@@ -2,7 +2,10 @@ package com.tsystems.javaschool.milkroad.servlet;
 
 import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dto.AddressDTO;
+import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
+import com.tsystems.javaschool.milkroad.service.AddressService;
+import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.AuthUtil;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,6 +31,16 @@ public class ProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+        // TODO Load orders once per session
+        final OrderService orderService = MilkroadAppContext.getInstance().getOrderService();
+        try {
+            final List<OrderDTO> orders = orderService.getOrdersByUser(AuthUtil.getAuthedUser(request.getSession()));
+            request.setAttribute("orders", orders);
+        } catch (final MilkroadServiceException e) {
+            request.setAttribute("message", "DB error! Please, try later");
+            request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+            return;
+        }
         request.getRequestDispatcher("/profile.jsp").forward(request, response);
     }
 
@@ -57,11 +71,12 @@ public class ProfileServlet extends HttpServlet {
                     request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                     return;
                 } catch (final MilkroadServiceException e) {
-                    // TODO Error page ???
-                    errors.add("UNKNOWN_ERROR");
-                    throw new RuntimeException(e);
+                    request.setAttribute("message", "DB error! Please, try later");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
                 }
             } else if (action.equals("addAddressForm")) {
+                final AddressService addressService = MilkroadAppContext.getInstance().getAddressService();
                 final AddressDTO addressDTO = new AddressDTO(
                         request.getParameter("country"),
                         request.getParameter("city"),
@@ -71,15 +86,15 @@ public class ProfileServlet extends HttpServlet {
                         request.getParameter("apartment")
                 );
                 try {
-                    userDTO = userService.addAddressToUser(userDTO, addressDTO);
+                    userDTO = addressService.addAddressToUser(userDTO, addressDTO);
                     AuthUtil.authUser(request.getSession(), userDTO);
                     request.setAttribute("message", "Address add successfuil!");
                     request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                     return;
                 } catch (final MilkroadServiceException e) {
-                    // TODO Error page ???
-                    errors.add("UNKNOWN_ERROR");
-                    throw new RuntimeException(e);
+                    request.setAttribute("message", "DB error! Please, try later");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
                 }
             }
         }

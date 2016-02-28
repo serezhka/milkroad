@@ -49,9 +49,9 @@ public class LoginServlet extends HttpServlet {
                 } else if (e.getType() == MilkroadServiceException.Type.PASS_INVALID) {
                     errors.add("PASS_INVALID");
                 } else {
-                    // TODO Error page ???
-                    errors.add("UNKNOWN_ERROR");
-                    throw new RuntimeException(e);
+                    request.setAttribute("message", "DB error! Please, try later");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
                 }
             }
         }

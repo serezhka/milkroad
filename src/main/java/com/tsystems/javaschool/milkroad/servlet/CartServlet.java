@@ -29,7 +29,7 @@ public class CartServlet extends HttpServlet {
         final Map<ProductDTO, Integer> cart;
         final Object cartObj = request.getSession().getAttribute("cart");
         //noinspection unchecked
-        cart = (cartObj == null) ? new HashMap<>() : (HashMap<ProductDTO, Integer>) cartObj;
+        cart = (cartObj == null) ? new HashMap<>() : (Map<ProductDTO, Integer>) cartObj;
         final String addArticle = request.getParameter("article");
         final String removeArticle = request.getParameter("remove");
         if ((addArticle != null && !addArticle.isEmpty())
@@ -55,8 +55,9 @@ public class CartServlet extends HttpServlet {
                     request.setAttribute("message", "Product with article = " + addArticle + " does not exist");
                     request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                 } else {
-                    // TODO Error page ???
-                    throw new RuntimeException(e);
+                    request.setAttribute("message", "DB error! Please, try later");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
                 }
             }
         }

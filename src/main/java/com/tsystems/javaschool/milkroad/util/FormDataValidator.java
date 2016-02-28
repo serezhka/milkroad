@@ -42,4 +42,23 @@ public class FormDataValidator {
         }
         return false;
     }
+
+    public static boolean validateLong(final String longValue) {
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            Long.valueOf(longValue);
+            return true;
+        } catch (final NumberFormatException ignored) {
+        }
+        return false;
+    }
+
+    public static <T extends Enum<T>> boolean validateEnum(final Class<T> clazz, final String enumString) {
+        try {
+            T.valueOf(clazz, enumString);
+            return true;
+        } catch (IllegalArgumentException | NullPointerException ignored) {
+        }
+        return false;
+    }
 }

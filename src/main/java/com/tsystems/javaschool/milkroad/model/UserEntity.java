@@ -44,7 +44,7 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
     public UserTypeEnum getUserType() {
-        return (userType == null) ? UserTypeEnum.SIMPLE_USER : userType;
+        return (userType == null) ? UserTypeEnum.CUSTOMER : userType;
     }
 
     public void setUserType(final UserTypeEnum userType) {

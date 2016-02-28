@@ -24,11 +24,11 @@ public class UserDAOImplTest {
     private EntityManager entityManager;
     private UserDAO<UserEntity, Long> userDAO;
 
-    private UserEntity user1 = new UserEntity(null, UserTypeEnum.SIMPLE_USER,
+    private UserEntity user1 = new UserEntity(null, UserTypeEnum.CUSTOMER,
             "TestName", "TestSurname", Date.valueOf("2000-01-01"), "test1@mail.ru",
             "12345678123456781234567812345678", "12345678123456781234567812345678");
 
-    private UserEntity user2 = new UserEntity(null, UserTypeEnum.SIMPLE_USER,
+    private UserEntity user2 = new UserEntity(null, UserTypeEnum.CUSTOMER,
             "TestName", "TestSurname", Date.valueOf("2000-01-01"), "test2@mail.ru",
             "12345678123456781234567812345678", "12345678123456781234567812345678");
 

@@ -17,6 +17,7 @@ import java.util.List;
  * Created by Sergey on 13.02.2016.
  */
 @WebServlet(name = "UserListServlet")
+@Deprecated
 public class UserListServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(UserListServlet.class);
 
@@ -26,7 +27,6 @@ public class UserListServlet extends HttpServlet {
             final List<UserDTO> users = MilkroadAppContext.getInstance().getUserService().getAllUsers();
             request.setAttribute("users", users);
         } catch (final MilkroadServiceException e) {
-            // TODO Error page ???
             LOGGER.error("Error while loading users");
             throw new RuntimeException(e);
         }

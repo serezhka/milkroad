@@ -3,7 +3,6 @@ package com.tsystems.javaschool.milkroad.service.impl;
 import com.tsystems.javaschool.milkroad.dao.AddressDAO;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
-import com.tsystems.javaschool.milkroad.dto.AddressDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
@@ -160,26 +159,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user pass");
-            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
-        return new UserDTO(userEntity);
-    }
-
-    @Override
-    public UserDTO addAddressToUser(final UserDTO userDTO, final AddressDTO addressDTO) throws MilkroadServiceException {
-        final UserEntity userEntity = getUserEntityByEmail(userDTO.getEmail());
-        final AddressEntity addressEntity = new AddressEntity(addressDTO);
-        userEntity.addAddress(addressEntity);
-        try {
-            entityManager.getTransaction().begin();
-            userDAO.merge(userEntity);
-            entityManager.getTransaction().commit();
-        } catch (final MilkroadDAOException e) {
-            LOGGER.error("Error while adding address for user with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {

@@ -7,6 +7,7 @@
 <jsp:include page="header-nav.jsp"/>
 
 <%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
+<%--@elvariable id="orders" type="java.util.List<com.tsystems.javaschool.milkroad.dto.OrderDTO>"--%>
 <%--@elvariable id="errors" type="java.util.Set<java.lang.String>"--%>
 <%--@elvariable id="input" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
 
@@ -65,25 +66,10 @@
         <div class="col-md-6 profile-addresses">
             <h3>Addresses</h3>
             <table class="table">
-                <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>City</th>
-                    <th>Postcode</th>
-                    <th>Street</th>
-                    <th>Building</th>
-                    <th>Apartment</th>
-                </tr>
-                </thead>
                 <tbody>
                 <c:forEach items="${user.addresses}" var="address">
                     <tr>
-                        <td>${address.country}</td>
-                        <td>${address.city}</td>
-                        <td>${address.postcode}</td>
-                        <td>${address.street}</td>
-                        <td>${address.building}</td>
-                        <td>${address.apartment}</td>
+                        <td>${address}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -137,6 +123,18 @@
                 </div>
                 <input type="submit" value="Add">
             </form>
+        </div>
+        <div class="col-md-6 profile-orders">
+            <h3>Orders</h3>
+            <table class="table">
+                <tbody>
+                <c:forEach items="${orders}" var="order">
+                    <tr>
+                        <td>${order}</td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

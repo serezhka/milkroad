@@ -32,9 +32,9 @@ public class CatalogServlet extends HttpServlet {
             final List<CategoryDTO> categories = catalogService.getAllCategories();
             request.setAttribute("categories", categories);
         } catch (final MilkroadServiceException e) {
-            // TODO Error page ???
-            LOGGER.error("Error while loading categories");
-            throw new RuntimeException(e);
+            request.setAttribute("message", "DB error! Please, try later");
+            request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+            return;
         }
 
         /* Load product info */
@@ -48,8 +48,9 @@ public class CatalogServlet extends HttpServlet {
                     request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                     return;
                 } else {
-                    // TODO Error page ???
-                    throw new RuntimeException(e);
+                    request.setAttribute("message", "DB error! Please, try later");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
                 }
             }
         } else {
@@ -65,12 +66,11 @@ public class CatalogServlet extends HttpServlet {
                 }
                 request.setAttribute("products", products);
             } catch (final MilkroadServiceException e) {
-                // TODO Error page ???
-                LOGGER.error("Error while loading categories");
-                throw new RuntimeException(e);
+                request.setAttribute("message", "DB error! Please, try later");
+                request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                return;
             }
         }
-
         request.getRequestDispatcher("/catalog.jsp").forward(request, response);
     }
 }

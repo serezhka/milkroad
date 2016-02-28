@@ -58,6 +58,10 @@ public class OrderDTO {
         }
     }
 
+    public OrderDTO(final OrderEntity orderEntity) {
+        this(new UserDTO(orderEntity.getCustomer()), new AddressDTO(orderEntity.getAddress()), orderEntity);
+    }
+
     public Long getId() {
         return id;
     }
@@ -138,6 +142,10 @@ public class OrderDTO {
         this.details = details;
     }
 
+    public void addDetail(final ProductDTO product, final int count, final BigDecimal totalPrice) {
+        this.details.add(new Detail(product, count, totalPrice));
+    }
+
     public class Detail {
         private ProductDTO product;
         private int count;
@@ -181,5 +189,12 @@ public class OrderDTO {
         public void setTotalPrice(final BigDecimal totalPrice) {
             this.totalPrice = totalPrice;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Order #" + id + ", total: " + totalPrice + ", payment method: " + paymentMethod
+                + ", payment status: " + paymentStatus + ", shipping method: " + shippingMethod
+                + ", shipping status: " + shippingStatus;
     }
 }

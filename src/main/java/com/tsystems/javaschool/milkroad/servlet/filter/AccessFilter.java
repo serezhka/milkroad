@@ -18,8 +18,10 @@ public class AccessFilter implements Filter {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
-        if (httpRequest.getRequestURI().equals("/profile") && !AuthUtil.isUserAuthed(httpRequest.getSession()))  {
-            ((HttpServletResponse) response).sendRedirect("/login");
+        if (!AuthUtil.isUserAuthed(httpRequest.getSession())) {
+            final String requestURI = httpRequest.getRequestURI();
+            if (requestURI.equals("/profile") || requestURI.equals("/checkout"))
+                ((HttpServletResponse) response).sendRedirect("/login");
             return;
         }
         chain.doFilter(request, response);

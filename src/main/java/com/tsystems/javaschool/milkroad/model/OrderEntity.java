@@ -1,7 +1,10 @@
 package com.tsystems.javaschool.milkroad.model;
 
+import com.tsystems.javaschool.milkroad.dto.OrderDTO;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +23,8 @@ public class OrderEntity {
     private ShippingStatusEnum shippingStatus;
     private String note;
 
-    private List<OrderDetailEntity> orderDetails;
+    // TODO It's ok ?
+    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,7 +90,7 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)
     public PaymentStatusEnum getPaymentStatus() {
-        return paymentStatus;
+        return (paymentStatus == null) ? PaymentStatusEnum.AWAITING : paymentStatus;
     }
 
     public void setPaymentStatus(final PaymentStatusEnum paymentStatus) {
@@ -96,7 +100,7 @@ public class OrderEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "shipping_status", nullable = false)
     public ShippingStatusEnum getShippingStatus() {
-        return shippingStatus;
+        return (shippingStatus == null) ? ShippingStatusEnum.AWAITING : shippingStatus;
     }
 
     public void setShippingStatus(final ShippingStatusEnum shippingStatus) {
@@ -113,13 +117,27 @@ public class OrderEntity {
         this.note = note;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", cascade = CascadeType.ALL)
     public List<OrderDetailEntity> getOrderDetails() {
         return orderDetails;
     }
 
     public void setOrderDetails(final List<OrderDetailEntity> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    public void addOrderDetail(final OrderDetailEntity orderDetailEntity) {
+        this.orderDetails.add(orderDetailEntity);
+        orderDetailEntity.setOrder(this);
+    }
+
+    public OrderEntity() {
+    }
+
+    public OrderEntity(final OrderDTO orderDTO) {
+        this.paymentMethod = orderDTO.getPaymentMethod();
+        this.shippingMethod = orderDTO.getShippingMethod();
+        this.priceTotal = orderDTO.getTotalPrice();
     }
 
     @Override

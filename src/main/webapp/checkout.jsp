@@ -33,7 +33,8 @@
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-9 checkout-order-details">
-                <form>
+                <form action="${pageContext.request.contextPath}/checkout" method="post">
+                    <input type="hidden" name="formName" value="checkoutForm"/>
                     <h3>Payment method</h3>
                     <label class="radio-inline">
                         <input type="radio" name="payment" value="ONLINE" checked>Online
@@ -51,7 +52,7 @@
                     <h3>Delivery address</h3>
                     <c:forEach items="${user.addresses}" var="address">
                         <label class="radio">
-                            <input type="radio" name="address" value="${address}" checked>${address}
+                            <input type="radio" name="address" value="${address.id}" checked>${address}
                         </label>
                     </c:forEach>
                     <input type="submit" value="ORDER">

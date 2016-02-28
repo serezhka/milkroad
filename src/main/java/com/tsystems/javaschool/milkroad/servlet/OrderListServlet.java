@@ -17,6 +17,7 @@ import java.util.List;
  * Created by Sergey on 15.02.2016.
  */
 @WebServlet(name = "OrderListServlet")
+@Deprecated
 public class OrderListServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(OrderListServlet.class);
 
@@ -26,7 +27,6 @@ public class OrderListServlet extends HttpServlet {
             final List<OrderDTO> orders = MilkroadAppContext.getInstance().getOrderService().getAllOrders();
             request.setAttribute("orders", orders);
         } catch (final MilkroadServiceException e) {
-            // TODO Error page ???
             LOGGER.error("Error while loading orders");
             throw new RuntimeException(e);
         }

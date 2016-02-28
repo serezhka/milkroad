@@ -4,12 +4,12 @@ import com.tsystems.javaschool.milkroad.dao.*;
 import com.tsystems.javaschool.milkroad.dao.impl.*;
 import com.tsystems.javaschool.milkroad.model.*;
 import com.tsystems.javaschool.milkroad.service.AddressService;
-import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
+import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.impl.AddressServiceImpl;
-import com.tsystems.javaschool.milkroad.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.CatalogServiceImpl;
+import com.tsystems.javaschool.milkroad.service.impl.OrderServiceImpl;
 import com.tsystems.javaschool.milkroad.service.impl.UserServiceImpl;
 
 import javax.persistence.EntityManager;
@@ -181,7 +181,8 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localinstance = orderService;
                 if (localinstance == null) {
-                    orderService = localinstance = new OrderServiceImpl(getEntityManager(), getOrderDAO());
+                    orderService = localinstance
+                            = new OrderServiceImpl(getEntityManager(), getOrderDAO(), getUserDAO(), getAddressDAO(), getProductDAO());
                 }
             }
         }
@@ -194,7 +195,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localinstance = addressService;
                 if (localinstance == null) {
-                    addressService = localinstance = new AddressServiceImpl(getEntityManager(), getAddressDAO());
+                    addressService = localinstance = new AddressServiceImpl(getEntityManager(), getAddressDAO(), getUserDAO());
                 }
             }
         }

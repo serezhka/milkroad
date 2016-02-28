@@ -415,7 +415,8 @@ a.create {
 
 .register-top-grid h3, .register-bottom-grid h3,
 .profile-top-grid h3, .profile-bottom-grid h3,
-.profile-addresses h3, .profile-add-address h3 {
+.profile-addresses h3, .profile-add-address h3,
+.profile-orders h3 {
     font-size: 1.5em;
     font-family: 'Lato', sans-serif;
     color: #000;
@@ -885,7 +886,8 @@ a.cart-order:hover {
 
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
-    .profile-addresses h3, .profile-add-address h3 {
+    .profile-addresses h3, .profile-add-address h3,
+    .profile-orders h3 {
         font-size: 1.2em;
     }
 
@@ -930,13 +932,15 @@ a.cart-order:hover {
 
     .account-top, .left-account, .register-top-grid, .register-bottom-grid,
     .profile-top-grid, .profile-bottom-grid,
-    .profile-addresses, .profile-add-address {
+    .profile-addresses, .profile-add-address,
+    .profile-orders {
         padding: 0;
     }
 
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
-    .profile-addresses h3, .profile-add-address h3 {
+    .profile-addresses h3, .profile-add-address h3,
+    .profile-orders h3 {
         font-size: 1.1em;
     }
 

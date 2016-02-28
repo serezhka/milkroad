@@ -5,5 +5,6 @@ package com.tsystems.javaschool.milkroad.model;
  */
 public enum UserTypeEnum {
     ADMIN,
-    SIMPLE_USER
+    SELLER,
+    CUSTOMER
 }

@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.milkroad.service;
 
 import com.tsystems.javaschool.milkroad.dto.OrderDTO;
+import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 
 import java.util.List;
@@ -10,4 +11,8 @@ import java.util.List;
  */
 public interface OrderService {
     List<OrderDTO> getAllOrders() throws MilkroadServiceException;
+
+    OrderDTO createOrder(final OrderDTO orderDTO) throws MilkroadServiceException;
+
+    List<OrderDTO> getOrdersByUser(final UserDTO userDTO) throws MilkroadServiceException;
 }
