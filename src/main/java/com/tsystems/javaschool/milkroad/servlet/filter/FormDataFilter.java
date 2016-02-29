@@ -125,6 +125,7 @@ public class FormDataFilter implements Filter {
                     input.put("street", street);
                     input.put("building", building);
                     input.put("apartment", apartment);
+                    break;
                 }
 
                 case "checkoutForm": {
@@ -141,6 +142,7 @@ public class FormDataFilter implements Filter {
                         errors.add("ADDRESS_ERRROR");
                     }
                     // TODO Validate cart, cart total price
+                    break;
                 }
             }
             request.setAttribute("input", input);

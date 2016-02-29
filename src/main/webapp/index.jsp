@@ -7,7 +7,10 @@
 
 <div class="banner">
     <div class="container">
-        <%-- TODO add something here ;) --%>
+        <div class="banner-text">
+            <h3>MilkRoad shop</h3>
+            <p>Online payment. Free worldwide shipping. Quality guarantee</p>
+        </div>
     </div>
 </div>
 

@@ -1,6 +1,7 @@
 package com.tsystems.javaschool.milkroad.util;
 
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
+import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
 
 import javax.servlet.http.HttpSession;
 
@@ -44,5 +45,15 @@ public class AuthUtil {
     public static UserDTO getAuthedUser(final HttpSession httpSession) {
         final Object user = httpSession.getAttribute(AUTHED_USER);
         return (user != null && user instanceof UserDTO) ? (UserDTO) user : null;
+    }
+
+
+    /**
+     * @param httpSession - session
+     * @return UserTypeEnum - authed user type or {@code null} if there is no authed user
+     */
+    public static UserTypeEnum getAuthedUserType(final HttpSession httpSession) {
+        final Object user = httpSession.getAttribute(AUTHED_USER);
+        return (user != null && user instanceof UserDTO) ? ((UserDTO) user).getUserType() : null;
     }
 }

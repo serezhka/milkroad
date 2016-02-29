@@ -59,7 +59,8 @@ public class CheckoutServlet extends HttpServlet {
             }
             try {
                 orderService.createOrder(orderDTO);
-                // TODO Clear cart , price total
+                request.getSession().setAttribute("cart", null);
+                request.getSession().setAttribute("cartTotal", null);
                 request.setAttribute("message", "Order successful!");
                 request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                 return;

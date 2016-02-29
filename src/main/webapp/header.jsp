@@ -9,6 +9,7 @@
     <%-- Stylesheets --%>
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="css/bootstrap-select.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="css/milkroad-theme.css" rel="stylesheet" type="text/css" media="all"/>
 
     <%-- Fonts --%>
@@ -19,6 +20,8 @@
     <%-- Javascript --%>
     <script src="js/jquery-2.2.0.js"></script>
     <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap-dropdown.js"></script>
+    <script src="js/bootstrap-select.js"></script>
 
     <%-- Hide url bar --%>
     <script type="application/x-javascript"> addEventListener("load", function () {

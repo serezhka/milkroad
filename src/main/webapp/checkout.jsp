@@ -50,6 +50,9 @@
                         <input type="radio" name="shipping" value="PICKUP">Pickup
                     </label>
                     <h3>Delivery address</h3>
+                    <c:if test="${empty user.addresses}">
+                        <span class="error">Add address first</span>
+                    </c:if>
                     <c:forEach items="${user.addresses}" var="address">
                         <label class="radio">
                             <input type="radio" name="address" value="${address.id}" checked>${address}

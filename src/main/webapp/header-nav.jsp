@@ -1,4 +1,9 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
+
+<c:set var="user" value="${AUTHED_USER}"/>
 
 <nav class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -10,21 +15,30 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
                 <img src="images/milkroad-logo.png" alt="" width="150" height="50">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="#">Home</a>
+                    <a href="${pageContext.request.contextPath}/">Home</a>
                 </li>
-                <li>
-                    <a href="/catalog">Catalog</a>
-                </li>
-                <li>
-                    <a href="/contact">Contact</a>
-                </li>
+                <c:choose>
+                    <c:when test="${(user.userType eq 'ADMIN') or (user.userType eq 'SELLER')}">
+                        <li>
+                            <c:url value="/management" var="ordersURL">
+                                <c:param name="action" value="viewOrders"/>
+                            </c:url>
+                            <a href="${ordersURL}">Orders</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/catalog">Catalog</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>

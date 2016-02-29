@@ -168,6 +168,27 @@ h1, h2, h3, h4, h5, h6, label, p {
     position: relative;
 }
 
+.banner-text {
+    float: right;
+    padding: 10em 0 1em;
+    color: #fff;
+    width: 50%;
+}
+
+.banner-text h3 {
+    font-size: 3.2em;
+    font-weight: 800;
+    font-family: 'Lato', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    line-height: 1.2em;
+}
+
+.banner-text p {
+    font-size: 1.2em;
+    margin: 0.3em 0 1em;
+}
+
 /* **************************************************** */
 /* *************** FOOTER ***************************** */
 /* **************************************************** */
@@ -320,10 +341,6 @@ h1, h2, h3, h4, h5, h6, label, p {
     color: #A09F9F;
 }
 
-.account-top span.error {
-    color: red;
-}
-
 .account-top div {
     padding: 0.5em 0;
 }
@@ -433,9 +450,11 @@ a.create {
     color: #A09F9F;
 }
 
+.account-top span.error, .checkout-order-details span.error,
 .register-top-grid span.error, .register-bottom-grid span.error,
 .profile-top-grid span.error, .profile-bottom-grid span.error,
 .profile-addresses span.error, .profile-add-address span.error {
+    display: block;
     color: red;
 }
 
@@ -793,8 +812,17 @@ a.cart-order:hover {
     padding-left: 20px;
 }
 
+/* **************************************************** */
+/* ****************** MANAGEMENT ********************** */
+/* **************************************************** */
+
 /* Make it responsive */
 @media (max-width: 1080px) {
+    .banner-text {
+        width: 70%;
+        margin: 0 0 0 3em;
+    }
+
     .catalog-left-header h3 {
         font-size: 1.7em;
     }
@@ -808,7 +836,18 @@ a.cart-order:hover {
     }
 }
 
+
+
 @media (max-width: 768px) {
+    .banner-text {
+        width: 90%;
+        margin: 0 0 0 3em;
+    }
+
+    .banner-text h3 {
+        font-size: 2.5em;
+    }
+
     .catalog-left {
         width: 50%;
     }
@@ -838,6 +877,10 @@ a.cart-order:hover {
 }
 
 @media (max-width: 640px) {
+    .banner-text {
+        padding: 7em 0 1em;
+    }
+
     .footer-distributed {
         font: bold 14px sans-serif;
     }
@@ -861,6 +904,26 @@ a.cart-order:hover {
 }
 
 @media (max-width: 480px) {
+    .banner-text {
+        margin: 0 0 0 2em;
+    }
+
+    .banner-text h3 {
+        font-size: 1.5em;
+    }
+
+    .banner-text p {
+        font-size: 1em;
+    }
+
+    .banner {
+        min-height: 294px;
+    }
+
+    .banner-text {
+        padding: 3em 0 1em;
+    }
+
     .search {
         display: none;
     }
@@ -901,6 +964,22 @@ a.cart-order:hover {
 }
 
 @media (max-width: 320px) {
+    .banner-text {
+        padding: 1.5em 0 1em;
+        margin: 0 0 0 1em;
+    }
+
+    .banner-text h3 {
+        font-size: 0.9em;
+        line-height: 1.5em;
+        letter-spacing: 3px;
+        margin-bottom: 0.2em;
+    }
+
+    .banner-text p {
+        font-size: 0.8em;
+    }
+
     .header-top {
         padding: 10px 0;
     }

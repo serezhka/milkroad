@@ -96,14 +96,26 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <url-pattern>/checkout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>ManagementServlet</servlet-name>
+        <servlet-class>com.tsystems.javaschool.milkroad.servlet.ManagementServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManagementServlet</servlet-name>
+        <url-pattern>/management</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AccessFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>RegisterServlet</servlet-name>
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-name>ManagementServlet</servlet-name>
     </filter-mapping>
 
     <filter>
