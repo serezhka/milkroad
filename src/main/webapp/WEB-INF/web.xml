@@ -128,6 +128,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         <servlet-name>LoginServlet</servlet-name>
         <servlet-name>ProfileServlet</servlet-name>
         <servlet-name>CheckoutServlet</servlet-name>
+        <servlet-name>ManagementServlet</servlet-name>
     </filter-mapping>
 
 </web-app>

@@ -46,6 +46,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 userDTOs.add(new UserDTO(userEntity));
             }
             entityManager.getTransaction().commit();
+            return userDTOs;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading users");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
@@ -54,7 +55,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
-        return userDTOs;
     }
 
     @Override
@@ -102,6 +102,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userDAO.persist(userEntity);
             entityManager.getTransaction().commit();
+            return new UserDTO(userEntity);
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while adding new user");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
@@ -113,7 +114,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
-        return new UserDTO(userEntity);
     }
 
     @Override
@@ -129,6 +129,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userDAO.merge(userEntity);
             entityManager.getTransaction().commit();
+            return new UserDTO(userEntity);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user info with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
@@ -137,7 +138,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
-        return new UserDTO(userEntity);
     }
 
     @Override
@@ -154,6 +154,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userDAO.persist(userEntity);
             entityManager.getTransaction().commit();
+            return new UserDTO(userEntity);
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while updating user pass");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
@@ -165,7 +166,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
-        return new UserDTO(userEntity);
     }
 
     private UserEntity getUserEntityByEmail(final String email) throws MilkroadServiceException {
@@ -174,6 +174,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userEntity = userDAO.getByEmail(email);
             entityManager.getTransaction().commit();
+            return userEntity;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading user with email = " + email);
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
@@ -182,6 +183,5 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
-        return userEntity;
     }
 }
