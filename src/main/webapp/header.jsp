@@ -22,6 +22,7 @@
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap-dropdown.js"></script>
     <script src="js/bootstrap-select.js"></script>
+    <script src="js/milkroad.js"></script>
 
     <%-- Hide url bar --%>
     <script type="application/x-javascript"> addEventListener("load", function () {

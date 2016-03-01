@@ -34,57 +34,57 @@
             <td rowspan=${details_count}>${order.customer.email}</td>
             <%-- TODO Try to avoid string constants --%>
             <td rowspan=${details_count}>
-                <select class="selectpicker" data-width="100%">
+                <select id="paymentMethod_${order.id}" class="selectpicker" data-width="100%">
                     <c:choose>
                         <c:when test="${order.paymentMethod eq 'ONLINE'}">
-                            <option selected>ONLINE</option>
-                            <option>CASH</option>
+                            <option value="ONLINE" selected>ONLINE</option>
+                            <option value="CASH">CASH</option>
                         </c:when>
                         <c:otherwise>
-                            <option>ONLINE</option>
-                            <option selected>CASH</option>
+                            <option value="ONLINE">ONLINE</option>
+                            <option value="CASH" selected>CASH</option>
                         </c:otherwise>
                     </c:choose>
                 </select>
             </td>
             <td rowspan=${details_count}>
-                <select class="selectpicker" data-width="100%">
+                <select id="paymentStatus_${order.id}" class="selectpicker" data-width="100%">
                     <c:choose>
                         <c:when test="${order.paymentStatus eq 'PAID'}">
-                            <option selected>PAID</option>
-                            <option>AWAITING</option>
+                            <option value="PAID" selected>PAID</option>
+                            <option value="AWAITING">AWAITING</option>
                         </c:when>
                         <c:otherwise>
-                            <option>PAID</option>
-                            <option selected>AWAITING</option>
+                            <option value="PAID">PAID</option>
+                            <option value="AWAITING" selected>AWAITING</option>
                         </c:otherwise>
                     </c:choose>
                 </select>
             </td>
             <td rowspan=${details_count}>
-                <select class="selectpicker" data-width="100%">
+                <select id="shippingMethod_${order.id}" class="selectpicker" data-width="100%">
                     <c:choose>
                         <c:when test="${order.shippingMethod eq 'POST'}">
-                            <option selected>POST</option>
-                            <option>PICKUP</option>
+                            <option value="POST" selected>POST</option>
+                            <option value="PICKUP">PICKUP</option>
                         </c:when>
                         <c:otherwise>
-                            <option>POST</option>
-                            <option selected>PICKUP</option>
+                            <option value="POST">POST</option>
+                            <option value="PICKUP" selected>PICKUP</option>
                         </c:otherwise>
                     </c:choose>
                 </select>
             </td>
             <td rowspan=${details_count}>
-                <select class="selectpicker" data-width="100%">
+                <select id="shippingStatus_${order.id}" class="selectpicker" data-width="100%">
                     <c:choose>
                         <c:when test="${order.shippingStatus eq 'SHIPPED'}">
-                            <option selected>SHIPPED</option>
-                            <option>AWAITING</option>
+                            <option value="SHIPPED" selected>SHIPPED</option>
+                            <option value="AWAITING">AWAITING</option>
                         </c:when>
                         <c:otherwise>
-                            <option>SHIPPED</option>
-                            <option selected>AWAITING</option>
+                            <option value="SHIPPED">SHIPPED</option>
+                            <option value="AWAITING" selected>AWAITING</option>
                         </c:otherwise>
                     </c:choose>
                 </select>
@@ -95,7 +95,7 @@
                 <td>${detail.totalPrice}</td>
                 <c:if test="${status.first}">
                     <td rowspan=${details_count}>
-                        <a class="btn btn-success" href="#">
+                        <a class="btn btn-success" href="javascript:;" onclick="updateOrderDetails(${order.id})">
                             <i class="fa fa-check"></i> </a>
                     </td>
                 </c:if>
