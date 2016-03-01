@@ -46,13 +46,12 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
         try {
             entityManager.getTransaction().begin();
             final List<OrderEntity> orderEntities = orderDAO.getAll();
-            entityManager.getTransaction().commit();
             for (final OrderEntity orderEntity : orderEntities) {
                 orderDTOs.add(new OrderDTO(
                         new UserDTO(orderEntity.getCustomer()), new AddressDTO(orderEntity.getAddress()), orderEntity
                 ));
             }
-            return orderDTOs;
+            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading orders");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
@@ -61,6 +60,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
                 entityManager.getTransaction().rollback();
             }
         }
+        return orderDTOs;
     }
 
     @Override
@@ -100,11 +100,10 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             final UserEntity userEntity = userDAO.getByID(userDTO.getId());
             entityManager.refresh(userEntity);
             final List<OrderEntity> orderEntities = userEntity.getOrders();
+            entityManager.getTransaction().commit();
             for (final OrderEntity orderEntity : orderEntities) {
                 orderDTOs.add(new OrderDTO(orderEntity));
             }
-            entityManager.getTransaction().commit();
-            return orderDTOs;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading orders for user with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
@@ -113,29 +112,6 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
                 entityManager.getTransaction().rollback();
             }
         }
-    }
-
-    @Override
-    public OrderDTO updateOrder(final OrderDTO orderDTO) throws MilkroadServiceException {
-        try {
-            final OrderEntity orderEntity;
-            entityManager.getTransaction().begin();
-            orderEntity = orderDAO.getByID(orderDTO.getId());
-            entityManager.refresh(orderEntity);
-            orderEntity.setPaymentMethod(orderDTO.getPaymentMethod());
-            orderEntity.setPaymentStatus(orderDTO.getPaymentStatus());
-            orderEntity.setShippingMethod(orderDTO.getShippingMethod());
-            orderEntity.setShippingStatus(orderDTO.getShippingStatus());
-            orderDAO.merge(orderEntity);
-            entityManager.getTransaction().commit();
-            return new OrderDTO(orderEntity);
-        } catch (final MilkroadDAOException e) {
-            LOGGER.error("Error while update order with id = " + orderDTO.getId());
-            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
-        }
+        return orderDTOs;
     }
 }

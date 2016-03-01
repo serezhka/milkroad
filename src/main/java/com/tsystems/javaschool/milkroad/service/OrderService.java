@@ -15,6 +15,4 @@ public interface OrderService {
     OrderDTO createOrder(final OrderDTO orderDTO) throws MilkroadServiceException;
 
     List<OrderDTO> getOrdersByUser(final UserDTO userDTO) throws MilkroadServiceException;
-
-    OrderDTO updateOrder(final OrderDTO orderDTO) throws MilkroadServiceException;
 }

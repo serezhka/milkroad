@@ -22,13 +22,13 @@ public class FormDataFilter implements Filter {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
-        final Set<String> errors;
-        final Object errorsObj = request.getAttribute("errors");
-        //noinspection unchecked
-        errors = (errorsObj == null) ? new HashSet<>() : (Set<String>) errorsObj;
-        final HashMap<String, String> input = new HashMap<>();
         final String formName = request.getParameter("formName");
         if (formName != null && !formName.trim().isEmpty()) {
+            final Set<String> errors;
+            final Object errorsObj = request.getAttribute("errors");
+            //noinspection unchecked
+            errors = (errorsObj == null) ? new HashSet<>() : (Set<String>) errorsObj;
+            final HashMap<String, String> input = new HashMap<>();
             switch (formName) {
                 case "registerForm": {
                     final String firstName = request.getParameter("firstname");
@@ -145,17 +145,9 @@ public class FormDataFilter implements Filter {
                     break;
                 }
             }
+            request.setAttribute("input", input);
+            request.setAttribute("errors", errors);
         }
-        final String actionName = request.getParameter("action");
-        if (actionName != null && !actionName.isEmpty()) {
-            switch (actionName) {
-                case "updateOrder": {
-                    // TODO Validate order id, payment method/status, shipping method/status
-                }
-            }
-        }
-        request.setAttribute("input", input);
-        request.setAttribute("errors", errors);
         chain.doFilter(request, response);
     }
 
