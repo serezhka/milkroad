@@ -40,8 +40,7 @@ public class LoginServlet extends HttpServlet {
             try {
                 user = MilkroadAppContext.getInstance().getUserService().getUserByEmailAndPass(email, pass);
                 AuthUtil.authUser(request.getSession(), user);
-                request.setAttribute("message", "Authentication successful! Welcome, " + user.getFirstName());
-                request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                response.sendRedirect("/");
                 return;
             } catch (final MilkroadServiceException e) {
                 if (e.getType() == MilkroadServiceException.Type.USER_NOT_EXISTS) {

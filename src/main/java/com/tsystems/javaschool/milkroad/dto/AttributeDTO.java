@@ -1,28 +1,28 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.ProductCategoryEntity;
+import com.tsystems.javaschool.milkroad.model.ProductAttributeEntity;
 
 /**
- * Created by Sergey on 24.02.2016.
+ * Created by Sergey on 01.03.2016.
  */
-public class CategoryDTO {
+public class AttributeDTO {
     private Long id;
     private String name;
     private String description;
 
-    public CategoryDTO() {
+    public AttributeDTO() {
     }
 
-    public CategoryDTO(final Long id, final String name, final String description) {
+    public AttributeDTO(final Long id, final String name, final String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
-    public CategoryDTO(final ProductCategoryEntity categoryEntity) {
-        this.id = categoryEntity.getId();
-        this.name = categoryEntity.getCategoryName();
-        this.description = categoryEntity.getDescription();
+    public AttributeDTO(final ProductAttributeEntity attributeEntity) {
+        this.id = attributeEntity.getId();
+        this.name = attributeEntity.getAttributeName();
+        this.description = attributeEntity.getDescription();
     }
 
     public Long getId() {

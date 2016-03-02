@@ -38,22 +38,14 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public List<UserDTO> getAllUsers() throws MilkroadServiceException {
         final List<UserDTO> userDTOs = new ArrayList<>();
         try {
-            entityManager.getTransaction().begin();
             final List<UserEntity> userEntities = userDAO.getAll();
-            // Don't forget that addresses have FetchType.LAZY
             for (final UserEntity userEntity : userEntities) {
-                // Non-obvious addresses fetch
                 userDTOs.add(new UserDTO(userEntity));
             }
-            entityManager.getTransaction().commit();
             return userDTOs;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading users");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
         }
     }
 
@@ -171,17 +163,11 @@ public class UserServiceImpl extends AbstractService implements UserService {
     private UserEntity getUserEntityByEmail(final String email) throws MilkroadServiceException {
         final UserEntity userEntity;
         try {
-            entityManager.getTransaction().begin();
             userEntity = userDAO.getByEmail(email);
-            entityManager.getTransaction().commit();
             return userEntity;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading user with email = " + email);
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
         }
     }
 }

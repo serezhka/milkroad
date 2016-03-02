@@ -44,10 +44,9 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
     public List<OrderDTO> getAllOrders() throws MilkroadServiceException {
         final List<OrderDTO> orderDTOs = new ArrayList<>();
         try {
-            entityManager.getTransaction().begin();
             final List<OrderEntity> orderEntities = orderDAO.getAll();
-            entityManager.getTransaction().commit();
             for (final OrderEntity orderEntity : orderEntities) {
+                entityManager.refresh(orderEntity);
                 orderDTOs.add(new OrderDTO(
                         new UserDTO(orderEntity.getCustomer()), new AddressDTO(orderEntity.getAddress()), orderEntity
                 ));
@@ -56,10 +55,6 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading orders");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
         }
     }
 
@@ -96,22 +91,16 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
     public List<OrderDTO> getOrdersByUser(final UserDTO userDTO) throws MilkroadServiceException {
         final List<OrderDTO> orderDTOs = new ArrayList<>();
         try {
-            entityManager.getTransaction().begin();
             final UserEntity userEntity = userDAO.getByID(userDTO.getId());
             entityManager.refresh(userEntity);
             final List<OrderEntity> orderEntities = userEntity.getOrders();
             for (final OrderEntity orderEntity : orderEntities) {
                 orderDTOs.add(new OrderDTO(orderEntity));
             }
-            entityManager.getTransaction().commit();
             return orderDTOs;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading orders for user with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
         }
     }
 
@@ -121,7 +110,6 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             final OrderEntity orderEntity;
             entityManager.getTransaction().begin();
             orderEntity = orderDAO.getByID(orderDTO.getId());
-            entityManager.refresh(orderEntity);
             orderEntity.setPaymentMethod(orderDTO.getPaymentMethod());
             orderEntity.setPaymentStatus(orderDTO.getPaymentStatus());
             orderEntity.setShippingMethod(orderDTO.getShippingMethod());

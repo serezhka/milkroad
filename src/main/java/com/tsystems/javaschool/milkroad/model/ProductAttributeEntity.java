@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.model;
 
+import com.tsystems.javaschool.milkroad.dto.AttributeDTO;
+
 import javax.persistence.*;
 
 /**
@@ -7,6 +9,10 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "product_attribute", schema = "milkroad")
+@NamedQueries({
+        @NamedQuery(name = "ProductAttributeEntity.findByName",
+                query = "SELECT o FROM ProductAttributeEntity o WHERE o.attributeName = :name")
+})
 public class ProductAttributeEntity {
     private Long id;
     private String attributeName;
@@ -41,6 +47,14 @@ public class ProductAttributeEntity {
 
     public void setDescription(final String description) {
         this.description = description;
+    }
+
+    public ProductAttributeEntity() {
+    }
+
+    public ProductAttributeEntity(final AttributeDTO attributeDTO) {
+        this.attributeName = attributeDTO.getName();
+        this.description = attributeDTO.getDescription();
     }
 
     @Override

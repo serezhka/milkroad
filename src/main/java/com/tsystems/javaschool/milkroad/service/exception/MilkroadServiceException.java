@@ -11,6 +11,8 @@ public class MilkroadServiceException extends Exception {
         DAO_ERROR,
         PASS_UTILS_ERROR,
         PRODUCT_NOT_EXISTS,
+        CATEGORY_ALREADY_EXISTS,
+        ATTRIBUTE_ALREADY_EXISTS,
         UNKNOWN_ERROR
     }
 

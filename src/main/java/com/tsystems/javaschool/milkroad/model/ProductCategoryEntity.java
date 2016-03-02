@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.model;
 
+import com.tsystems.javaschool.milkroad.dto.CategoryDTO;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -57,6 +59,14 @@ public class ProductCategoryEntity {
 
     public void setProducts(final List<ProductEntity> products) {
         this.products = products;
+    }
+
+    public ProductCategoryEntity(){
+    }
+
+    public ProductCategoryEntity(final CategoryDTO categoryDTO) {
+        this.categoryName = categoryDTO.getName();
+        this.description = categoryDTO.getDescription();
     }
 
     @Override

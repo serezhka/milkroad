@@ -32,6 +32,12 @@
                             </c:url>
                             <a href="${ordersURL}">Orders</a>
                         </li>
+                        <li>
+                            <c:url value="/management" var="addProductURL">
+                                <c:param name="action" value="addProduct"/>
+                            </c:url>
+                            <a href="${addProductURL}">Add product</a>
+                        </li>
                     </c:when>
                     <c:otherwise>
                         <li>

@@ -64,3 +64,123 @@ function updateOrderDetails(orderID) {
     document.body.appendChild(form);
     form.submit();
 }
+
+function updateCategoryDetails(categoryID) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/management";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "updateCategory";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var category_id = document.createElement("INPUT");
+    category_id.name = "categoryID";
+    category_id.value = categoryID;
+    category_id.type = 'hidden';
+    form.appendChild(category_id);
+
+    var categoryName = document.createElement("INPUT");
+    categoryName.name = "categoryName";
+    categoryName.value = $("input#categoryName_" + categoryID).val();
+    categoryName.type = 'hidden';
+    form.appendChild(categoryName);
+
+    var categoryDesc = document.createElement("INPUT");
+    categoryDesc.name = "categoryDescription";
+    categoryDesc.value = $("input#categoryDesc_" + categoryID).val();
+    categoryDesc.type = 'hidden';
+    form.appendChild(categoryDesc);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function addCategory() {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/management";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "createCategory";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var categoryName = document.createElement("INPUT");
+    categoryName.name = "categoryName";
+    categoryName.value = $("input#categoryNameNew").val();
+    categoryName.type = 'hidden';
+    form.appendChild(categoryName);
+
+    var categoryDesc = document.createElement("INPUT");
+    categoryDesc.name = "categoryDescription";
+    categoryDesc.value = $("input#categoryDescNew").val();
+    categoryDesc.type = 'hidden';
+    form.appendChild(categoryDesc);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function updateAttributeDetails(attributeID) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/management";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "updateAttribute";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var attribute_id = document.createElement("INPUT");
+    attribute_id.name = "attributeID";
+    attribute_id.value = attributeID;
+    attribute_id.type = 'hidden';
+    form.appendChild(attribute_id);
+
+    var attributeName = document.createElement("INPUT");
+    attributeName.name = "attributeName";
+    attributeName.value = $("input#attributeName_" + attributeID).val();
+    attributeName.type = 'hidden';
+    form.appendChild(attributeName);
+
+    var attributeDesc = document.createElement("INPUT");
+    attributeDesc.name = "attributeDescription";
+    attributeDesc.value = $("input#attributeDesc_" + attributeID).val();
+    attributeDesc.type = 'hidden';
+    form.appendChild(attributeDesc);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function addAttribute() {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/management";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "createAttribute";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var attributeName = document.createElement("INPUT");
+    attributeName.name = "attributeName";
+    attributeName.value = $("input#attributeNameNew").val();
+    attributeName.type = 'hidden';
+    form.appendChild(attributeName);
+
+    var attributeDesc = document.createElement("INPUT");
+    attributeDesc.name = "attributeDescription";
+    attributeDesc.value = $("input#attributeDescNew").val();
+    attributeDesc.type = 'hidden';
+    form.appendChild(attributeDesc);
+
+    document.body.appendChild(form);
+    form.submit();
+}

@@ -40,6 +40,7 @@ public class MilkroadAppContext {
     private volatile OrderDAO<OrderEntity, Long> orderDAO;
     private volatile AddressDAO<AddressEntity, Long> addressDAO;
     private volatile CategoryDAO<ProductCategoryEntity, Long> categoryDAO;
+    private volatile AttributeDAO<ProductAttributeEntity, Long> attributeDAO;
 
     /* Services */
     private volatile UserService userService;
@@ -149,6 +150,19 @@ public class MilkroadAppContext {
         return localInstance;
     }
 
+    public AttributeDAO<ProductAttributeEntity, Long> getAttributeDAO() {
+        AttributeDAO<ProductAttributeEntity, Long> localInstance = attributeDAO;
+        if (localInstance == null) {
+            synchronized (this) {
+                localInstance = attributeDAO;
+                if (localInstance == null) {
+                    attributeDAO = localInstance = new AttributeDAOImpl(getEntityManager());
+                }
+            }
+        }
+        return localInstance;
+    }
+
     public UserService getUserService() {
         UserService localInstance = userService;
         if (localInstance == null) {
@@ -168,7 +182,8 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = catalogService;
                 if (localInstance == null) {
-                    catalogService = localInstance = new CatalogServiceImpl(getEntityManager(), getCategoryDAO(), getProductDAO());
+                    catalogService = localInstance = new CatalogServiceImpl(getEntityManager(),
+                            getAttributeDAO(), getCategoryDAO(), getProductDAO());
                 }
             }
         }

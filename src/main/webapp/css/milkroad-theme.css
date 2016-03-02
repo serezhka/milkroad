@@ -16,7 +16,7 @@ ul {
     margin: 0;
 }
 
-h1, h2, h3, h4, h5, h6, label, p {
+h1, h3, h4, h5, h6, label, p {
     margin: 0;
 }
 
@@ -433,7 +433,7 @@ a.create {
 .register-top-grid h3, .register-bottom-grid h3,
 .profile-top-grid h3, .profile-bottom-grid h3,
 .profile-addresses h3, .profile-add-address h3,
-.profile-orders h3 {
+.profile-orders h3, h3.milkroad-h3 {
     font-size: 1.5em;
     font-family: 'Lato', sans-serif;
     color: #000;
@@ -450,6 +450,7 @@ a.create {
     color: #A09F9F;
 }
 
+span.error,
 .account-top span.error, .checkout-order-details span.error,
 .register-top-grid span.error, .register-bottom-grid span.error,
 .profile-top-grid span.error, .profile-bottom-grid span.error,
@@ -836,8 +837,6 @@ a.cart-order:hover {
     }
 }
 
-
-
 @media (max-width: 768px) {
     .banner-text {
         width: 90%;
@@ -950,7 +949,7 @@ a.cart-order:hover {
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
     .profile-addresses h3, .profile-add-address h3,
-    .profile-orders h3 {
+    .profile-orders h3, h3.milkroad-h3 {
         font-size: 1.2em;
     }
 
@@ -1019,7 +1018,7 @@ a.cart-order:hover {
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
     .profile-addresses h3, .profile-add-address h3,
-    .profile-orders h3 {
+    .profile-orders h3, h3.milkroad-h3  {
         font-size: 1.1em;
     }
 

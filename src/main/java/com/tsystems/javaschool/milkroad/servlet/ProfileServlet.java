@@ -67,8 +67,7 @@ public class ProfileServlet extends HttpServlet {
                         userDTO = userService.updateUserPass(userDTO, pass);
                     }
                     AuthUtil.authUser(request.getSession(), userDTO);
-                    request.setAttribute("message", "Profile update successful!");
-                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    response.sendRedirect("/profile");
                     return;
                 } catch (final MilkroadServiceException e) {
                     request.setAttribute("message", "DB error! Please, try later");
@@ -88,8 +87,7 @@ public class ProfileServlet extends HttpServlet {
                 try {
                     userDTO = addressService.addAddressToUser(userDTO, addressDTO);
                     AuthUtil.authUser(request.getSession(), userDTO);
-                    request.setAttribute("message", "Address add successfuil!");
-                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    response.sendRedirect("/profile");
                     return;
                 } catch (final MilkroadServiceException e) {
                     request.setAttribute("message", "DB error! Please, try later");

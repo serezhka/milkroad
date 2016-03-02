@@ -5,7 +5,6 @@ import com.tsystems.javaschool.milkroad.model.ShippingMethodEnum;
 import com.tsystems.javaschool.milkroad.util.FormDataValidator;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,7 +20,6 @@ public class FormDataFilter implements Filter {
 
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
-        final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final Set<String> errors;
         final Object errorsObj = request.getAttribute("errors");
         //noinspection unchecked
@@ -152,8 +150,49 @@ public class FormDataFilter implements Filter {
                 case "updateOrder": {
                     // TODO Validate order id, payment method/status, shipping method/status
                 }
+
+                case "updateCategory": {
+                    final String categoryID = request.getParameter("categoryID");
+                    if (!FormDataValidator.validateLong(categoryID)) {
+                        errors.add("CATEGORY_ID_ERROR");
+                    }
+                    final String categoryName = request.getParameter("categoryName");
+                    if (!FormDataValidator.validateName(categoryName)) {
+                        errors.add("CATEGORY_NAME_ERROR");
+                    }
+                    break;
+                }
+
+                case "createCategory": {
+                    final String categoryName = request.getParameter("categoryName");
+                    if (!FormDataValidator.validateName(categoryName)) {
+                        errors.add("CATEGORY_NAME_ERROR");
+                    }
+                    break;
+                }
+
+                case "updateAttribute": {
+                    final String attributeID = request.getParameter("attributeID");
+                    if (!FormDataValidator.validateLong(attributeID)) {
+                        errors.add("ATTRIBUTE_ID_ERROR");
+                    }
+                    final String attributeName = request.getParameter("attributeName");
+                    if (!FormDataValidator.validateName(attributeName)) {
+                        errors.add("ATTRIBUTE_NAME_ERROR");
+                    }
+                    break;
+                }
+
+                case "createAttribute": {
+                    final String attributeName = request.getParameter("attributeName");
+                    if (!FormDataValidator.validateName(attributeName)) {
+                        errors.add("ATTRIBUTE_NAME_ERROR");
+                    }
+                    break;
+                }
             }
         }
+        request.setAttribute("action", (actionName == null) ? "" :actionName);
         request.setAttribute("input", input);
         request.setAttribute("errors", errors);
         chain.doFilter(request, response);

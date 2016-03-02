@@ -17,7 +17,7 @@
         <c:when test="${not empty cart}">
             <div class="col-md-9 cart-items">
                 <div class="price-details">
-                    <h3>Order Details</h3>
+                    <h3 class="milkroad-h3">Order details</h3>
                     <span>Total</span>
                     <span>${cartTotal}</span>
                     <span>Discount</span>
@@ -35,21 +35,21 @@
             <div class="col-md-9 checkout-order-details">
                 <form action="${pageContext.request.contextPath}/checkout" method="post">
                     <input type="hidden" name="formName" value="checkoutForm"/>
-                    <h3>Payment method</h3>
+                    <h3 class="milkroad-h3">Payment method</h3>
                     <label class="radio-inline">
                         <input type="radio" name="payment" value="ONLINE" checked>Online
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="payment" value="CASH">Cash
                     </label>
-                    <h3>Shipping method</h3>
+                    <h3 class="milkroad-h3">Shipping method</h3>
                     <label class="radio-inline">
                         <input type="radio" name="shipping" value="POST" checked>Post
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="shipping" value="PICKUP">Pickup
                     </label>
-                    <h3>Delivery address</h3>
+                    <h3 class="milkroad-h3">Shipping method</h3>
                     <c:if test="${empty user.addresses}">
                         <span class="error">Add address first</span>
                     </c:if>
