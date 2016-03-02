@@ -7,33 +7,6 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     <display-name>Milkroad</display-name>
 
     <servlet>
-        <servlet-name>UserListServlet</servlet-name>
-        <servlet-class>com.tsystems.javaschool.milkroad.servlet.UserListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>UserListServlet</servlet-name>
-        <url-pattern>/userlist</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ProductListServlet</servlet-name>
-        <servlet-class>com.tsystems.javaschool.milkroad.servlet.ProductListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ProductListServlet</servlet-name>
-        <url-pattern>/productlist</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>OrderListServlet</servlet-name>
-        <servlet-class>com.tsystems.javaschool.milkroad.servlet.OrderListServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>OrderListServlet</servlet-name>
-        <url-pattern>/orderlist</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.tsystems.javaschool.milkroad.servlet.LoginServlet</servlet-class>
     </servlet>

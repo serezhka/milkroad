@@ -3,6 +3,7 @@ package com.tsystems.javaschool.milkroad.service;
 import com.tsystems.javaschool.milkroad.dto.AttributeDTO;
 import com.tsystems.javaschool.milkroad.dto.CategoryDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
+import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 public interface CatalogService {
     List<AttributeDTO> getAllAttributes() throws MilkroadServiceException;
 
-    List<CategoryDTO> getAllCategories() throws  MilkroadServiceException;
+    List<CategoryDTO> getAllCategories() throws MilkroadServiceException;
 
     List<ProductDTO> getAllProducts() throws MilkroadServiceException;
 
@@ -28,4 +29,14 @@ public interface CatalogService {
     AttributeDTO updateAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException;
 
     AttributeDTO createAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException;
+
+    /**
+     * @param parameters - product parameters in "attribute_id|attribute_value" format
+     */
+    ProductDTO updateProduct(final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException;
+
+    /**
+     * @param parameters - product parameters in "attribute_id|attribute_value" format
+     */
+    ProductDTO createProduct(final UserDTO userDTO, final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException;
 }

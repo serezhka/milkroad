@@ -1,15 +1,12 @@
 package com.tsystems.javaschool.milkroad.service.impl;
 
-import com.tsystems.javaschool.milkroad.dao.AttributeDAO;
-import com.tsystems.javaschool.milkroad.dao.CategoryDAO;
-import com.tsystems.javaschool.milkroad.dao.ProductDAO;
+import com.tsystems.javaschool.milkroad.dao.*;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.dto.AttributeDTO;
 import com.tsystems.javaschool.milkroad.dto.CategoryDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
-import com.tsystems.javaschool.milkroad.model.ProductAttributeEntity;
-import com.tsystems.javaschool.milkroad.model.ProductCategoryEntity;
-import com.tsystems.javaschool.milkroad.model.ProductEntity;
+import com.tsystems.javaschool.milkroad.dto.UserDTO;
+import com.tsystems.javaschool.milkroad.model.*;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import org.apache.log4j.Logger;
@@ -26,16 +23,22 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
 
     private final AttributeDAO<ProductAttributeEntity, Long> attributeDAO;
     private final CategoryDAO<ProductCategoryEntity, Long> categoryDAO;
+    private final ParameterDAO<ProductParameterEntity, Long> parameterDAO;
     private final ProductDAO<ProductEntity, Long> productDAO;
+    private final UserDAO<UserEntity, Long> userDAO;
 
     public CatalogServiceImpl(final EntityManager entityManager,
                               final AttributeDAO<ProductAttributeEntity, Long> attributeDAO,
                               final CategoryDAO<ProductCategoryEntity, Long> categoryDAO,
-                              final ProductDAO<ProductEntity, Long> productDAO) {
+                              final ParameterDAO<ProductParameterEntity, Long> parameterDAO,
+                              final ProductDAO<ProductEntity, Long> productDAO,
+                              final UserDAO<UserEntity, Long> userDAO) {
         super(entityManager);
         this.attributeDAO = attributeDAO;
         this.categoryDAO = categoryDAO;
+        this.parameterDAO = parameterDAO;
         this.productDAO = productDAO;
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -74,6 +77,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
         try {
             final List<ProductEntity> productEntities = productDAO.getAll();
             for (final ProductEntity productEntity : productEntities) {
+                entityManager.refresh(productEntity);
                 productDTOs.add(new ProductDTO(productEntity));
             }
         } catch (final MilkroadDAOException e) {
@@ -201,6 +205,88 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
             return new AttributeDTO(attributeEntity);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while creating product attribute with name = " + attributeDTO.getName());
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        } finally {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+        }
+    }
+
+    @Override
+    public ProductDTO updateProduct(final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException {
+        try {
+            final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryID);
+            final ProductEntity productEntity = productDAO.getByID(productDTO.getArticle());
+            productEntity.setCategory(categoryEntity);
+            productEntity.setProductName(productDTO.getName());
+            productEntity.setProductPrice(productDTO.getPrice());
+            productEntity.setRemainCount(productDTO.getCount());
+            productEntity.setDescription(productDTO.getDescription());
+            entityManager.getTransaction().begin();
+            if (parameters != null) {
+                for (final String parameter : parameters) {
+                    final Long attrID = Long.valueOf(parameter.split("\\|")[0]);
+                    final String attrValue = parameter.split("\\|")[1];
+                    // TODO Check if attribute Entity not null
+                    final ProductAttributeEntity attributeEntity = attributeDAO.getByID(attrID);
+                    ProductParameterEntity parameterEntity = parameterDAO.getByProductIDAndAttrID(productDTO.getArticle(), attrID);
+                    if (parameterEntity != null) {
+                        parameterEntity.setAttributeValue(attrValue);
+                        parameterDAO.merge(parameterEntity);
+                    } else {
+                        parameterEntity = new ProductParameterEntity();
+                        parameterEntity.setProduct(productEntity);
+                        parameterEntity.setAttribute(attributeEntity);
+                        parameterEntity.setAttributeValue(attrValue);
+                        parameterDAO.persist(parameterEntity);
+                    }
+                }
+            }
+            productDAO.merge(productEntity);
+            entityManager.getTransaction().commit();
+            return new ProductDTO(productEntity);
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while updating product with article = " + productDTO.getArticle());
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        } finally {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+        }
+    }
+
+    @Override
+    public ProductDTO createProduct(final UserDTO userDTO, final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException {
+        try {
+            final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryID);
+            final UserEntity userEntity = userDAO.getByID(userDTO.getId());
+            final ProductEntity productEntity = new ProductEntity();
+            productEntity.setSeller(userEntity);
+            productEntity.setCategory(categoryEntity);
+            productEntity.setProductName(productDTO.getName());
+            productEntity.setProductPrice(productDTO.getPrice());
+            productEntity.setRemainCount(productDTO.getCount());
+            productEntity.setDescription(productDTO.getDescription());
+            entityManager.getTransaction().begin();
+            productDAO.persist(productEntity);
+            if (parameters != null) {
+                for (final String parameter : parameters) {
+                    final Long attrID = Long.valueOf(parameter.split("\\|")[0]);
+                    final String attrValue = parameter.split("\\|")[1];
+                    // TODO Check if attribute Entity not null
+                    final ProductAttributeEntity attributeEntity = attributeDAO.getByID(attrID);
+                    final ProductParameterEntity parameterEntity = new ProductParameterEntity();
+                    parameterEntity.setProduct(productEntity);
+                    parameterEntity.setAttribute(attributeEntity);
+                    parameterEntity.setAttributeValue(attrValue);
+                    parameterDAO.persist(parameterEntity);
+                }
+            }
+            entityManager.getTransaction().commit();
+            return new ProductDTO(productEntity);
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while creating product with name = " + productDTO.getName());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         } finally {
             if (entityManager.getTransaction().isActive()) {

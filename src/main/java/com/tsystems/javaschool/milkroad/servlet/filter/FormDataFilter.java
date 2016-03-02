@@ -148,7 +148,7 @@ public class FormDataFilter implements Filter {
         if (actionName != null && !actionName.isEmpty()) {
             switch (actionName) {
                 case "updateOrder": {
-                    // TODO Validate order id, payment method/status, shipping method/status
+                    // TODO Validate order id, payment method/status, shipping method/status, note
                 }
 
                 case "updateCategory": {
@@ -184,15 +184,67 @@ public class FormDataFilter implements Filter {
                 }
 
                 case "createAttribute": {
+                    // TODO Validate desc
                     final String attributeName = request.getParameter("attributeName");
                     if (!FormDataValidator.validateName(attributeName)) {
                         errors.add("ATTRIBUTE_NAME_ERROR");
                     }
                     break;
                 }
+
+                case "updateProduct": {
+                    final String productArticle = request.getParameter("productArticle");
+                    if (!FormDataValidator.validateLong(productArticle)) {
+                        errors.add("PRODUCT_ARTICLE_ERROR");
+                    }
+                    final String productName = request.getParameter("productName");
+                    if (!FormDataValidator.validateName(productName)) {
+                        errors.add("PRODUCT_NAME_ERROR");
+                    }
+                    final String productPrice = request.getParameter("productPrice");
+                    if (!FormDataValidator.validateBigDecimal(productPrice)) {
+                        errors.add("PRODUCT_PRICE_ERROR");
+                    }
+                    final String productCount = request.getParameter("productCount");
+                    if (!FormDataValidator.validateInteger(productCount)) {
+                        errors.add("PRODUCT_COUNT_ERROR");
+                    }
+                    final String productCategoryID = request.getParameter("productCategoryID");
+                    if (!FormDataValidator.validateLong(productCategoryID)) {
+                        errors.add("PRODUCT_CATEGORY_ERROR");
+                    }
+                    // TODO Validate parameters array
+                    break;
+                }
+
+                case "createProduct": {
+                    final String productName = request.getParameter("productName");
+                    if (!FormDataValidator.validateName(productName)) {
+                        errors.add("PRODUCT_NAME_ERROR");
+                    }
+                    final String productPrice = request.getParameter("productPrice");
+                    if (!FormDataValidator.validateBigDecimal(productPrice)) {
+                        errors.add("PRODUCT_PRICE_ERROR");
+                    }
+                    final String productCount = request.getParameter("productCount");
+                    if (!FormDataValidator.validateInteger(productCount)) {
+                        errors.add("PRODUCT_COUNT_ERROR");
+                    }
+                    final String productCategoryID = request.getParameter("productCategoryID");
+                    if (!FormDataValidator.validateLong(productCategoryID)) {
+                        errors.add("PRODUCT_CATEGORY_ERROR");
+                    }
+                    input.put("productName", productName);
+                    input.put("productPrice", productPrice);
+                    input.put("productCount", productCount);
+                    input.put("productCategoryID", productCategoryID);
+                    input.put("productDesc", request.getParameter("productDescription"));
+                    // TODO Validate parameters array
+                    break;
+                }
             }
         }
-        request.setAttribute("action", (actionName == null) ? "" :actionName);
+        request.setAttribute("action", (actionName == null) ? "" : actionName);
         request.setAttribute("input", input);
         request.setAttribute("errors", errors);
         chain.doFilter(request, response);

@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.milkroad.util;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.regex.Pattern;
 
@@ -47,6 +48,15 @@ public class FormDataValidator {
         try {
             //noinspection ResultOfMethodCallIgnored
             Long.valueOf(longValue);
+            return true;
+        } catch (final NumberFormatException ignored) {
+        }
+        return false;
+    }
+
+    public static boolean validateBigDecimal(final String bigDecimal) {
+        try {
+            new BigDecimal(bigDecimal);
             return true;
         } catch (final NumberFormatException ignored) {
         }

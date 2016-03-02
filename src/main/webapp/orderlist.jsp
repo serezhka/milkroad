@@ -98,7 +98,7 @@
                     <c:if test="${status.first}">
                         <td rowspan=${details_count}>
                             <a class="btn btn-success" href="javascript:;" onclick="updateOrderDetails(${order.id})">
-                                <i class="fa fa-check"></i> </a>
+                                <i class="fa fa-pencil-square-o"></i></a>
                         </td>
                     </c:if>
                     </tr>

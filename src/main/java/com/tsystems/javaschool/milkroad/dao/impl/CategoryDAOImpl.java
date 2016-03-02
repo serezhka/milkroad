@@ -12,7 +12,7 @@ import javax.persistence.TypedQuery;
 /**
  * Created by Sergey on 24.02.2016.
  */
-public class CategoryDAOImpl extends DAOImpl<ProductCategoryEntity, Long> implements CategoryDAO<ProductCategoryEntity, Long>  {
+public class CategoryDAOImpl extends DAOImpl<ProductCategoryEntity, Long> implements CategoryDAO<ProductCategoryEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(CategoryDAOImpl.class);
 
     public CategoryDAOImpl(final EntityManager entityManager) {

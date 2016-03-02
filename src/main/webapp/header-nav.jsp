@@ -28,15 +28,21 @@
                     <c:when test="${(user.userType eq 'ADMIN') or (user.userType eq 'SELLER')}">
                         <li>
                             <c:url value="/management" var="ordersURL">
-                                <c:param name="action" value="viewOrders"/>
+                                <c:param name="action" value="editOrders"/>
                             </c:url>
                             <a href="${ordersURL}">Orders</a>
                         </li>
                         <li>
-                            <c:url value="/management" var="addProductURL">
-                                <c:param name="action" value="addProduct"/>
+                            <c:url value="/management" var="categoriesURL">
+                                <c:param name="action" value="editCategories"/>
                             </c:url>
-                            <a href="${addProductURL}">Add product</a>
+                            <a href="${categoriesURL}">Categories & attributes</a>
+                        </li>
+                        <li>
+                            <c:url value="/management" var="productsURL">
+                                <c:param name="action" value="editProducts"/>
+                            </c:url>
+                            <a href="${productsURL}">Products</a>
                         </li>
                     </c:when>
                     <c:otherwise>

@@ -18,7 +18,7 @@
         </ul>
         <form action="${pageContext.request.contextPath}/cart" method="post">
             <input type="hidden" name="article" value="${product.article}"/>
-            <a href="javascript:;" class="product-add" onclick="parentNode.submit();">ADD TO CART</a>
+            <a href="javascript:;" class="product-add-cart" onclick="parentNode.submit();">ADD TO CART</a>
         </form>
     </div>
 </div>

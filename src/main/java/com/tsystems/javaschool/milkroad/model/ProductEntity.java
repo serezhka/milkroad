@@ -2,6 +2,7 @@ package com.tsystems.javaschool.milkroad.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,8 @@ public class ProductEntity {
     private Integer remainCount;
     private String description;
 
-    private List<ProductParameterEntity> parameters;
+    // TODO It's ok ?
+    private List<ProductParameterEntity> parameters = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

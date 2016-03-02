@@ -3,6 +3,7 @@ package com.tsystems.javaschool.milkroad.model;
 import com.tsystems.javaschool.milkroad.dto.CategoryDTO;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,8 @@ public class ProductCategoryEntity {
     private String categoryName;
     private String description;
 
-    private List<ProductEntity> products;
+    // TODO It's ok ?
+    private List<ProductEntity> products = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,7 +63,7 @@ public class ProductCategoryEntity {
         this.products = products;
     }
 
-    public ProductCategoryEntity(){
+    public ProductCategoryEntity() {
     }
 
     public ProductCategoryEntity(final CategoryDTO categoryDTO) {

@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.ProductCategoryEntity;
 import com.tsystems.javaschool.milkroad.model.ProductEntity;
 import com.tsystems.javaschool.milkroad.model.ProductParameterEntity;
 
@@ -15,7 +14,7 @@ public class ProductDTO {
     private Long article;
     private UserDTO seller;
     private String name;
-    private Category category;
+    private CategoryDTO category;
     private BigDecimal price;
     private Integer count;
     private String description;
@@ -25,7 +24,7 @@ public class ProductDTO {
         parameters = new ArrayList<>();
     }
 
-    public ProductDTO(final Long article, final UserDTO seller, final String name, final Category category,
+    public ProductDTO(final Long article, final UserDTO seller, final String name, final CategoryDTO category,
                       final BigDecimal price, final Integer count, final String description,
                       final List<Parameter> parameters) {
         this();
@@ -44,7 +43,7 @@ public class ProductDTO {
         this.article = productEntity.getId();
         this.seller = new UserDTO(productEntity.getSeller());
         this.name = productEntity.getProductName();
-        this.category = new Category(productEntity.getCategory());
+        this.category = new CategoryDTO(productEntity.getCategory());
         this.price = productEntity.getProductPrice();
         this.count = productEntity.getRemainCount();
         this.description = productEntity.getDescription();
@@ -77,11 +76,11 @@ public class ProductDTO {
         this.name = name;
     }
 
-    public Category getCategory() {
+    public CategoryDTO getCategory() {
         return category;
     }
 
-    public void setCategory(final Category category) {
+    public void setCategory(final CategoryDTO category) {
         this.category = category;
     }
 
@@ -115,40 +114,6 @@ public class ProductDTO {
 
     public void setParameters(final List<Parameter> parameters) {
         this.parameters = parameters;
-    }
-
-    public class Category {
-        private String name;
-        private String description;
-
-        public Category() {
-        }
-
-        public Category(final String name, final String description) {
-            this.name = name;
-            this.description = description;
-        }
-
-        public Category(final ProductCategoryEntity categoryEntity) {
-            this.name = categoryEntity.getCategoryName();
-            this.description = categoryEntity.getDescription();
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(final String name) {
-            this.name = name;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(final String description) {
-            this.description = description;
-        }
     }
 
     public class Parameter {

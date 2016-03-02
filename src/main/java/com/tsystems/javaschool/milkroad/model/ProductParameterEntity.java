@@ -7,6 +7,12 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "product_parameter", schema = "milkroad")
+@NamedQueries({
+        @NamedQuery(name = "ProductParameterEntity.findAllByProductID",
+                query = "SELECT o FROM ProductParameterEntity o WHERE o.product.id = :productID"),
+        @NamedQuery(name = "ProductParameterEntity.findAllByProductIDAndAttrID",
+                query = "SELECT o FROM ProductParameterEntity o WHERE o.product.id = :productID AND o.attribute.id = :attrID")
+})
 public class ProductParameterEntity {
     private Long id; // TODO Stub. Fix me. PK must be (product, attribute)
     private ProductEntity product;

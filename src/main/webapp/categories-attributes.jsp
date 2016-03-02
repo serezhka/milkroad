@@ -42,13 +42,15 @@
                             <i class="fa fa-pencil-square-o"></i> </a></td>
                     </tr>
                 </c:forEach>
-                <td><input id="categoryNameNew" type="text" class="form-control"
-                           value=""/></td>
-                <td><input id="categoryDescNew" type="text" class="form-control"
-                           value=""/></td>
-                <td><a class="btn btn-success" href="javascript:;"
-                       onclick="addCategory()">
-                    <i class="fa fa-plus"></i> </a></td>
+                <tr>
+                    <td><input id="categoryNameNew" type="text" class="form-control"
+                               value=""/></td>
+                    <td><input id="categoryDescNew" type="text" class="form-control"
+                               value=""/></td>
+                    <td><a class="btn btn-success" href="javascript:;"
+                           onclick="addCategory()">
+                        <i class="fa fa-plus"></i></a></td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -82,13 +84,15 @@
                             <i class="fa fa-pencil-square-o"></i> </a></td>
                     </tr>
                 </c:forEach>
-                <td><input id="attributeNameNew" type="text" class="form-control"
-                           value=""/></td>
-                <td><input id="attributeDescNew" type="text" class="form-control"
-                           value=""/></td>
-                <td><a class="btn btn-success" href="javascript:;"
-                       onclick="addAttribute()">
-                    <i class="fa fa-plus"></i> </a></td>
+                <tr>
+                    <td><input id="attributeNameNew" type="text" class="form-control"
+                               value=""/></td>
+                    <td><input id="attributeDescNew" type="text" class="form-control"
+                               value=""/></td>
+                    <td><a class="btn btn-success" href="javascript:;"
+                           onclick="addAttribute()">
+                        <i class="fa fa-plus"></i></a></td>
+                </tr>
                 </tbody>
             </table>
         </div>

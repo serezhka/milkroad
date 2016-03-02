@@ -184,3 +184,129 @@ function addAttribute() {
     document.body.appendChild(form);
     form.submit();
 }
+
+function updateProduct(productArticle, paramsCount) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/management";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "updateProduct";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var product_article = document.createElement("INPUT");
+    product_article.name = "productArticle";
+    product_article.value = productArticle;
+    product_article.type = 'hidden';
+    form.appendChild(product_article);
+
+    var productName = document.createElement("INPUT");
+    productName.name = "productName";
+    productName.value = $("input#productName_" + productArticle).val();
+    productName.type = 'hidden';
+    form.appendChild(productName);
+
+    var productCategory = document.createElement("INPUT");
+    productCategory.name = "productCategoryID";
+    productCategory.value = $("select#productCategory_" + productArticle).val();
+    productCategory.type = 'hidden';
+    form.appendChild(productCategory);
+
+    var productPrice = document.createElement("INPUT");
+    productPrice.name = "productPrice";
+    productPrice.value = $("input#productPrice_" + productArticle).val();
+    productPrice.type = 'hidden';
+    form.appendChild(productPrice);
+
+    var productCount = document.createElement("INPUT");
+    productCount.name = "productCount";
+    productCount.value = $("input#productCount_" + productArticle).val();
+    productCount.type = 'hidden';
+    form.appendChild(productCount);
+
+    var productDescription = document.createElement("INPUT");
+    productDescription.name = "productDescription";
+    productDescription.value = $("input#productDesc_" + productArticle).val();
+    productDescription.type = 'hidden';
+    form.appendChild(productDescription);
+
+    for (var i = 0; i < paramsCount; i++) {
+        var productParameter = document.createElement("INPUT");
+        var paramID = $("select#productAttrID_" + productArticle + "_" + i).val();
+        var paramValue = $("input#productAttrValue_" + productArticle + "_" + i).val();
+        productParameter.name = "productParameter"; // for PHP: [" + paramName + "]";
+        productParameter.value = paramID + "|" + paramValue;
+        productParameter.type = 'hidden';
+        form.appendChild(productParameter);
+    }
+
+    var paramNewID = $("select#productAttrNewID_" + productArticle).val();
+    var paramNewValue = $("input#productAttrNewValue_" + productArticle).val();
+    if (paramNewID && paramNewValue && !(paramNewID.length === 0) && !(paramNewValue === 0)) {
+        var productNewParameter = document.createElement("INPUT");
+        productNewParameter.name = "productParameter"; // for PHP : [" + paramNewName + "]";
+        productNewParameter.value = paramNewID + "|" + paramNewValue;
+        productNewParameter.type = 'hidden';
+        form.appendChild(productNewParameter);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function createProduct() {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/management";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "createProduct";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var productName = document.createElement("INPUT");
+    productName.name = "productName";
+    productName.value = $("input#productNewName").val();
+    productName.type = 'hidden';
+    form.appendChild(productName);
+
+    var productCategory = document.createElement("INPUT");
+    productCategory.name = "productCategoryID";
+    productCategory.value = $("select#productNewCategory").val();
+    productCategory.type = 'hidden';
+    form.appendChild(productCategory);
+
+    var productPrice = document.createElement("INPUT");
+    productPrice.name = "productPrice";
+    productPrice.value = $("input#productNewPrice").val();
+    productPrice.type = 'hidden';
+    form.appendChild(productPrice);
+
+    var productCount = document.createElement("INPUT");
+    productCount.name = "productCount";
+    productCount.value = $("input#productNewCount").val();
+    productCount.type = 'hidden';
+    form.appendChild(productCount);
+
+    var productDescription = document.createElement("INPUT");
+    productDescription.name = "productDescription";
+    productDescription.value = $("input#productNewDesc").val();
+    productDescription.type = 'hidden';
+    form.appendChild(productDescription);
+
+    var paramNewID = $("select#productNewAttrID").val();
+    var paramNewValue = $("input#productNewAttrValue").val();
+    if (paramNewID && paramNewValue && !(paramNewID.length === 0) && !(paramNewValue === 0)) {
+        var productNewParameter = document.createElement("INPUT");
+        productNewParameter.name = "productParameter"; // for PHP : [" + paramNewName + "]";
+        productNewParameter.value = paramNewID + "|" + paramNewValue;
+        productNewParameter.type = 'hidden';
+        form.appendChild(productNewParameter);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
