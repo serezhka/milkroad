@@ -15,7 +15,7 @@
 <div class="container">
     <c:choose>
         <c:when test="${not empty cart}">
-            <div class="col-md-9 cart-items">
+            <div class="col-md-6 cart-items">
                 <div class="price-details">
                     <h3 class="milkroad-h3">Order details</h3>
                     <span>Total</span>

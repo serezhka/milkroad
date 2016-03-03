@@ -38,7 +38,7 @@
                         <td><input id="categoryDesc_${category.id}" type="text" class="form-control"
                                    value="${category.description}"/></td>
                         <td><a class="btn btn-success" href="javascript:;"
-                               onclick="updateCategoryDetails(${category.id})">
+                               onclick="updateCategoryDetails(${category.id});">
                             <i class="fa fa-pencil-square-o"></i> </a></td>
                     </tr>
                 </c:forEach>
@@ -48,7 +48,7 @@
                     <td><input id="categoryDescNew" type="text" class="form-control"
                                value=""/></td>
                     <td><a class="btn btn-success" href="javascript:;"
-                           onclick="addCategory()">
+                           onclick="addCategory();">
                         <i class="fa fa-plus"></i></a></td>
                 </tr>
                 </tbody>
@@ -80,7 +80,7 @@
                         <td><input id="attributeDesc_${attribute.id}" type="text" class="form-control"
                                    value="${attribute.description}"/></td>
                         <td><a class="btn btn-success" href="javascript:;"
-                               onclick="updateAttributeDetails(${attribute.id})">
+                               onclick="updateAttributeDetails(${attribute.id});">
                             <i class="fa fa-pencil-square-o"></i> </a></td>
                     </tr>
                 </c:forEach>
@@ -90,7 +90,7 @@
                     <td><input id="attributeDescNew" type="text" class="form-control"
                                value=""/></td>
                     <td><a class="btn btn-success" href="javascript:;"
-                           onclick="addAttribute()">
+                           onclick="addAttribute();">
                         <i class="fa fa-plus"></i></a></td>
                 </tr>
                 </tbody>

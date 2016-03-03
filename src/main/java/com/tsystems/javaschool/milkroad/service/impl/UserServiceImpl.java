@@ -1,10 +1,8 @@
 package com.tsystems.javaschool.milkroad.service.impl;
 
-import com.tsystems.javaschool.milkroad.dao.AddressDAO;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
-import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
@@ -24,14 +22,11 @@ public class UserServiceImpl extends AbstractService implements UserService {
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
     private final UserDAO<UserEntity, Long> userDAO;
-    private final AddressDAO<AddressEntity, Long> addressDAO;
 
     public UserServiceImpl(final EntityManager entityManager,
-                           final UserDAO<UserEntity, Long> userDAO,
-                           final AddressDAO<AddressEntity, Long> addressDAO) {
+                           final UserDAO<UserEntity, Long> userDAO) {
         super(entityManager);
         this.userDAO = userDAO;
-        this.addressDAO = addressDAO;
     }
 
     @Override
@@ -40,6 +35,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         try {
             final List<UserEntity> userEntities = userDAO.getAll();
             for (final UserEntity userEntity : userEntities) {
+                entityManager.refresh(userEntity);
                 userDTOs.add(new UserDTO(userEntity));
             }
             return userDTOs;
@@ -164,6 +160,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         final UserEntity userEntity;
         try {
             userEntity = userDAO.getByEmail(email);
+            entityManager.refresh(userEntity);
             return userEntity;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading user with email = " + email);

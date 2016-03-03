@@ -35,6 +35,7 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
         final AddressEntity addressEntity = new AddressEntity(addressDTO);
         try {
             entityManager.getTransaction().begin();
+            // TODO Check if user exists
             userEntity = userDAO.getByID(userDTO.getId());
             userEntity.addAddress(addressEntity);
             userDAO.merge(userEntity);
@@ -48,5 +49,26 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
             }
         }
         return new UserDTO(userEntity);
+    }
+
+    @Override
+    public AddressDTO updateAddress(final AddressDTO addressDTO) throws MilkroadServiceException {
+        try {
+            // TODO Check if address exists
+            entityManager.getTransaction().begin();
+            final AddressEntity addressEntity = addressDAO.getByID(addressDTO.getId());
+            addressEntity.setCountry(addressDTO.getCountry());
+            addressEntity.setCity(addressDTO.getCity());
+            addressEntity.setPostcode(addressDTO.getPostcode());
+            addressEntity.setStreet(addressDTO.getStreet());
+            addressEntity.setBuilding(addressDTO.getBuilding());
+            addressEntity.setApartment(addressDTO.getApartment());
+            addressDAO.merge(addressEntity);
+            entityManager.getTransaction().commit();
+            return new AddressDTO(addressEntity);
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while updating address with id = " + addressDTO.getId());
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        }
     }
 }

@@ -69,63 +69,6 @@ public class FormDataFilter implements Filter {
                     break;
                 }
 
-                case "profileUpdateForm": {
-                    final String firstName = request.getParameter("firstname");
-                    if (!FormDataValidator.validateName(firstName)) {
-                        errors.add("FIRST_NAME_ERROR");
-                    }
-                    final String lastName = request.getParameter("lastname");
-                    if (!FormDataValidator.validateName(lastName)) {
-                        errors.add("LAST_NAME_ERROR");
-                    }
-                    final String birthday = request.getParameter("birthday");
-                    if (!FormDataValidator.validateDate(birthday)) {
-                        errors.add("DATE_ERROR");
-                    }
-                    final String pass = request.getParameter("pass");
-                    if (!(pass != null && pass.isEmpty()) && !FormDataValidator.validatePass(pass)) {
-                        errors.add("PASS_ERROR");
-                    }
-                    input.put("firstname", firstName);
-                    input.put("lastname", lastName);
-                    input.put("birthday", birthday);
-                    break;
-                }
-
-                case "addAddressForm": {
-                    final String country = request.getParameter("country");
-                    if (!FormDataValidator.validateName(country)) {
-                        errors.add("COUNTRY_ERROR");
-                    }
-                    final String city = request.getParameter("city");
-                    if (!FormDataValidator.validateName(city)) {
-                        errors.add("CITY_ERROR");
-                    }
-                    final String postcode = request.getParameter("postcode");
-                    if (!FormDataValidator.validateInteger(postcode)) {
-                        errors.add("POSTCODE_ERROR");
-                    }
-                    final String street = request.getParameter("street");
-                    if (!FormDataValidator.validateName(street)) {
-                        errors.add("STREET_ERROR");
-                    }
-                    final String building = request.getParameter("building");
-                    if (!FormDataValidator.validateName(building)) {
-                        errors.add("BUILDING_ERROR");
-                    }
-                    final String apartment = request.getParameter("apartment");
-                    if (!FormDataValidator.validateName(apartment)) {
-                        errors.add("APARTMENT_ERROR");
-                    }
-                    input.put("country", country);
-                    input.put("city", city);
-                    input.put("postcode", postcode);
-                    input.put("street", street);
-                    input.put("building", building);
-                    input.put("apartment", apartment);
-                    break;
-                }
-
                 case "checkoutForm": {
                     final String paymentMethod = request.getParameter("payment");
                     if (!FormDataValidator.validateEnum(PaymentMethodEnum.class, paymentMethod)) {
@@ -240,6 +183,95 @@ public class FormDataFilter implements Filter {
                     input.put("productCategoryID", productCategoryID);
                     input.put("productDesc", request.getParameter("productDescription"));
                     // TODO Validate parameters array
+                    break;
+                }
+
+                case "updateProfile": {
+                    final String firstName = request.getParameter("firstname");
+                    if (!FormDataValidator.validateName(firstName)) {
+                        errors.add("FIRST_NAME_ERROR");
+                    }
+                    final String lastName = request.getParameter("lastname");
+                    if (!FormDataValidator.validateName(lastName)) {
+                        errors.add("LAST_NAME_ERROR");
+                    }
+                    final String birthday = request.getParameter("birthday");
+                    if (!FormDataValidator.validateDate(birthday)) {
+                        errors.add("DATE_ERROR");
+                    }
+                    final String pass = request.getParameter("pass");
+                    if (!(pass != null && pass.isEmpty()) && !FormDataValidator.validatePass(pass)) {
+                        errors.add("PASS_ERROR");
+                    }
+                    input.put("firstname", firstName);
+                    input.put("lastname", lastName);
+                    input.put("birthday", birthday);
+                    break;
+                }
+
+                case "updateAddress": {
+                    final String addressID = request.getParameter("addressID");
+                    if (!FormDataValidator.validateLong(addressID)) {
+                        errors.add("ADDRESS_ID_ERROR");
+                    }
+                    final String country = request.getParameter("country");
+                    if (!FormDataValidator.validateName(country)) {
+                        errors.add("COUNTRY_ERROR");
+                    }
+                    final String city = request.getParameter("city");
+                    if (!FormDataValidator.validateName(city)) {
+                        errors.add("CITY_ERROR");
+                    }
+                    final String postcode = request.getParameter("postcode");
+                    if (!FormDataValidator.validateInteger(postcode)) {
+                        errors.add("POSTCODE_ERROR");
+                    }
+                    final String street = request.getParameter("street");
+                    if (!FormDataValidator.validateName(street)) {
+                        errors.add("STREET_ERROR");
+                    }
+                    final String building = request.getParameter("building");
+                    if (!FormDataValidator.validateName(building)) {
+                        errors.add("BUILDING_ERROR");
+                    }
+                    final String apartment = request.getParameter("apartment");
+                    if (!FormDataValidator.validateName(apartment)) {
+                        errors.add("APARTMENT_ERROR");
+                    }
+                    break;
+                }
+
+                case "createAddress": {
+                    final String country = request.getParameter("country");
+                    if (!FormDataValidator.validateName(country)) {
+                        errors.add("COUNTRY_ERROR");
+                    }
+                    final String city = request.getParameter("city");
+                    if (!FormDataValidator.validateName(city)) {
+                        errors.add("CITY_ERROR");
+                    }
+                    final String postcode = request.getParameter("postcode");
+                    if (!FormDataValidator.validateInteger(postcode)) {
+                        errors.add("POSTCODE_ERROR");
+                    }
+                    final String street = request.getParameter("street");
+                    if (!FormDataValidator.validateName(street)) {
+                        errors.add("STREET_ERROR");
+                    }
+                    final String building = request.getParameter("building");
+                    if (!FormDataValidator.validateName(building)) {
+                        errors.add("BUILDING_ERROR");
+                    }
+                    final String apartment = request.getParameter("apartment");
+                    if (!FormDataValidator.validateName(apartment)) {
+                        errors.add("APARTMENT_ERROR");
+                    }
+                    input.put("country", country);
+                    input.put("city", city);
+                    input.put("postcode", postcode);
+                    input.put("street", street);
+                    input.put("building", building);
+                    input.put("apartment", apartment);
                     break;
                 }
             }

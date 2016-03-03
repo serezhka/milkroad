@@ -103,10 +103,10 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     }
 
     @Override
-    public ProductDTO getProductByArticle(final String article) throws MilkroadServiceException {
+    public ProductDTO getProductByArticle(final Long article) throws MilkroadServiceException {
         try {
             final ProductEntity productEntity;
-            productEntity = productDAO.getByID(Long.valueOf(article));
+            productEntity = productDAO.getByID(article);
             if (productEntity != null) {
                 return new ProductDTO(productEntity);
             } else {

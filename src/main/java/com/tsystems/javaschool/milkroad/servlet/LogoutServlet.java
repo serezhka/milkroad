@@ -16,6 +16,8 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().setAttribute("cart", null);
+        request.getSession().setAttribute("cartTotal", null);
         AuthUtil.deauthUser(request.getSession());
         response.sendRedirect("/");
     }

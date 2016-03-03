@@ -50,6 +50,10 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 # fill users table
 # @formatter:off (for IntelliJIDEA)
+INSERT INTO user (user_type, first_name, last_name, birthday, email, pass_hash, pass_salt)
+VALUES
+  ('ADMIN', 'Admin', 'Admin', '1993-03-08', 'admin@mail.ru', '1c76c47e1e9de8f8fe07b353bde4fe47', '3241530acd90b347ee79c5596746fcb4');
+
 INSERT INTO user (first_name, last_name, birthday, email, pass_hash, pass_salt)
 VALUES
   ('Sergey', 'Fedorov', '1993-03-08', 'serezhka@xakep.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),

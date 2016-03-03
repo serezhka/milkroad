@@ -16,10 +16,23 @@
                 <c:forEach items="${cart}" var="cartItem">
                     <div class="cart-item">
                         <div class="cart-item-remove">
-                            <form action="${pageContext.request.contextPath}/cart" method="post">
-                                <input type="hidden" name="remove" value="${cartItem.key.article}"/>
-                                <a href="javascript:;" onclick="parentNode.submit();"></a>
-                            </form>
+                            <a href="javascript:;"
+                               onclick="removeProductFromCart(${cartItem.key.article});"></a>
+                        </div>
+                        <div class="btn-group btn-group-justified cart-item-count" role="group" aria-label="...">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        onclick="removeProductOnceFromCart(${cartItem.key.article});">-
+                                </button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default">${cartItem.value}</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default"
+                                        onclick="addProductToCart(${cartItem.key.article});">+
+                                </button>
+                            </div>
                         </div>
                         <div class="cart-item-image">
                             <img src="images/product-item-image.png" class="img-responsive" alt=""/>

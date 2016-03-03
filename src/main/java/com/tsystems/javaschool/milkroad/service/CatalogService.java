@@ -20,7 +20,7 @@ public interface CatalogService {
 
     List<ProductDTO> getAllProductsByCategory(final String category) throws MilkroadServiceException;
 
-    ProductDTO getProductByArticle(final String article) throws MilkroadServiceException;
+    ProductDTO getProductByArticle(final Long article) throws MilkroadServiceException;
 
     CategoryDTO updateCategory(final CategoryDTO categoryDTO) throws MilkroadServiceException;
 

@@ -725,12 +725,6 @@ ul.cart-item-details li p {
     transition: color 0.2s ease-in-out;
 }
 
-.cart-item-remove form {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
 .cart-item-remove a {
     display: block;
     width: 100%;
@@ -804,6 +798,13 @@ a.cart-order {
 
 a.cart-order:hover {
     background: #000;
+}
+
+.cart-item-count {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 100px;
 }
 
 /* **************************************************** */
@@ -1018,7 +1019,7 @@ a.cart-order:hover {
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
     .profile-addresses h3, .profile-add-address h3,
-    .profile-orders h3, h3.milkroad-h3  {
+    .profile-orders h3, h3.milkroad-h3 {
         font-size: 1.1em;
     }
 

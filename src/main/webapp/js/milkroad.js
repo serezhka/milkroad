@@ -310,3 +310,174 @@ function createProduct() {
     document.body.appendChild(form);
     form.submit();
 }
+
+function updateAddress(addressID) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/profile";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "updateAddress";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var address_id = document.createElement("INPUT");
+    address_id.name = "addressID";
+    address_id.value = addressID;
+    address_id.type = 'hidden';
+    form.appendChild(address_id);
+
+    var country = document.createElement("INPUT");
+    country.name = "country";
+    country.value = $("input#country_" + addressID).val();
+    country.type = 'hidden';
+    form.appendChild(country);
+
+    var city = document.createElement("INPUT");
+    city.name = "city";
+    city.value = $("input#city_" + addressID).val();
+    city.type = 'hidden';
+    form.appendChild(city);
+
+    var postcode = document.createElement("INPUT");
+    postcode.name = "postcode";
+    postcode.value = $("input#postcode_" + addressID).val();
+    postcode.type = 'hidden';
+    form.appendChild(postcode);
+
+    var street = document.createElement("INPUT");
+    street.name = "street";
+    street.value = $("input#street_" + addressID).val();
+    street.type = 'hidden';
+    form.appendChild(street);
+
+    var building = document.createElement("INPUT");
+    building.name = "building";
+    building.value = $("input#building_" + addressID).val();
+    building.type = 'hidden';
+    form.appendChild(building);
+
+    var apartment = document.createElement("INPUT");
+    apartment.name = "apartment";
+    apartment.value = $("input#apartment_" + addressID).val();
+    apartment.type = 'hidden';
+    form.appendChild(apartment);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function createAddress() {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/profile";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "createAddress";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var country = document.createElement("INPUT");
+    country.name = "country";
+    country.value = $("input#country_new").val();
+    country.type = 'hidden';
+    form.appendChild(country);
+
+    var city = document.createElement("INPUT");
+    city.name = "city";
+    city.value = $("input#city_new").val();
+    city.type = 'hidden';
+    form.appendChild(city);
+
+    var postcode = document.createElement("INPUT");
+    postcode.name = "postcode";
+    postcode.value = $("input#postcode_new").val();
+    postcode.type = 'hidden';
+    form.appendChild(postcode);
+
+    var street = document.createElement("INPUT");
+    street.name = "street";
+    street.value = $("input#street_new").val();
+    street.type = 'hidden';
+    form.appendChild(street);
+
+    var building = document.createElement("INPUT");
+    building.name = "building";
+    building.value = $("input#building_new").val();
+    building.type = 'hidden';
+    form.appendChild(building);
+
+    var apartment = document.createElement("INPUT");
+    apartment.name = "apartment";
+    apartment.value = $("input#apartment_new").val();
+    apartment.type = 'hidden';
+    form.appendChild(apartment);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function addProductToCart(article_id) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/cart";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "addProduct";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var article = document.createElement("INPUT");
+    article.name = "article";
+    article.value = article_id;
+    article.type = 'hidden';
+    form.appendChild(article);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function removeProductFromCart(article_id) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/cart";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "removeProduct";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var article = document.createElement("INPUT");
+    article.name = "article";
+    article.value = article_id;
+    article.type = 'hidden';
+    form.appendChild(article);
+
+    document.body.appendChild(form);
+    form.submit();
+}
+
+function removeProductOnceFromCart(article_id) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/cart";
+
+    var action = document.createElement("INPUT");
+    action.name = "action";
+    action.value = "removeProductOnce";
+    action.type = 'hidden';
+    form.appendChild(action);
+
+    var article = document.createElement("INPUT");
+    article.name = "article";
+    article.value = article_id;
+    article.type = 'hidden';
+    form.appendChild(article);
+
+    document.body.appendChild(form);
+    form.submit();
+}

@@ -9,4 +9,6 @@ import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceExcepti
  */
 public interface AddressService {
     UserDTO addAddressToUser(final UserDTO userDTO, final AddressDTO addressDTO) throws MilkroadServiceException;
+
+    AddressDTO updateAddress(final AddressDTO addressDTO) throws  MilkroadServiceException;
 }

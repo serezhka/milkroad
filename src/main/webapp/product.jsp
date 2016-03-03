@@ -16,9 +16,6 @@
                 <li><span>${parameter.name}</span><span>: ${parameter.value}</span></li>
             </c:forEach>
         </ul>
-        <form action="${pageContext.request.contextPath}/cart" method="post">
-            <input type="hidden" name="article" value="${product.article}"/>
-            <a href="javascript:;" class="product-add-cart" onclick="parentNode.submit();">ADD TO CART</a>
-        </form>
+        <a href="javascript:;" class="product-add-cart" onclick="addProductToCart(${product.article});">ADD TO CART</a>
     </div>
 </div>

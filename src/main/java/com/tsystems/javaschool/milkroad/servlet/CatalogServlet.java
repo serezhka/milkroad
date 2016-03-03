@@ -41,7 +41,7 @@ public class CatalogServlet extends HttpServlet {
         final String article = request.getParameter("article");
         if (article != null && !article.isEmpty()) {
             try {
-                request.setAttribute("product", catalogService.getProductByArticle(article));
+                request.setAttribute("product", catalogService.getProductByArticle(Long.valueOf(article)));
             } catch (final MilkroadServiceException e) {
                 if (e.getType() == MilkroadServiceException.Type.PRODUCT_NOT_EXISTS) {
                     request.setAttribute("message", "Product with article = " + article + " does not exist");
