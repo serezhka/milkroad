@@ -77,9 +77,11 @@ public class ManagementServlet extends HttpServlet {
                     try {
                         final StatisticsService statisticsService = MilkroadAppContext.getInstance().getStatisticsService();
                         final List<Pair<ProductDTO, Integer>> products = statisticsService.getTopProducts(10);
-                        final List<UserDTO> users = statisticsService.getTopCustomers(10);
+                        final List<Pair<UserDTO, BigDecimal>> users = statisticsService.getTopCustomers(10);
+                        final BigDecimal totalCash = statisticsService.getTotalCash();
                         request.setAttribute("products", products);
                         request.setAttribute("users", users);
+                        request.setAttribute("totalCash", totalCash);
                         request.getRequestDispatcher("/statistics.jsp").forward(request, response);
                     } catch (final MilkroadServiceException e) {
                         request.setAttribute("message", "DB error! Please, try later");

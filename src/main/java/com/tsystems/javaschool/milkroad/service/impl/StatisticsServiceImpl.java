@@ -1,10 +1,12 @@
 package com.tsystems.javaschool.milkroad.service.impl;
 
+import com.tsystems.javaschool.milkroad.dao.OrderDAO;
 import com.tsystems.javaschool.milkroad.dao.ProductDAO;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
+import com.tsystems.javaschool.milkroad.model.OrderEntity;
 import com.tsystems.javaschool.milkroad.model.ProductEntity;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
@@ -13,6 +15,7 @@ import javafx.util.Pair;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +27,16 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
 
     private final ProductDAO<ProductEntity, Long> productDAO;
     private final UserDAO<UserEntity, Long> userDAO;
+    private final OrderDAO<OrderEntity, Long> orderDAO;
 
     public StatisticsServiceImpl(final EntityManager entityManager,
                                  final ProductDAO<ProductEntity, Long> productDAO,
-                                 final UserDAO<UserEntity, Long> userDAO) {
+                                 final UserDAO<UserEntity, Long> userDAO,
+                                 final OrderDAO<OrderEntity, Long> orderDAO) {
         super(entityManager);
         this.productDAO = productDAO;
         this.userDAO = userDAO;
+        this.orderDAO = orderDAO;
     }
 
     @Override
@@ -49,16 +55,26 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
     }
 
     @Override
-    public List<UserDTO> getTopCustomers(final int count) throws MilkroadServiceException {
-        final List<UserDTO> userDTOs = new ArrayList<>();
+    public List<Pair<UserDTO, BigDecimal>> getTopCustomers(final int count) throws MilkroadServiceException {
+        final List<Pair<UserDTO, BigDecimal>> topCustomerDTOs = new ArrayList<>();
         try {
-            final List<UserEntity> userEntities = userDAO.getTopCustomers(count);
-            for (final UserEntity userEntity : userEntities) {
-                userDTOs.add(new UserDTO(userEntity));
+            final List<Pair<UserEntity, BigDecimal>> topCustomersEntities = userDAO.getTopCustomers(count);
+            for (final Pair<UserEntity, BigDecimal> topCustomersEntity : topCustomersEntities) {
+                topCustomerDTOs.add(new Pair<>(new UserDTO(topCustomersEntity.getKey()), topCustomersEntity.getValue()));
             }
-            return userDTOs;
+            return topCustomerDTOs;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading top customers");
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        }
+    }
+
+    @Override
+    public BigDecimal getTotalCash() throws MilkroadServiceException {
+        try {
+            return orderDAO.getTotalCash();
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while getting total cash");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
     }

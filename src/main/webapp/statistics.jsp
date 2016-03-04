@@ -8,7 +8,8 @@
 <jsp:include page="header-nav.jsp"/>
 
 <%--@elvariable id="products" type="java.util.List<javafx.util.Pair<com.tsystems.javaschool.milkroad.dto.ProductDTO, java.lang.Integer>>"--%>
-<%--@elvariable id="users" type="java.util.List<com.tsystems.javaschool.milkroad.dto.UserDTO>"--%>
+<%--@elvariable id="users" type="java.util.List<javafx.util.Pair<com.tsystems.javaschool.milkroad.dto.UserDTO, java.math.BigDecimal>>"--%>
+<%--@elvariable id="totalCash" type="java.math.BigDecimal"--%>
 
 <div class="container">
     <div class="col-md-12">
@@ -50,6 +51,7 @@
             <table class="table" border=3>
                 <thead>
                 <tr>
+                    <th>Total cash</th>
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Birth date</th>
@@ -59,15 +61,20 @@
                 <tbody>
                 <c:forEach items="${users}" var="user">
                     <tr>
-                        <td>${user.firstName}</td>
-                        <td>${user.lastName}</td>
-                        <td>${user.birthday}</td>
-                        <td>${user.email}</td>
+                        <td>${user.value}</td>
+                        <td>${user.key.firstName}</td>
+                        <td>${user.key.lastName}</td>
+                        <td>${user.key.birthday}</td>
+                        <td>${user.key.email}</td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
         </div>
+    </div>
+    <div class="col-md-6">
+        <h3 class="milkroad-h3">Total cash</h3>
+        <h3>${totalCash}</h3>
     </div>
 </div>
 

@@ -232,7 +232,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = statisticsService;
                 if (localInstance == null) {
-                    statisticsService = localInstance = new StatisticsServiceImpl(getEntityManager(), getProductDAO(), getUserDAO());
+                    statisticsService = localInstance = new StatisticsServiceImpl(getEntityManager(), getProductDAO(), getUserDAO(), getOrderDAO());
                 }
             }
         }

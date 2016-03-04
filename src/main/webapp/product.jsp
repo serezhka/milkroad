@@ -22,6 +22,7 @@
             <c:forEach items="${product.parameters}" var="parameter">
                 <li><span>${parameter.name}</span><span>: ${parameter.value}</span></li>
             </c:forEach>
+            <li><span>Remain count</span><span>: ${product.count}</span></li>
         </ul>
         <a href="javascript:;" class="product-add-cart" onclick="addProductToCart(${product.article});">ADD TO CART</a>
     </div>

@@ -67,6 +67,11 @@ public class CheckoutServlet extends HttpServlet {
                 request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                 return;
             } catch (final MilkroadServiceException e) {
+                if (e.getType() == MilkroadServiceException.Type.PRODUCT_NOT_ENOUGH) {
+                    request.setAttribute("message", "Some products in Your cart are missing in our storage");
+                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    return;
+                }
                 request.setAttribute("message", "DB error! Please, try later");
                 request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                 return;

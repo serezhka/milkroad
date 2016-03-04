@@ -55,6 +55,7 @@
                                 <c:forEach items="${cartItem.key.parameters}" var="parameter">
                                     <li><p>${parameter.name} : ${parameter.value}</p></li>
                                 </c:forEach>
+                                <li><p>Remain count : ${cartItem.key.count}</p></li>
                             </ul>
                         </div>
                         <div class="clearfix"></div>

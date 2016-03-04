@@ -69,7 +69,13 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
             orderEntity.setAddress(addressEntity);
             for (final OrderDTO.Detail detail : orderDTO.getDetails()) {
                 final OrderDetailEntity detailEntity = new OrderDetailEntity();
-                detailEntity.setProduct(productDAO.getByID(detail.getProduct().getArticle()));
+                final ProductEntity productEntity = productDAO.getByID(detail.getProduct().getArticle());
+                if (detail.getCount() > productEntity.getRemainCount()) {
+                    throw new MilkroadServiceException(MilkroadServiceException.Type.PRODUCT_NOT_ENOUGH);
+                } else {
+                    productEntity.setRemainCount(productEntity.getRemainCount() - detail.getCount());
+                }
+                detailEntity.setProduct(productEntity);
                 detailEntity.setProductCount(detail.getCount());
                 detailEntity.setPriceTotal(detail.getTotalPrice());
                 orderEntity.addOrderDetail(detailEntity);

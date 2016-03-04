@@ -14,8 +14,10 @@ import java.util.List;
 @Table(name = "`order`", schema = "milkroad")
 @NamedQueries({
         @NamedQuery(name = "OrderEntity.getTopCustomers",
-                query = "SELECT o.customer FROM OrderEntity o " +
-                        "GROUP BY o.customer ORDER BY sum(o.priceTotal) DESC")
+                query = "SELECT o.customer, sum(o.priceTotal) FROM OrderEntity o " +
+                        "GROUP BY o.customer ORDER BY sum(o.priceTotal) DESC"),
+        @NamedQuery(name = "OrderEntity.getTotalCash",
+                query = "SELECT sum(o.priceTotal) FROM OrderEntity o")
 })
 public class OrderEntity {
     private Long id;

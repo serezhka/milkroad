@@ -13,6 +13,7 @@ public class MilkroadServiceException extends Exception {
         PRODUCT_NOT_EXISTS,
         CATEGORY_ALREADY_EXISTS,
         ATTRIBUTE_ALREADY_EXISTS,
+        PRODUCT_NOT_ENOUGH,
         UNKNOWN_ERROR
     }
 
