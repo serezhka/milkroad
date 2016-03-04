@@ -47,7 +47,7 @@
                         <input type="radio" name="shipping" value="POST" checked>Post
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="shipping" value="PICKUP">Pickup
+                        <input type="radio" name="shipping" value="PICKUP" disabled>Pickup
                     </label>
                     <h3 class="milkroad-h3">Shipping method</h3>
                     <c:if test="${empty user.addresses}">

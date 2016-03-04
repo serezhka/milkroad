@@ -8,6 +8,11 @@ import java.math.BigDecimal;
  */
 @Entity
 @Table(name = "order_detail", schema = "milkroad")
+@NamedQueries({
+        @NamedQuery(name = "OrderDetailEntity.getTopProducts",
+                query = "SELECT o.product, sum(o.productCount) FROM OrderDetailEntity o " +
+                        "GROUP BY o.product ORDER BY sum(o.productCount) DESC")
+})
 public class OrderDetailEntity {
     private Long id; // TODO Stub. Fix me. PK must be (product, attribute)
     private OrderEntity order;

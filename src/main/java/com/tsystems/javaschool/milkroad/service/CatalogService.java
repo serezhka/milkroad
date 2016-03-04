@@ -39,4 +39,9 @@ public interface CatalogService {
      * @param parameters - product parameters in "attribute_id|attribute_value" format
      */
     ProductDTO createProduct(final UserDTO userDTO, final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException;
+
+    /**
+     * @param pattern - full (or part of) product name
+     */
+    List<ProductDTO> searchProductByName(final String pattern) throws MilkroadServiceException;
 }

@@ -294,4 +294,20 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
             }
         }
     }
+
+    @Override
+    public List<ProductDTO> searchProductByName(final String pattern) throws MilkroadServiceException {
+        final List<ProductDTO> productDTOs = new ArrayList<>();
+        try {
+            final List<ProductEntity> productEntities = productDAO.searchByName(pattern);
+            for (final ProductEntity productEntity : productEntities) {
+                entityManager.refresh(productEntity);
+                productDTOs.add(new ProductDTO(productEntity));
+            }
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while searching products by pattern = " + pattern);
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        }
+        return productDTOs;
+    }
 }

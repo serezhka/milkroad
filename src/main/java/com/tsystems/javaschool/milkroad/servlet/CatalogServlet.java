@@ -37,9 +37,11 @@ public class CatalogServlet extends HttpServlet {
             return;
         }
 
-        /* Load product info */
         final String article = request.getParameter("article");
+        final String category = request.getParameter("category");
+        final String search = request.getParameter("search");
         if (article != null && !article.isEmpty()) {
+            /* Load product info */
             try {
                 request.setAttribute("product", catalogService.getProductByArticle(Long.valueOf(article)));
             } catch (final MilkroadServiceException e) {
@@ -53,10 +55,16 @@ public class CatalogServlet extends HttpServlet {
                     return;
                 }
             }
+        } else if (search != null && !search.isEmpty()) {
+            try {
+                request.setAttribute("products", catalogService.searchProductByName(search));
+            } catch (final MilkroadServiceException e) {
+                request.setAttribute("message", "DB error! Please, try later");
+                request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                return;
+            }
         } else {
-
-             /* Load products by category (or all, if category not specified) */
-            final String category = request.getParameter("category");
+            /* Load products by category (or all, if category not specified) */
             final List<ProductDTO> products;
             try {
                 if (category != null && !category.isEmpty()) {

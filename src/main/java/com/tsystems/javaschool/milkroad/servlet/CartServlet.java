@@ -67,7 +67,7 @@ public class CartServlet extends HttpServlet {
                     try {
                         productDTO = MilkroadAppContext.getInstance().getCatalogService().getProductByArticle(article);
                         final int count = cart.getOrDefault(productDTO, 0);
-                        if (count < 1) {
+                        if (count < 2) {
                             cart.remove(productDTO);
                         } else {
                             cart.put(productDTO, cart.get(productDTO) - 1);
@@ -85,7 +85,7 @@ public class CartServlet extends HttpServlet {
             for (final ProductDTO product : cart.keySet()) {
                 total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
             }
-            request.getSession().setAttribute("cartTotal", total);
+            request.getSession().setAttribute("cartTotal", (BigDecimal.ZERO.equals(total)) ? null : total);
             request.getRequestDispatcher("/cart.jsp").forward(request, response);
             return;
         }

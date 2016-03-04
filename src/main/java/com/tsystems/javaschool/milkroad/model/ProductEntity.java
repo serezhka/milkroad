@@ -12,7 +12,10 @@ import java.util.List;
 @Table(name = "product", schema = "milkroad")
 @NamedQueries({
         @NamedQuery(name = "ProductEntity.findAllByCategory",
-                query = "SELECT o FROM ProductEntity o WHERE o.category.categoryName = :category")
+                query = "SELECT o FROM ProductEntity o WHERE o.category.categoryName = :category"),
+        /* TODO Replace with native query MATCH AGAINST IN BOOLEAN MODE */
+        @NamedQuery(name = "ProductEntity.findByPattern",
+                query = "SELECT o FROM ProductEntity o WHERE LOWER(o.productName) LIKE :pattern")
 })
 public class ProductEntity {
     private Long id;

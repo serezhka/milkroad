@@ -12,6 +12,11 @@ import java.util.List;
  */
 @Entity
 @Table(name = "`order`", schema = "milkroad")
+@NamedQueries({
+        @NamedQuery(name = "OrderEntity.getTopCustomers",
+                query = "SELECT o.customer FROM OrderEntity o " +
+                        "GROUP BY o.customer ORDER BY sum(o.priceTotal) DESC")
+})
 public class OrderEntity {
     private Long id;
     private UserEntity customer;

@@ -4,13 +4,25 @@
 <%--@elvariable id="products" type="java.util.List<com.tsystems.javaschool.milkroad.dto.ProductDTO>"--%>
 
 <div class="col-md-9 catalog-goods">
+    <c:if test="${empty products}">
+        <h3 class="milkroad-h3">No products found :(</h3>
+    </c:if>
     <c:forEach items="${products}" var="product">
         <div class="col-md-4 product-item">
             <div class="product-preview">
                 <c:url value="/catalog" var="productURL">
                     <c:param name="article" value="${product.article}"/>
                 </c:url>
-                <a href="${productURL}"><img class="img-responsive" src="images/product-item-image.png" alt=""></a>
+                    <%-- TODO This is stub ;) --%>
+                <c:choose>
+                    <c:when test="${product.article < 11}">
+                        <a href="${productURL}"><img class="img-responsive"
+                                                     src="images/product/product_${product.article}.jpg" alt=""></a>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="${productURL}"><img class="img-responsive" src="images/product-item-image.png" alt=""></a>
+                    </c:otherwise>
+                </c:choose>
             </div>
             <p class="product-name">${product.name}</p>
             <c:url value="/cart" var="cartURL">

@@ -29,8 +29,7 @@ public class AddressDAOImpl extends DAOImpl<AddressEntity, Long> implements Addr
             entityTypedQuery.setParameter("email", email);
             return entityTypedQuery.getResultList();
         } catch (final NoResultException e) {
-            final String message = "No addresses with user email = " + email;
-            LOGGER.warn(message);
+            LOGGER.warn("No addresses with user email = " + email);
             return Collections.emptyList();
         } catch (final Exception e1) {
             LOGGER.error("Error on find address by user email = " + email + " " + entityClass.getSimpleName());

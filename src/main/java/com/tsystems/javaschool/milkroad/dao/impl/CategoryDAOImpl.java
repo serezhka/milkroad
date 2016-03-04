@@ -27,8 +27,7 @@ public class CategoryDAOImpl extends DAOImpl<ProductCategoryEntity, Long> implem
             entityTypedQuery.setParameter("name", name);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
-            final String message = "No categories found with name " + name;
-            LOGGER.warn(message);
+            LOGGER.warn("No categories found with name " + name);
             return null;
         } catch (final Exception e1) {
             LOGGER.error("Error on find category by name = " + name + " " + entityClass.getSimpleName());

@@ -29,8 +29,7 @@ public class ParameterDAOImpl extends DAOImpl<ProductParameterEntity, Long> impl
             entityTypedQuery.setParameter("productID", productID);
             return entityTypedQuery.getResultList();
         } catch (final NoResultException e) {
-            final String message = "No parameters with product id = " + productID;
-            LOGGER.warn(message);
+            LOGGER.warn("No parameters with product id = " + productID);
             return Collections.emptyList();
         } catch (final Exception e1) {
             LOGGER.error("Error on find parameters by product id = " + productID + " " + entityClass.getSimpleName());
@@ -47,8 +46,7 @@ public class ParameterDAOImpl extends DAOImpl<ProductParameterEntity, Long> impl
             entityTypedQuery.setParameter("attrID", attrID);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
-            final String message = "No parameter with product id = " + productID + " and attr id = " + attrID;
-            LOGGER.warn(message);
+            LOGGER.warn("No parameter with product id = " + productID + " and attr id = " + attrID);
             return null;
         } catch (final Exception e1) {
             LOGGER.error("Error on find parameter by product id = " + productID + " and attr id = " + attrID + " " + entityClass.getSimpleName());

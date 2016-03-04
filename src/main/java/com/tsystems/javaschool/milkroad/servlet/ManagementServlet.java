@@ -7,8 +7,10 @@ import com.tsystems.javaschool.milkroad.model.PaymentStatusEnum;
 import com.tsystems.javaschool.milkroad.model.ShippingMethodEnum;
 import com.tsystems.javaschool.milkroad.model.ShippingStatusEnum;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
+import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.AuthUtil;
+import javafx.util.Pair;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,6 +66,21 @@ public class ManagementServlet extends HttpServlet {
                         request.setAttribute("attributes", attributes);
                         request.setAttribute("products", products);
                         request.getRequestDispatcher("/productlist.jsp").forward(request, response);
+                    } catch (final MilkroadServiceException e) {
+                        request.setAttribute("message", "DB error! Please, try later");
+                        request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    }
+                    return;
+                }
+
+                case "viewStatistics": {
+                    try {
+                        final StatisticsService statisticsService = MilkroadAppContext.getInstance().getStatisticsService();
+                        final List<Pair<ProductDTO, Integer>> products = statisticsService.getTopProducts(10);
+                        final List<UserDTO> users = statisticsService.getTopCustomers(10);
+                        request.setAttribute("products", products);
+                        request.setAttribute("users", users);
+                        request.getRequestDispatcher("/statistics.jsp").forward(request, response);
                     } catch (final MilkroadServiceException e) {
                         request.setAttribute("message", "DB error! Please, try later");
                         request.getRequestDispatcher("/single-message.jsp").forward(request, response);

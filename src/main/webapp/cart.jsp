@@ -35,7 +35,15 @@
                             </div>
                         </div>
                         <div class="cart-item-image">
-                            <img src="images/product-item-image.png" class="img-responsive" alt=""/>
+                            <c:choose>
+                                <c:when test="${cartItem.key.article < 11}">
+                                    <img class="img-responsive" src="images/product/product_${cartItem.key.article}.jpg"
+                                         alt="">
+                                </c:when>
+                                <c:otherwise>
+                                    <img class="img-responsive" src="images/product-item-image.png" alt="">
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                         <div class="cart-item-info">
                             <c:url value="/catalog" var="productURL">

@@ -5,7 +5,14 @@
 
 <div class="col-md-9 product-info">
     <div class="col-md-5 product-image">
-        <img class="img-responsive" src="images/product-item-image.png" alt="">
+        <c:choose>
+            <c:when test="${product.article < 11}">
+                <img class="img-responsive" src="images/product/product_${product.article}.jpg" alt="">
+            </c:when>
+            <c:otherwise>
+                <img class="img-responsive" src="images/product-item-image.png" alt="">
+            </c:otherwise>
+        </c:choose>
     </div>
     <div class="col-md-7 product-details">
         <h4>${product.name}</h4>

@@ -24,6 +24,9 @@
                 <li>
                     <a href="${pageContext.request.contextPath}/">Home</a>
                 </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/catalog">Catalog</a>
+                </li>
                 <c:choose>
                     <c:when test="${(user.userType eq 'ADMIN') or (user.userType eq 'SELLER')}">
                         <li>
@@ -44,13 +47,19 @@
                             </c:url>
                             <a href="${productsURL}">Products</a>
                         </li>
+                        <li>
+                            <c:url value="/management" var="productsURL">
+                                <c:param name="action" value="viewStatistics"/>
+                            </c:url>
+                            <a href="${productsURL}">Statistics</a>
+                        </li>
                     </c:when>
                     <c:otherwise>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/catalog">Catalog</a>
-                        </li>
                     </c:otherwise>
                 </c:choose>
+                <li>
+                    <a href="${pageContext.request.contextPath}/profile">Profile</a>
+                </li>
             </ul>
         </div>
     </div>

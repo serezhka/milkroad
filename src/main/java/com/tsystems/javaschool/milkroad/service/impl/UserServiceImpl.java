@@ -49,6 +49,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public UserDTO getUserByEmail(final String email) throws MilkroadServiceException {
         final UserEntity userEntity = getUserEntityByEmail(email);
         if (userEntity != null) {
+            entityManager.refresh(userEntity);
             return new UserDTO(userEntity);
         } else {
             LOGGER.warn("User with email = " + email + " doesn't exist");
@@ -60,6 +61,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     public UserDTO getUserByEmailAndPass(final String email, final String pass) throws MilkroadServiceException {
         final UserEntity userEntity = getUserEntityByEmail(email);
         if (userEntity != null) {
+            entityManager.refresh(userEntity);
             try {
                 if (PassUtil.verifyPass(pass, userEntity.getPassHash(), userEntity.getPassSalt())) {
                     return new UserDTO(userEntity);
@@ -160,7 +162,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
         final UserEntity userEntity;
         try {
             userEntity = userDAO.getByEmail(email);
-            entityManager.refresh(userEntity);
             return userEntity;
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading user with email = " + email);

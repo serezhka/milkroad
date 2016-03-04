@@ -11,9 +11,9 @@
     <div class="header-top">
         <div class="container">
             <div class="search">
-                <form>
+                <form action="${pageContext.request.contextPath}/catalog" method="get">
                     <%--suppress HtmlFormInputWithoutLabel --%>
-                    <input type="text" value="Search " onfocus="this.value = '';"
+                    <input name="search" type="text" value="Search " onfocus="this.value = '';"
                            onblur="if (this.value == '') {this.value = 'Search';}">
                     <input type="submit" value="Go">
                 </form>
@@ -40,7 +40,7 @@
                             <span class="header_cart_total">
                                 <c:choose>
                                     <c:when test="${not empty cartTotal}">
-                                        <c:out value="${cartTotal}"/>
+                                        <c:out value="$${cartTotal}"/>
                                     </c:when>
                                     <c:otherwise>
                                         <c:out value="$0.00"/>
