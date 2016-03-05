@@ -119,6 +119,7 @@ CREATE TABLE `order` (
   shipping_method ENUM('PICKUP', 'POST')      NOT NULL DEFAULT 'POST',
   payment_status  ENUM('AWAITING', 'PAID')    NOT NULL DEFAULT 'AWAITING',
   shipping_status ENUM('AWAITING', 'SHIPPED') NOT NULL DEFAULT 'AWAITING',
+  order_date      DATE                        NOT NULL,
   note            TEXT,
   PRIMARY KEY (id),
   FOREIGN KEY (customer_id) REFERENCES user (id),
@@ -126,6 +127,11 @@ CREATE TABLE `order` (
 )
   ENGINE = INNODB
   CHARACTER SET = UTF8;
+
+CREATE TRIGGER setOrderDate
+BEFORE INSERT ON `order`
+FOR EACH ROW
+  SET NEW.order_date = IFNULL(NEW.order_date, CURDATE());
 
 # We need to store product price here, because:
 # - product price can be changed in future

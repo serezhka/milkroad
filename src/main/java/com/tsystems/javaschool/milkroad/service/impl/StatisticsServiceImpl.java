@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,6 +76,16 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
             return orderDAO.getTotalCash();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while getting total cash");
+            throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
+        }
+    }
+
+    @Override
+    public BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadServiceException {
+        try {
+            return orderDAO.getTotalCash();
+        } catch (final MilkroadDAOException e) {
+            LOGGER.error("Error while getting total cash by period from " + from + " to " + to);
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
     }

@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 /**
  * Created by Sergey on 15.02.2016.
@@ -31,6 +32,23 @@ public class OrderDAOImpl extends DAOImpl<OrderEntity, Long> implements OrderDAO
             return null;
         } catch (final Exception e1) {
             LOGGER.error("Error on get total cash " + entityClass.getSimpleName());
+            throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
+        }
+    }
+
+    @Override
+    public BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadDAOException {
+        try {
+            final TypedQuery<BigDecimal> entityTypedQuery =
+                    entityManager.createNamedQuery("OrderEntity.getTotalCashByPeriod", BigDecimal.class);
+            entityTypedQuery.setParameter("from", from);
+            entityTypedQuery.setParameter("to", to);
+            return entityTypedQuery.getSingleResult();
+        } catch (final NoResultException e) {
+            LOGGER.warn("No total cash by period from " + from + " to " + to);
+            return null;
+        } catch (final Exception e1) {
+            LOGGER.error("Error on get total cash by period from " + from + " to " + to + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
     }

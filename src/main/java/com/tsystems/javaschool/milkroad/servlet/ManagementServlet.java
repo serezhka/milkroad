@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -79,9 +81,18 @@ public class ManagementServlet extends HttpServlet {
                         final List<Pair<ProductDTO, Integer>> products = statisticsService.getTopProducts(10);
                         final List<Pair<UserDTO, BigDecimal>> users = statisticsService.getTopCustomers(10);
                         final BigDecimal totalCash = statisticsService.getTotalCash();
+                        final Calendar calendar = Calendar.getInstance();
+                        final long currentDay = calendar.getTime().getTime();
+                        calendar.set(Calendar.DAY_OF_MONTH, 1);
+                        final long monthFirstDay = calendar.getTime().getTime();
+                        final long sevenDaysAgo = currentDay - 7 * 1000 * 60 * 60 * 24;
+                        final BigDecimal totalCashThisMonth = statisticsService.getTotalCashByPeriod(new Date(monthFirstDay), new Date(currentDay));
+                        final BigDecimal totalCashLast7Days = statisticsService.getTotalCashByPeriod(new Date(sevenDaysAgo), new Date(currentDay));
                         request.setAttribute("products", products);
                         request.setAttribute("users", users);
                         request.setAttribute("totalCash", totalCash);
+                        request.setAttribute("totalCashThisMonth", totalCashThisMonth);
+                        request.setAttribute("totalCashLast7Days", totalCashLast7Days);
                         request.getRequestDispatcher("/statistics.jsp").forward(request, response);
                     } catch (final MilkroadServiceException e) {
                         request.setAttribute("message", "DB error! Please, try later");

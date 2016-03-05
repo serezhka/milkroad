@@ -6,6 +6,7 @@ import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceExcepti
 import javafx.util.Pair;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -17,4 +18,6 @@ public interface StatisticsService {
     List<Pair<UserDTO, BigDecimal>> getTopCustomers(final int count) throws MilkroadServiceException;
 
     BigDecimal getTotalCash() throws MilkroadServiceException;
+
+    BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadServiceException;
 }

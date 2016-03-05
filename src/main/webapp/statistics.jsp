@@ -10,6 +10,8 @@
 <%--@elvariable id="products" type="java.util.List<javafx.util.Pair<com.tsystems.javaschool.milkroad.dto.ProductDTO, java.lang.Integer>>"--%>
 <%--@elvariable id="users" type="java.util.List<javafx.util.Pair<com.tsystems.javaschool.milkroad.dto.UserDTO, java.math.BigDecimal>>"--%>
 <%--@elvariable id="totalCash" type="java.math.BigDecimal"--%>
+<%--@elvariable id="totalCashThisMonth" type="java.math.BigDecimal"--%>
+<%--@elvariable id="totalCashLast7Days" type="java.math.BigDecimal"--%>
 
 <div class="container">
     <div class="col-md-12">
@@ -72,9 +74,17 @@
             </table>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h3 class="milkroad-h3">Total cash</h3>
         <h3>${totalCash}</h3>
+    </div>
+    <div class="col-md-4">
+        <h3 class="milkroad-h3">Total cash this month</h3>
+        <h3>${totalCashThisMonth}</h3>
+    </div>
+    <div class="col-md-4">
+        <h3 class="milkroad-h3">Total cash last 7 days</h3>
+        <h3>${totalCashLast7Days}</h3>
     </div>
 </div>
 

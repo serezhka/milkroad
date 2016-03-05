@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ import java.util.List;
                 query = "SELECT o.customer, sum(o.priceTotal) FROM OrderEntity o " +
                         "GROUP BY o.customer ORDER BY sum(o.priceTotal) DESC"),
         @NamedQuery(name = "OrderEntity.getTotalCash",
-                query = "SELECT sum(o.priceTotal) FROM OrderEntity o")
+                query = "SELECT sum(o.priceTotal) FROM OrderEntity o"),
+        @NamedQuery(name = "OrderEntity.getTotalCashByPeriod",
+                query = "SELECT sum(o.priceTotal) FROM OrderEntity o " +
+                        "WHERE o.order_date >= :from AND o.order_date <= :to")
 })
 public class OrderEntity {
     private Long id;
@@ -28,6 +32,7 @@ public class OrderEntity {
     private ShippingMethodEnum shippingMethod;
     private PaymentStatusEnum paymentStatus;
     private ShippingStatusEnum shippingStatus;
+    private Date order_date;
     private String note;
 
     // TODO It's ok ?
@@ -112,6 +117,16 @@ public class OrderEntity {
 
     public void setShippingStatus(final ShippingStatusEnum shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    @Basic
+    @Column(name = "order_date", nullable = false)
+    public Date getOrder_date() {
+        return order_date;
+    }
+
+    public void setOrder_date(final Date order_date) {
+        this.order_date = order_date;
     }
 
     @Basic
