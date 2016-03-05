@@ -22,6 +22,9 @@ public class UserDTO {
     // TODO It's ok ?
     private List<AddressDTO> addresses = new ArrayList<>();
 
+    public UserDTO() {
+    }
+
     public UserDTO(final String firstName, final String lastName, final Date birthday,
                    final String email, final UserTypeEnum type) {
         this(null, firstName, lastName, birthday, email, type);
@@ -113,13 +116,13 @@ public class UserDTO {
         final UserDTO userDTO = (UserDTO) o;
 
         if (id != null ? !id.equals(userDTO.id) : userDTO.id != null) return false;
-        if (!firstName.equals(userDTO.firstName)) return false;
-        if (!lastName.equals(userDTO.lastName)) return false;
-        if (!birthday.equals(userDTO.birthday)) return false;
+        if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
+        if (birthday != null ? !birthday.equals(userDTO.birthday) : userDTO.birthday != null) return false;
+        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
         //noinspection SimplifiableIfStatement
-        if (!userType.equals(userDTO.userType)) return false;
-        return email.equals(userDTO.email);
-
+        if (userType != userDTO.userType) return false;
+        return addresses != null ? addresses.equals(userDTO.addresses) : userDTO.addresses == null;
     }
 
     @Override

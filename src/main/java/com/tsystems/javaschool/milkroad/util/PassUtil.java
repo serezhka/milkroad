@@ -10,10 +10,10 @@ import java.security.SecureRandom;
 public class PassUtil {
 
     /**
-     * @param pass - clean pass
+     * @param pass clean pass
      * @return PassHash, where
-     * PassHash.hash - md5(md5(salt) + md5(pass))
-     * PassHash.salt - salt
+     * PassHash.hash md5(md5(salt) + md5(pass))
+     * PassHash.salt salt
      * @throws NoSuchAlgorithmException
      */
     public static PassHash createPassHash(final String pass) throws NoSuchAlgorithmException {
@@ -21,9 +21,9 @@ public class PassUtil {
     }
 
     /**
-     * @param pass     - clean pass
-     * @param passHash - md5(md5(salt) + md5(pass)) from db
-     * @param salt     - pass salt from db
+     * @param pass     clean pass
+     * @param passHash md5(md5(salt) + md5(pass)) from db
+     * @param salt     pass salt from db
      * @return true, if it's ok, false - otherwise
      * @throws NoSuchAlgorithmException
      */
@@ -34,8 +34,8 @@ public class PassUtil {
     }
 
     /**
-     * @param pass - clean password
-     * @param salt - pass salt
+     * @param pass clean password
+     * @param salt pass salt
      * @return PassHash, where
      * PassHash.hash - md5(md5(salt) + md5(pass))
      * PassHash.salt - salt

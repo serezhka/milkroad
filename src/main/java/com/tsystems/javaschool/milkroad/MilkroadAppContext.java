@@ -51,10 +51,6 @@ public class MilkroadAppContext {
         return SingletonHolder.INSTANCE;
     }
 
-    /**
-     * Double checked locking & volatile singleton realization
-     * http://habrahabr.ru/post/129494/
-     */
     public EntityManagerFactory getEntityManagerFactory() {
         EntityManagerFactory localInstance = entityManagerFactory;
         if (entityManagerFactory == null) {
