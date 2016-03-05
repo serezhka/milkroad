@@ -227,6 +227,11 @@ VALUES
    ((SELECT id FROM user WHERE first_name = 'Sergey'),
    (SELECT address.id FROM address JOIN user ON user_id = user.id WHERE user.first_name = 'Sergey' LIMIT 1),
   111.35, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', 'o4');
+INSERT INTO `order` (customer_id, address_id, price_total, payment_method, shipping_method, payment_status, shipping_status, order_date, note)
+VALUES
+   ((SELECT id FROM user WHERE first_name = 'Ivan'),
+   (SELECT address.id FROM address JOIN user ON user_id = user.id WHERE user.first_name = 'Ivan' LIMIT 1),
+  111.35, 'CASH', 'PICKUP', 'AWAITING', 'AWAITING', '2015-03-08', 'o5');
 # @formatter:on (for IntelliJIDEA)
 
 # fill order details table

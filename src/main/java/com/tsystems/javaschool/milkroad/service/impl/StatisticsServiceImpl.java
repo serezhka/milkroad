@@ -83,7 +83,7 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
     @Override
     public BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadServiceException {
         try {
-            return orderDAO.getTotalCash();
+            return orderDAO.getTotalCashByPeriod(from, to);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while getting total cash by period from " + from + " to " + to);
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
