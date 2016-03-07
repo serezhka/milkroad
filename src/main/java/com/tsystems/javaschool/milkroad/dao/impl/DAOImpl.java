@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.milkroad.dao.impl;
 
-import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dao.DAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import org.apache.log4j.Logger;
@@ -16,10 +15,12 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
     private static final Logger LOGGER = Logger.getLogger(DAOImpl.class);
 
     protected final Class<T> entityClass;
-    protected final EntityManager entityManager = MilkroadAppContext.getInstance().getEntityManager();
+
+    protected EntityManager entityManager;
+    //= MilkroadAppContext.getInstance().getEntityManager();
 
     public DAOImpl(final EntityManager entityManager, final Class<T> entityClass) {
-        //this.entityManager = entityManager;
+        this.entityManager = entityManager;
         this.entityClass = entityClass;
     }
 

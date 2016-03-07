@@ -120,7 +120,7 @@ public class OrderEntity {
     }
 
     @Basic
-    @Column(name = "order_date", nullable = false)
+    @Column(name = "order_date")
     public Date getOrder_date() {
         return order_date;
     }

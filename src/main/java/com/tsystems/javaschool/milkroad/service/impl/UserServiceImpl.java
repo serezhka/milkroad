@@ -142,7 +142,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             userEntity.setPassHash(passHash.getHash());
             userEntity.setPassSalt(passHash.getSalt());
             entityManager.getTransaction().begin();
-            userDAO.persist(userEntity);
+            userDAO.merge(userEntity);
             entityManager.getTransaction().commit();
             return new UserDTO(userEntity);
         } catch (final NoSuchAlgorithmException e) {
