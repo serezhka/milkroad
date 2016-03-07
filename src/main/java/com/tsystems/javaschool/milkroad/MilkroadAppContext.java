@@ -15,10 +15,6 @@ import javax.persistence.Persistence;
  */
 public class MilkroadAppContext {
 
-    /**
-     * On demand holder singleton realization
-     * http://habrahabr.ru/post/129494/
-     */
     private static class SingletonHolder {
         private static final MilkroadAppContext INSTANCE = new MilkroadAppContext();
     }

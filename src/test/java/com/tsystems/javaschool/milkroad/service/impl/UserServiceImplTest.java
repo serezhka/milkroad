@@ -3,51 +3,36 @@ package com.tsystems.javaschool.milkroad.service.impl;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
-import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.util.PassHash;
-import com.tsystems.javaschool.milkroad.util.PassUtil;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Sergey on 19.02.2016.
  */
-public class UserServiceImplTest {
+public class UserServiceImplTest extends AbstractServiceTest {
     @InjectMocks
     private UserServiceImpl mockedUserService;
     @Mock
     private UserDAO<UserEntity, Long> mockUserDAO;
-    @Mock
-    private EntityManager mockEntityManager;
 
     private List<UserEntity> userEntities;
     private List<UserDTO> userDTOs;
 
-    private Random random;
-
+    @Override
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-        Mockito.doNothing().when(mockEntityManager).refresh(Mockito.any());
-        Mockito.when(mockEntityManager.getTransaction()).thenReturn(Mockito.mock(EntityTransaction.class));
-        random = new Random();
+        super.setUp();
         userEntities = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            userEntities.add(createEntity(i));
+            userEntities.add(createUserEntity(i));
         }
         userDTOs = new ArrayList<>();
         for (final UserEntity userEntity : userEntities) {
@@ -89,7 +74,7 @@ public class UserServiceImplTest {
         String pass;
         for (final UserEntity userEntity : userEntities) {
             Mockito.when(mockUserDAO.getByEmail(userEntity.getEmail())).thenReturn(userEntity);
-            pass = userEntity.getFirstName(); // Pass equals user name, see createEntity method
+            pass = userEntity.getFirstName(); // Pass equals user name, see createUserEntity method
             Assert.assertEquals(new UserDTO(userEntity),
                     mockedUserService.getUserByEmailAndPass(userEntity.getEmail(), pass));
             Mockito.verify(mockUserDAO, Mockito.times(1)).getByEmail(userEntity.getEmail());
@@ -200,27 +185,5 @@ public class UserServiceImplTest {
         }
         Mockito.verify(mockUserDAO, Mockito.times(1)).getByEmail(userEntity.getEmail());
         Mockito.verify(mockUserDAO, Mockito.times(0)).persist(Mockito.any(UserEntity.class));
-    }
-
-    /**
-     * @param clazz enum class
-     * @param <T>   enum class extends Enum
-     * @return random value of enum T
-     */
-    private <T extends Enum<T>> T randomEnum(final Class<T> clazz) {
-        final int x = random.nextInt(clazz.getEnumConstants().length);
-        return clazz.getEnumConstants()[x];
-    }
-
-    /**
-     * @param x magic number
-     * @return UserEntity generated with magic number x
-     * @throws NoSuchAlgorithmException
-     */
-    private UserEntity createEntity(final int x) throws NoSuchAlgorithmException {
-        final String pass = "" + x; // So that pass equals user name, last name
-        final PassHash passHash = PassUtil.createPassHash(pass);
-        return new UserEntity((long) x, randomEnum(UserTypeEnum.class),
-                "" + x, "" + x, new Date(x), x + "@mail.ru", passHash.getHash(), passHash.getSalt());
     }
 }

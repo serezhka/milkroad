@@ -110,6 +110,21 @@ public class ProductEntity {
         this.parameters = parameters;
     }
 
+    public ProductEntity() {
+    }
+
+    public ProductEntity(final Long id, final UserEntity seller, final ProductCategoryEntity category,
+                         final String productName, final BigDecimal productPrice,
+                         final Integer remainCount, final String description) {
+        this.id = id;
+        this.seller = seller;
+        this.category = category;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.remainCount = remainCount;
+        this.description = description;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

@@ -119,10 +119,9 @@ public class UserDTO {
         if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
         if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
         if (birthday != null ? !birthday.equals(userDTO.birthday) : userDTO.birthday != null) return false;
-        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
         //noinspection SimplifiableIfStatement
-        if (userType != userDTO.userType) return false;
-        return addresses != null ? addresses.equals(userDTO.addresses) : userDTO.addresses == null;
+        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
+        return userType == userDTO.userType;
     }
 
     @Override

@@ -53,6 +53,7 @@ public class ProductAttributeEntity {
     }
 
     public ProductAttributeEntity(final AttributeDTO attributeDTO) {
+        this.id = attributeDTO.getId();
         this.attributeName = attributeDTO.getName();
         this.description = attributeDTO.getDescription();
     }

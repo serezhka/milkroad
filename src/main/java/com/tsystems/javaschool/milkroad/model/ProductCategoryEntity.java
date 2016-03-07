@@ -67,6 +67,7 @@ public class ProductCategoryEntity {
     }
 
     public ProductCategoryEntity(final CategoryDTO categoryDTO) {
+        this.id = categoryDTO.getId();
         this.categoryName = categoryDTO.getName();
         this.description = categoryDTO.getDescription();
     }

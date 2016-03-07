@@ -35,8 +35,10 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
         final AddressEntity addressEntity = new AddressEntity(addressDTO);
         try {
             entityManager.getTransaction().begin();
-            // TODO Check if user exists
             userEntity = userDAO.getByID(userDTO.getId());
+            if (userEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
+            }
             userEntity.addAddress(addressEntity);
             userDAO.merge(userEntity);
             entityManager.getTransaction().commit();
@@ -54,9 +56,11 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
     @Override
     public AddressDTO updateAddress(final AddressDTO addressDTO) throws MilkroadServiceException {
         try {
-            // TODO Check if address exists
             entityManager.getTransaction().begin();
             final AddressEntity addressEntity = addressDAO.getByID(addressDTO.getId());
+            if (addressEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS);
+            }
             addressEntity.setCountry(addressDTO.getCountry());
             addressEntity.setCity(addressDTO.getCity());
             addressEntity.setPostcode(addressDTO.getPostcode());

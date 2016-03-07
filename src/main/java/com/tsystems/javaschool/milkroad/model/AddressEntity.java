@@ -129,6 +129,7 @@ public class AddressEntity {
     }
 
     public AddressEntity(final AddressDTO addressDTO) {
+        this.id = addressDTO.getId();
         this.country = addressDTO.getCountry();
         this.city = addressDTO.getCity();
         this.postcode = addressDTO.getPostcode();

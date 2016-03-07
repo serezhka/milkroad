@@ -100,7 +100,31 @@ public class AddressDTO {
     }
 
     @Override
-    public String toString() {
-        return postcode + ", " + country + ", " + city + ", " + street + ", " + building + ", " + apartment;
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressDTO)) return false;
+
+        final AddressDTO that = (AddressDTO) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (city != null ? !city.equals(that.city) : that.city != null) return false;
+        if (postcode != null ? !postcode.equals(that.postcode) : that.postcode != null) return false;
+        if (street != null ? !street.equals(that.street) : that.street != null) return false;
+        //noinspection SimplifiableIfStatement
+        if (building != null ? !building.equals(that.building) : that.building != null) return false;
+        return apartment != null ? apartment.equals(that.apartment) : that.apartment == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (building != null ? building.hashCode() : 0);
+        result = 31 * result + (apartment != null ? apartment.hashCode() : 0);
+        return result;
     }
 }

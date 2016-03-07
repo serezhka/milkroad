@@ -105,8 +105,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     @Override
     public ProductDTO getProductByArticle(final Long article) throws MilkroadServiceException {
         try {
-            final ProductEntity productEntity;
-            productEntity = productDAO.getByID(article);
+            final ProductEntity productEntity = productDAO.getByID(article);
             if (productEntity != null) {
                 return new ProductDTO(productEntity);
             } else {
@@ -123,12 +122,14 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     public CategoryDTO updateCategory(final CategoryDTO categoryDTO) throws MilkroadServiceException {
         try {
             entityManager.getTransaction().begin();
-            // TODO throw exception if entity not exists
             final ProductCategoryEntity duplicate = categoryDAO.getByName(categoryDTO.getName());
             if (duplicate != null && !duplicate.getId().equals(categoryDTO.getId())) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.CATEGORY_ALREADY_EXISTS);
             } else {
                 final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryDTO.getId());
+                if (categoryEntity == null) {
+                    throw new MilkroadServiceException(MilkroadServiceException.Type.CATEGORY_NOT_EXISTS);
+                }
                 categoryEntity.setCategoryName(categoryDTO.getName());
                 categoryEntity.setDescription(categoryDTO.getDescription());
                 categoryDAO.merge(categoryEntity);
@@ -170,12 +171,14 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     public AttributeDTO updateAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException {
         try {
             entityManager.getTransaction().begin();
-            // TODO throw exception if entity not exists
             final ProductAttributeEntity duplicate = attributeDAO.getByName(attributeDTO.getName());
             if (duplicate != null && !duplicate.getId().equals(attributeDTO.getId())) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.ATTRIBUTE_ALREADY_EXISTS);
             } else {
                 final ProductAttributeEntity attributeEntity = attributeDAO.getByID(attributeDTO.getId());
+                if (attributeEntity == null) {
+                    throw new MilkroadServiceException(MilkroadServiceException.Type.ATTRIBUTE_NOT_EXISTS);
+                }
                 attributeEntity.setAttributeName(attributeDTO.getName());
                 attributeEntity.setDescription(attributeDTO.getDescription());
                 attributeDAO.merge(attributeEntity);
