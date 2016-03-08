@@ -219,8 +219,16 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     @Override
     public ProductDTO updateProduct(final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException {
         try {
-            final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryID);
+            // TODO Store seller info, category and parameters in product DTO
             final ProductEntity productEntity = productDAO.getByID(productDTO.getArticle());
+            if (productEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.PRODUCT_NOT_EXISTS);
+            }
+            final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryID);
+            if (categoryEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.CATEGORY_NOT_EXISTS);
+            }
+            productEntity.setId(productDTO.getArticle());
             productEntity.setCategory(categoryEntity);
             productEntity.setProductName(productDTO.getName());
             productEntity.setProductPrice(productDTO.getPrice());
@@ -231,8 +239,10 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
                 for (final String parameter : parameters) {
                     final Long attrID = Long.valueOf(parameter.split("\\|")[0]);
                     final String attrValue = parameter.split("\\|")[1];
-                    // TODO Check if attribute Entity not null
                     final ProductAttributeEntity attributeEntity = attributeDAO.getByID(attrID);
+                    if (attributeEntity == null) {
+                        throw new MilkroadServiceException(MilkroadServiceException.Type.ATTRIBUTE_NOT_EXISTS);
+                    }
                     ProductParameterEntity parameterEntity = parameterDAO.getByProductIDAndAttrID(productDTO.getArticle(), attrID);
                     if (parameterEntity != null) {
                         parameterEntity.setAttributeValue(attrValue);
@@ -262,9 +272,17 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     @Override
     public ProductDTO createProduct(final UserDTO userDTO, final ProductDTO productDTO, final Long categoryID, final String[] parameters) throws MilkroadServiceException {
         try {
-            final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryID);
+            // TODO Store seller info, category and parameters in product DTO
             final UserEntity userEntity = userDAO.getByID(userDTO.getId());
+            if (userEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
+            }
+            final ProductCategoryEntity categoryEntity = categoryDAO.getByID(categoryID);
+            if (categoryEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.CATEGORY_NOT_EXISTS);
+            }
             final ProductEntity productEntity = new ProductEntity();
+            productEntity.setId(productDTO.getArticle());
             productEntity.setSeller(userEntity);
             productEntity.setCategory(categoryEntity);
             productEntity.setProductName(productDTO.getName());

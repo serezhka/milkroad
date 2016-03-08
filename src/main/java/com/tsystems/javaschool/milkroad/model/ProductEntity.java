@@ -136,11 +136,9 @@ public class ProductEntity {
         if (category != null ? !category.equals(that.category) : that.category != null) return false;
         if (productName != null ? !productName.equals(that.productName) : that.productName != null) return false;
         if (productPrice != null ? !productPrice.equals(that.productPrice) : that.productPrice != null) return false;
+        //noinspection SimplifiableIfStatement
         if (remainCount != null ? !remainCount.equals(that.remainCount) : that.remainCount != null) return false;
-        //noinspection RedundantIfStatement
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-
-        return true;
+        return description != null ? description.equals(that.description) : that.description == null;
     }
 
     @Override
