@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.ProductCategoryEntity;
-
 /**
  * Created by Sergey on 24.02.2016.
  */
@@ -17,12 +15,6 @@ public class CategoryDTO {
         this.id = id;
         this.name = name;
         this.description = description;
-    }
-
-    public CategoryDTO(final ProductCategoryEntity categoryEntity) {
-        this.id = categoryEntity.getId();
-        this.name = categoryEntity.getCategoryName();
-        this.description = categoryEntity.getDescription();
     }
 
     public Long getId() {
@@ -53,20 +45,7 @@ public class CategoryDTO {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof CategoryDTO)) return false;
-
         final CategoryDTO that = (CategoryDTO) o;
-
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-        //noinspection SimplifiableIfStatement
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        return description != null ? description.equals(that.description) : that.description == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
+        return id != null ? id.equals(that.id) : that.id == null;
     }
 }

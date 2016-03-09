@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.milkroad.model;
 
-import com.tsystems.javaschool.milkroad.dto.CategoryDTO;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +18,6 @@ public class ProductCategoryEntity {
     private String categoryName;
     private String description;
 
-    // TODO It's ok ?
     private List<ProductEntity> products = new ArrayList<>();
 
     @Id
@@ -66,32 +63,21 @@ public class ProductCategoryEntity {
     public ProductCategoryEntity() {
     }
 
-    public ProductCategoryEntity(final CategoryDTO categoryDTO) {
-        this.id = categoryDTO.getId();
-        this.categoryName = categoryDTO.getName();
-        this.description = categoryDTO.getDescription();
+    public ProductCategoryEntity(final Long id, final String categoryName, final String description) {
+        this.id = id;
+        this.categoryName = categoryName;
+        this.description = description;
     }
 
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         final ProductCategoryEntity that = (ProductCategoryEntity) o;
-
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (categoryName != null ? !categoryName.equals(that.categoryName) : that.categoryName != null) return false;
         //noinspection RedundantIfStatement
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
-
         return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (categoryName != null ? categoryName.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
     }
 }

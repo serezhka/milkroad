@@ -6,6 +6,8 @@ import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import com.tsystems.javaschool.milkroad.util.DTOEntityConverter;
+import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import com.tsystems.javaschool.milkroad.util.PassHash;
 import com.tsystems.javaschool.milkroad.util.PassUtil;
 import org.apache.log4j.Logger;
@@ -31,18 +33,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
 
     @Override
     public List<UserDTO> getAllUsers() throws MilkroadServiceException {
-        final List<UserDTO> userDTOs = new ArrayList<>();
+        final List<UserEntity> userEntities;
         try {
-            final List<UserEntity> userEntities = userDAO.getAll();
-            for (final UserEntity userEntity : userEntities) {
-                entityManager.refresh(userEntity);
-                userDTOs.add(new UserDTO(userEntity));
-            }
-            return userDTOs;
+            userEntities = userDAO.getAll();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading users");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
+        final List<UserDTO> userDTOs = new ArrayList<>();
+        for (final UserEntity userEntity : userEntities) {
+            entityManager.refresh(userEntity);
+            userDTOs.add(EntityDTOConverter.userDTO(userEntity));
+        }
+        return userDTOs;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         final UserEntity userEntity = getUserEntityByEmail(email);
         if (userEntity != null) {
             entityManager.refresh(userEntity);
-            return new UserDTO(userEntity);
+            return EntityDTOConverter.userDTO(userEntity);
         } else {
             LOGGER.warn("User with email = " + email + " doesn't exist");
             throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
@@ -64,7 +67,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.refresh(userEntity);
             try {
                 if (PassUtil.verifyPass(pass, userEntity.getPassHash(), userEntity.getPassSalt())) {
-                    return new UserDTO(userEntity);
+                    return EntityDTOConverter.userDTO(userEntity);
                 } else {
                     LOGGER.warn("Pass is invalid. Email = " + email + ", pass =" + pass);
                     throw new MilkroadServiceException(MilkroadServiceException.Type.PASS_INVALID);
@@ -84,7 +87,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
         if (getUserEntityByEmail(userDTO.getEmail()) != null) {
             throw new MilkroadServiceException(MilkroadServiceException.Type.USER_EMAIL_ALREADY_EXISTS);
         }
-        final UserEntity userEntity = new UserEntity(userDTO);
+        final UserEntity userEntity = DTOEntityConverter.userEntity(userDTO);
         try {
             final PassHash passHash = PassUtil.createPassHash(pass);
             userEntity.setPassHash(passHash.getHash());
@@ -92,7 +95,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userDAO.persist(userEntity);
             entityManager.getTransaction().commit();
-            return new UserDTO(userEntity);
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while adding new user");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
@@ -104,6 +106,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
+        return EntityDTOConverter.userDTO(userEntity);
     }
 
     @Override
@@ -119,7 +122,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userDAO.merge(userEntity);
             entityManager.getTransaction().commit();
-            return new UserDTO(userEntity);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user info with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
@@ -128,6 +130,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
+        return EntityDTOConverter.userDTO(userEntity);
     }
 
     @Override
@@ -144,7 +147,6 @@ public class UserServiceImpl extends AbstractService implements UserService {
             entityManager.getTransaction().begin();
             userDAO.merge(userEntity);
             entityManager.getTransaction().commit();
-            return new UserDTO(userEntity);
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while updating user pass");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
@@ -156,13 +158,12 @@ public class UserServiceImpl extends AbstractService implements UserService {
                 entityManager.getTransaction().rollback();
             }
         }
+        return EntityDTOConverter.userDTO(userEntity);
     }
 
     private UserEntity getUserEntityByEmail(final String email) throws MilkroadServiceException {
-        final UserEntity userEntity;
         try {
-            userEntity = userDAO.getByEmail(email);
-            return userEntity;
+            return userDAO.getByEmail(email);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while loading user with email = " + email);
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);

@@ -11,7 +11,8 @@ import javax.persistence.*;
         @NamedQuery(name = "ProductParameterEntity.findAllByProductID",
                 query = "SELECT o FROM ProductParameterEntity o WHERE o.product.id = :productID"),
         @NamedQuery(name = "ProductParameterEntity.findAllByProductIDAndAttrID",
-                query = "SELECT o FROM ProductParameterEntity o WHERE o.product.id = :productID AND o.attribute.id = :attrID")
+                query = "SELECT o FROM ProductParameterEntity o " +
+                        "WHERE o.product.id = :productID AND o.attribute.id = :attrID")
 })
 public class ProductParameterEntity {
     private Long id; // TODO Stub. Fix me. PK must be (product, attribute)
@@ -72,14 +73,5 @@ public class ProductParameterEntity {
         //noinspection SimplifiableIfStatement
         if (!attribute.equals(that.attribute)) return false;
         return attributeValue.equals(that.attributeValue);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + product.hashCode();
-        result = 31 * result + attribute.hashCode();
-        result = 31 * result + attributeValue.hashCode();
-        return result;
     }
 }

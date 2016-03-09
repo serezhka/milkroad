@@ -1,8 +1,12 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.*;
+import com.tsystems.javaschool.milkroad.model.PaymentMethodEnum;
+import com.tsystems.javaschool.milkroad.model.PaymentStatusEnum;
+import com.tsystems.javaschool.milkroad.model.ShippingMethodEnum;
+import com.tsystems.javaschool.milkroad.model.ShippingStatusEnum;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +22,7 @@ public class OrderDTO {
     private PaymentStatusEnum paymentStatus;
     private ShippingMethodEnum shippingMethod;
     private ShippingStatusEnum shippingStatus;
+    private Date date;
     private String note;
     private List<Detail> details;
 
@@ -28,7 +33,7 @@ public class OrderDTO {
     public OrderDTO(final Long id, final UserDTO customer, final AddressDTO address, final BigDecimal totalPrice,
                     final PaymentMethodEnum paymentMethod, final PaymentStatusEnum paymentStatus,
                     final ShippingMethodEnum shippingMethod, final ShippingStatusEnum shippingStatus,
-                    final String note, final List<Detail> details) {
+                    final Date date, final String note) {
         this();
         this.id = id;
         this.customer = customer;
@@ -38,28 +43,8 @@ public class OrderDTO {
         this.paymentStatus = paymentStatus;
         this.shippingMethod = shippingMethod;
         this.shippingStatus = shippingStatus;
+        this.date = date;
         this.note = note;
-        this.details = details;
-    }
-
-    public OrderDTO(final UserDTO customer, final AddressDTO address, final OrderEntity orderEntity) {
-        this();
-        this.id = orderEntity.getId();
-        this.customer = customer;
-        this.address = address;
-        this.totalPrice = orderEntity.getPriceTotal();
-        this.paymentMethod = orderEntity.getPaymentMethod();
-        this.paymentStatus = orderEntity.getPaymentStatus();
-        this.shippingMethod = orderEntity.getShippingMethod();
-        this.shippingStatus = orderEntity.getShippingStatus();
-        this.note = orderEntity.getNote();
-        for (final OrderDetailEntity orderDetailEntity : orderEntity.getOrderDetails()) {
-            details.add(new Detail(orderDetailEntity));
-        }
-    }
-
-    public OrderDTO(final OrderEntity orderEntity) {
-        this(new UserDTO(orderEntity.getCustomer()), new AddressDTO(orderEntity.getAddress()), orderEntity);
     }
 
     public Long getId() {
@@ -126,6 +111,14 @@ public class OrderDTO {
         this.shippingStatus = shippingStatus;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(final Date date) {
+        this.date = date;
+    }
+
     public String getNote() {
         return note;
     }
@@ -160,12 +153,6 @@ public class OrderDTO {
             this.totalPrice = totalPrice;
         }
 
-        public Detail(final OrderDetailEntity orderDetailEntity) {
-            this.product = new ProductDTO(orderDetailEntity.getProduct());
-            this.count = orderDetailEntity.getProductCount();
-            this.totalPrice = orderDetailEntity.getPriceTotal();
-        }
-
         public ProductDTO getProduct() {
             return product;
         }
@@ -192,9 +179,10 @@ public class OrderDTO {
     }
 
     @Override
-    public String toString() {
-        return "Order #" + id + ", total: " + totalPrice + ", payment method: " + paymentMethod
-                + ", payment status: " + paymentStatus + ", shipping method: " + shippingMethod
-                + ", shipping status: " + shippingStatus;
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderDTO)) return false;
+        final OrderDTO orderDTO = (OrderDTO) o;
+        return id != null ? id.equals(orderDTO.id) : orderDTO.id == null;
     }
 }

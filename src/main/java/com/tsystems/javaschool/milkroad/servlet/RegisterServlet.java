@@ -37,6 +37,7 @@ public class RegisterServlet extends HttpServlet {
         if (errors.size() == 0) {
             final UserService userService = MilkroadAppContext.getInstance().getUserService();
             final UserDTO userDTO = new UserDTO(
+                    null,
                     request.getParameter("firstname"),
                     request.getParameter("lastname"),
                     Date.valueOf(request.getParameter("birthday")),

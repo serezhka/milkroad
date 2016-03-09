@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.milkroad.dto;
 
-import com.tsystems.javaschool.milkroad.model.AddressEntity;
-import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
 
 import java.sql.Date;
@@ -18,38 +16,21 @@ public class UserDTO {
     private Date birthday;
     private String email;
     private UserTypeEnum userType;
-
-    // TODO It's ok ?
-    private List<AddressDTO> addresses = new ArrayList<>();
+    private List<AddressDTO> addresses;
 
     public UserDTO() {
-    }
-
-    public UserDTO(final String firstName, final String lastName, final Date birthday,
-                   final String email, final UserTypeEnum type) {
-        this(null, firstName, lastName, birthday, email, type);
+        addresses = new ArrayList<>();
     }
 
     public UserDTO(final Long id, final String firstName, final String lastName, final Date birthday,
                    final String email, final UserTypeEnum userType) {
+        this();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
         this.email = email;
         this.userType = userType;
-    }
-
-    public UserDTO(final UserEntity userEntity) {
-        this.id = userEntity.getId();
-        this.firstName = userEntity.getFirstName();
-        this.lastName = userEntity.getLastName();
-        this.birthday = userEntity.getBirthday();
-        this.email = userEntity.getEmail();
-        this.userType = userEntity.getUserType();
-        for (final AddressEntity addressEntity : userEntity.getAdresses()) {
-            addresses.add(new AddressDTO(addressEntity));
-        }
     }
 
     public Long getId() {
@@ -108,30 +89,15 @@ public class UserDTO {
         this.addresses = addresses;
     }
 
+    public void addAddress(final AddressDTO addressDTO) {
+        this.addresses.add(addressDTO);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof UserDTO)) return false;
-
         final UserDTO userDTO = (UserDTO) o;
-
-        if (id != null ? !id.equals(userDTO.id) : userDTO.id != null) return false;
-        if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
-        if (birthday != null ? !birthday.equals(userDTO.birthday) : userDTO.birthday != null) return false;
-        //noinspection SimplifiableIfStatement
-        if (email != null ? !email.equals(userDTO.email) : userDTO.email != null) return false;
-        return userType == userDTO.userType;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + firstName.hashCode();
-        result = 31 * result + lastName.hashCode();
-        result = 31 * result + birthday.hashCode();
-        result = 31 * result + email.hashCode();
-        result = 31 * result + userType.hashCode();
-        return result;
+        return id != null ? id.equals(userDTO.id) : userDTO.id == null;
     }
 }

@@ -9,7 +9,6 @@ import com.tsystems.javaschool.milkroad.model.ShippingStatusEnum;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import javafx.util.Pair;
 
 import javax.servlet.ServletException;
@@ -132,10 +131,11 @@ public class ManagementServlet extends HttpServlet {
 
                 case "updateCategory": {
                     if (errors.size() == 0) {
-                        final CategoryDTO categoryDTO = new CategoryDTO();
-                        categoryDTO.setId(Long.valueOf(request.getParameter("categoryID")));
-                        categoryDTO.setName(request.getParameter("categoryName"));
-                        categoryDTO.setDescription(request.getParameter("categoryDescription"));
+                        final CategoryDTO categoryDTO = new CategoryDTO(
+                                Long.valueOf(request.getParameter("categoryID")),
+                                request.getParameter("categoryName"),
+                                request.getParameter("categoryDescription")
+                        );
                         try {
                             MilkroadAppContext.getInstance().getCatalogService().updateCategory(categoryDTO);
                             response.sendRedirect("/management?action=editCategories");
@@ -158,9 +158,11 @@ public class ManagementServlet extends HttpServlet {
 
                 case "createCategory": {
                     if (errors.size() == 0) {
-                        final CategoryDTO categoryDTO = new CategoryDTO();
-                        categoryDTO.setName(request.getParameter("categoryName"));
-                        categoryDTO.setDescription(request.getParameter("categoryDescription"));
+                        final CategoryDTO categoryDTO = new CategoryDTO(
+                                null,
+                                request.getParameter("categoryName"),
+                                request.getParameter("categoryDescription")
+                        );
                         try {
                             MilkroadAppContext.getInstance().getCatalogService().createCategory(categoryDTO);
                             response.sendRedirect("/management?action=editCategories");
@@ -183,10 +185,11 @@ public class ManagementServlet extends HttpServlet {
 
                 case "updateAttribute": {
                     if (errors.size() == 0) {
-                        final AttributeDTO attributeDTO = new AttributeDTO();
-                        attributeDTO.setId(Long.valueOf(request.getParameter("attributeID")));
-                        attributeDTO.setName(request.getParameter("attributeName"));
-                        attributeDTO.setDescription(request.getParameter("attributeDescription"));
+                        final AttributeDTO attributeDTO = new AttributeDTO(
+                                Long.valueOf(request.getParameter("attributeID")),
+                                request.getParameter("attributeName"),
+                                request.getParameter("attributeDescription")
+                        );
                         try {
                             MilkroadAppContext.getInstance().getCatalogService().updateAttribute(attributeDTO);
                             response.sendRedirect("/management?action=editCategories");
@@ -209,9 +212,11 @@ public class ManagementServlet extends HttpServlet {
 
                 case "createAttribute": {
                     if (errors.size() == 0) {
-                        final AttributeDTO attributeDTO = new AttributeDTO();
-                        attributeDTO.setName(request.getParameter("attributeName"));
-                        attributeDTO.setDescription(request.getParameter("attributeDescription"));
+                        final AttributeDTO attributeDTO = new AttributeDTO(
+                                null,
+                                request.getParameter("attributeName"),
+                                request.getParameter("attributeDescription")
+                        );
                         try {
                             MilkroadAppContext.getInstance().getCatalogService().createAttribute(attributeDTO);
                             response.sendRedirect("/management?action=editCategories");
@@ -240,7 +245,7 @@ public class ManagementServlet extends HttpServlet {
                         productDTO.setPrice(new BigDecimal(request.getParameter("productPrice")));
                         productDTO.setCount(Integer.valueOf(request.getParameter("productCount")));
                         productDTO.setDescription(request.getParameter("productDescription"));
-                        final Long categoryID = Long.valueOf(request.getParameter("productCategoryID"));
+                        /*final Long categoryID = Long.valueOf(request.getParameter("productCategoryID"));
                         final String[] parameters = request.getParameterValues("productParameter");
                         try {
                             MilkroadAppContext.getInstance().getCatalogService().updateProduct(productDTO, categoryID, parameters);
@@ -250,7 +255,7 @@ public class ManagementServlet extends HttpServlet {
                             request.setAttribute("message", "DB error! Please, try later");
                             request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                             return;
-                        }
+                        }*/
                     }
                     request.setAttribute("errors", errors);
                     request.setAttribute("action", "editProducts");
@@ -265,7 +270,7 @@ public class ManagementServlet extends HttpServlet {
                         productDTO.setPrice(new BigDecimal(request.getParameter("productPrice")));
                         productDTO.setCount(Integer.valueOf(request.getParameter("productCount")));
                         productDTO.setDescription(request.getParameter("productDescription"));
-                        final Long categoryID = Long.valueOf(request.getParameter("productCategoryID"));
+                        /*final Long categoryID = Long.valueOf(request.getParameter("productCategoryID"));
                         final String[] parameters = request.getParameterValues("productParameter");
                         try {
                             final UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
@@ -276,7 +281,7 @@ public class ManagementServlet extends HttpServlet {
                             request.setAttribute("message", "DB error! Please, try later");
                             request.getRequestDispatcher("/single-message.jsp").forward(request, response);
                             return;
-                        }
+                        }*/
                     }
                     request.setAttribute("errors", errors);
                     request.setAttribute("action", "editProducts");

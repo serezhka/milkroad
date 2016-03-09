@@ -1,7 +1,5 @@
 package com.tsystems.javaschool.milkroad.model;
 
-import com.tsystems.javaschool.milkroad.dto.UserDTO;
-
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ public class UserEntity {
     private String passHash;
     private String passSalt;
 
-    // TODO It's ok ?
     private List<AddressEntity> adresses = new ArrayList<>();
     private List<ProductEntity> products = new ArrayList<>();
     private List<OrderEntity> orders = new ArrayList<>();
@@ -159,37 +156,11 @@ public class UserEntity {
         this.passSalt = passSalt;
     }
 
-    public UserEntity(final UserEntity userEntity) {
-        this.id = userEntity.id;
-        this.userType = userEntity.userType;
-        this.firstName = userEntity.firstName;
-        this.lastName = userEntity.lastName;
-        this.birthday = userEntity.birthday;
-        this.email = userEntity.email;
-        this.passHash = userEntity.passHash;
-        this.passSalt = userEntity.passSalt;
-
-        this.adresses = userEntity.getAdresses();
-        this.products = userEntity.getProducts();
-        this.orders = userEntity.getOrders();
-    }
-
-    public UserEntity(final UserDTO userDTO) {
-        this.id = userDTO.getId();
-        this.firstName = userDTO.getFirstName();
-        this.lastName = userDTO.getLastName();
-        this.birthday = userDTO.getBirthday();
-        this.email = userDTO.getEmail();
-        this.userType = userDTO.getUserType();
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         final UserEntity that = (UserEntity) o;
-
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (userType != that.userType) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null)
@@ -199,25 +170,9 @@ public class UserEntity {
         if (birthday != null ? !birthday.equals(that.birthday) : that.birthday != null)
             return false;
         if (email != null ? !email.equals(that.email) : that.email != null) return false;
+        //noinspection SimplifiableIfStatement
         if (passHash != null ? !passHash.equals(that.passHash) : that.passHash != null)
             return false;
-        //noinspection RedundantIfStatement
-        if (passSalt != null ? !passSalt.equals(that.passSalt) : that.passSalt != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (userType != null ? userType.hashCode() : 0);
-        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (passHash != null ? passHash.hashCode() : 0);
-        result = 31 * result + (passSalt != null ? passSalt.hashCode() : 0);
-        return result;
+        return passSalt != null ? passSalt.equals(that.passSalt) : that.passSalt == null;
     }
 }

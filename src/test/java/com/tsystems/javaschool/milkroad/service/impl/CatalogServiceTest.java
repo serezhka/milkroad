@@ -4,9 +4,10 @@ import com.tsystems.javaschool.milkroad.dao.*;
 import com.tsystems.javaschool.milkroad.dto.AttributeDTO;
 import com.tsystems.javaschool.milkroad.dto.CategoryDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
-import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.*;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import com.tsystems.javaschool.milkroad.util.DTOEntityConverter;
+import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,16 +50,16 @@ public class CatalogServiceTest extends AbstractServiceTest {
         attributeDTOs = Collections.singletonList(new AttributeDTO(0L, "attribute", "desc"));
         attributeEntities = new ArrayList<>();
         for (final AttributeDTO attributeDTO : attributeDTOs) {
-            attributeEntities.add(new ProductAttributeEntity(attributeDTO));
+            attributeEntities.add(DTOEntityConverter.productAttributeEntity(attributeDTO));
         }
         categoryDTOs = Collections.singletonList(new CategoryDTO(0L, "category", "desc"));
         categoryEntities = new ArrayList<>();
         for (final CategoryDTO categoryDTO : categoryDTOs) {
-            categoryEntities.add(new ProductCategoryEntity(categoryDTO));
+            categoryEntities.add(DTOEntityConverter.productCategoryEntity(categoryDTO));
         }
         final ProductEntity productEntity =
                 new ProductEntity(0L, createUserEntity(0), categoryEntities.get(0), "product", null, 0, "");
-        productDTOs = Collections.singletonList(new ProductDTO(productEntity));
+        productDTOs = Collections.singletonList(EntityDTOConverter.productDTO(productEntity));
         productEntities = Collections.singletonList(productEntity);
     }
 
@@ -100,7 +101,8 @@ public class CatalogServiceTest extends AbstractServiceTest {
     public void testGetProductByArticlePositive() throws Exception {
         final ProductEntity productEntity = productEntities.get(0);
         Mockito.when(mockProductDAO.getByID(productEntity.getId())).thenReturn(productEntity);
-        Assert.assertEquals(new ProductDTO(productEntity), mockedCatalogService.getProductByArticle(productEntity.getId()));
+        Assert.assertEquals(EntityDTOConverter.productDTO(productEntity),
+                mockedCatalogService.getProductByArticle(productEntity.getId()));
         Mockito.verify(mockProductDAO, Mockito.times(1)).getByID(productEntity.getId());
     }
 
@@ -119,12 +121,11 @@ public class CatalogServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdateCategoryPositive() throws Exception {
         final ProductCategoryEntity categoryEntity = categoryEntities.get(0);
-        Mockito.when(mockCategoryDAO.getByID(categoryEntity.getId())).thenReturn(categoryEntity);
+        final CategoryDTO categoryDTO = EntityDTOConverter.categoryDTO(categoryEntity);
+        Mockito.when(mockCategoryDAO.getByID(categoryDTO.getId())).thenReturn(categoryEntity);
         Mockito.doNothing().when(mockCategoryDAO).merge(Mockito.any(ProductCategoryEntity.class));
-        Assert.assertEquals(new CategoryDTO(categoryEntity),
-                mockedCatalogService.updateCategory(new CategoryDTO(categoryEntity)));
-        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByID(categoryEntity.getId());
-        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByName(categoryEntity.getCategoryName());
+        Assert.assertEquals(categoryDTO, mockedCatalogService.updateCategory(categoryDTO));
+        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByID(categoryDTO.getId());
         Mockito.verify(mockCategoryDAO, Mockito.times(1)).merge(categoryEntity);
     }
 
@@ -135,14 +136,14 @@ public class CatalogServiceTest extends AbstractServiceTest {
         duplicateEntity.setId(categoryEntity.getId() + 1);
         Mockito.when(mockCategoryDAO.getByName(categoryEntity.getCategoryName())).thenReturn(duplicateEntity);
         try {
-            mockedCatalogService.updateCategory(new CategoryDTO(categoryEntity));
+            mockedCatalogService.updateCategory(EntityDTOConverter.categoryDTO(categoryEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.CATEGORY_ALREADY_EXISTS, e.getType());
         }
-        Mockito.when(mockCategoryDAO.getByName(categoryEntity.getCategoryName())).thenReturn(categoryEntity);
+        Mockito.when(mockCategoryDAO.getByName(categoryEntity.getCategoryName())).thenReturn(null);
         try {
-            mockedCatalogService.updateCategory(new CategoryDTO(categoryEntity));
+            mockedCatalogService.updateCategory(EntityDTOConverter.categoryDTO(categoryEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.CATEGORY_NOT_EXISTS, e.getType());
@@ -155,8 +156,8 @@ public class CatalogServiceTest extends AbstractServiceTest {
     @Test
     public void testCreateCategoryPositive() throws Exception {
         final ProductCategoryEntity categoryEntity = categoryEntities.get(0);
-        Assert.assertEquals(new CategoryDTO(categoryEntity),
-                mockedCatalogService.createCategory(new CategoryDTO(categoryEntity)));
+        final CategoryDTO categoryDTO = EntityDTOConverter.categoryDTO(categoryEntity);
+        Assert.assertEquals(categoryDTO, mockedCatalogService.createCategory(categoryDTO));
         Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByName(categoryEntity.getCategoryName());
         Mockito.verify(mockCategoryDAO, Mockito.times(1)).persist(categoryEntity);
     }
@@ -165,10 +166,10 @@ public class CatalogServiceTest extends AbstractServiceTest {
     public void testCreateCategoryNegative() throws Exception {
         final ProductCategoryEntity categoryEntity = categoryEntities.get(0);
         final ProductCategoryEntity duplicateEntity = new ProductCategoryEntity();
-        duplicateEntity.setId(categoryEntity.getId() + 1);
+        duplicateEntity.setCategoryName(categoryEntity.getCategoryName());
         Mockito.when(mockCategoryDAO.getByName(categoryEntity.getCategoryName())).thenReturn(duplicateEntity);
         try {
-            mockedCatalogService.updateCategory(new CategoryDTO(categoryEntity));
+            mockedCatalogService.createCategory(EntityDTOConverter.categoryDTO(categoryEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.CATEGORY_ALREADY_EXISTS, e.getType());
@@ -180,11 +181,10 @@ public class CatalogServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdateAttributeEntityPositive() throws Exception {
         final ProductAttributeEntity attributeEntity = attributeEntities.get(0);
-        Mockito.when(mockAttributeDAO.getByID(attributeEntity.getId())).thenReturn(attributeEntity);
-        Assert.assertEquals(new AttributeDTO(attributeEntity),
-                mockedCatalogService.updateAttribute(new AttributeDTO(attributeEntity)));
-        Mockito.verify(mockAttributeDAO, Mockito.times(1)).getByID(attributeEntity.getId());
-        Mockito.verify(mockAttributeDAO, Mockito.times(1)).getByName(attributeEntity.getAttributeName());
+        final AttributeDTO attributeDTO = EntityDTOConverter.attributeDTO(attributeEntity);
+        Mockito.when(mockAttributeDAO.getByID(attributeDTO.getId())).thenReturn(attributeEntity);
+        Assert.assertEquals(attributeDTO, mockedCatalogService.updateAttribute(attributeDTO));
+        Mockito.verify(mockAttributeDAO, Mockito.times(1)).getByID(attributeDTO.getId());
         Mockito.verify(mockAttributeDAO, Mockito.times(1)).merge(attributeEntity);
     }
 
@@ -195,14 +195,14 @@ public class CatalogServiceTest extends AbstractServiceTest {
         duplicateEntity.setId(attributeEntity.getId() + 1);
         Mockito.when(mockAttributeDAO.getByName(attributeEntity.getAttributeName())).thenReturn(duplicateEntity);
         try {
-            mockedCatalogService.updateAttribute(new AttributeDTO(attributeEntity));
+            mockedCatalogService.updateAttribute(EntityDTOConverter.attributeDTO(attributeEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.ATTRIBUTE_ALREADY_EXISTS, e.getType());
         }
-        Mockito.when(mockAttributeDAO.getByName(attributeEntity.getAttributeName())).thenReturn(attributeEntity);
+        Mockito.when(mockAttributeDAO.getByName(attributeEntity.getAttributeName())).thenReturn(null);
         try {
-            mockedCatalogService.updateAttribute(new AttributeDTO(attributeEntity));
+            mockedCatalogService.updateAttribute(EntityDTOConverter.attributeDTO(attributeEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.ATTRIBUTE_NOT_EXISTS, e.getType());
@@ -215,8 +215,8 @@ public class CatalogServiceTest extends AbstractServiceTest {
     @Test
     public void testCreateAttributePositive() throws Exception {
         final ProductAttributeEntity attributeEntity = attributeEntities.get(0);
-        Assert.assertEquals(new AttributeDTO(attributeEntity),
-                mockedCatalogService.createAttribute(new AttributeDTO(attributeEntity)));
+        final AttributeDTO attributeDTO = EntityDTOConverter.attributeDTO(attributeEntity);
+        Assert.assertEquals(attributeDTO, mockedCatalogService.createAttribute(attributeDTO));
         Mockito.verify(mockAttributeDAO, Mockito.times(1)).getByName(attributeEntity.getAttributeName());
         Mockito.verify(mockAttributeDAO, Mockito.times(1)).persist(attributeEntity);
     }
@@ -225,10 +225,10 @@ public class CatalogServiceTest extends AbstractServiceTest {
     public void testCreateAttributeNegative() throws Exception {
         final ProductAttributeEntity attributeEntity = attributeEntities.get(0);
         final ProductAttributeEntity duplicateEntity = new ProductAttributeEntity();
-        duplicateEntity.setId(attributeEntity.getId() + 1);
+        duplicateEntity.setAttributeName(attributeEntity.getAttributeName());
         Mockito.when(mockAttributeDAO.getByName(attributeEntity.getAttributeName())).thenReturn(duplicateEntity);
         try {
-            mockedCatalogService.updateAttribute(new AttributeDTO(attributeEntity));
+            mockedCatalogService.createAttribute(EntityDTOConverter.attributeDTO(attributeEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.ATTRIBUTE_ALREADY_EXISTS, e.getType());
@@ -240,12 +240,12 @@ public class CatalogServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdateProductPositive() throws Exception {
         final ProductEntity productEntity = productEntities.get(0);
-        final Long newCategoryID = productEntity.getCategory().getId();
-        Mockito.when(mockCategoryDAO.getByID(newCategoryID)).thenReturn(productEntity.getCategory());
+        final ProductDTO productDTO = EntityDTOConverter.productDTO(productEntity);
+        final String newCategoryName = productEntity.getCategory().getCategoryName();
+        Mockito.when(mockCategoryDAO.getByName(newCategoryName)).thenReturn(productEntity.getCategory());
         Mockito.when(mockProductDAO.getByID(productEntity.getId())).thenReturn(productEntity);
-        Assert.assertEquals(new ProductDTO(productEntity),
-                mockedCatalogService.updateProduct(new ProductDTO(productEntity), newCategoryID, null));
-        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByID(newCategoryID);
+        Assert.assertEquals(productDTO, mockedCatalogService.updateProduct(productDTO));
+        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByName(newCategoryName);
         Mockito.verify(mockProductDAO, Mockito.times(1)).getByID(productEntity.getId());
         Mockito.verify(mockProductDAO, Mockito.times(1)).merge(productEntity);
     }
@@ -253,39 +253,37 @@ public class CatalogServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdateProductNegative() throws Exception {
         final ProductEntity productEntity = productEntities.get(0);
-        final Long newCategoryID = -1L;
+        final String newCategoryName = "category";
         Mockito.when(mockProductDAO.getByID(productEntity.getId())).thenReturn(null);
         try {
-            mockedCatalogService.updateProduct(new ProductDTO(productEntity), newCategoryID, null);
+            mockedCatalogService.updateProduct(EntityDTOConverter.productDTO(productEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.PRODUCT_NOT_EXISTS, e.getType());
         }
         Mockito.when(mockProductDAO.getByID(productEntity.getId())).thenReturn(productEntity);
-        Mockito.when(mockCategoryDAO.getByID(newCategoryID)).thenReturn(null);
+        Mockito.when(mockCategoryDAO.getByName(newCategoryName)).thenReturn(null);
         try {
-            mockedCatalogService.updateProduct(new ProductDTO(productEntity), newCategoryID, null);
+            mockedCatalogService.updateProduct(EntityDTOConverter.productDTO(productEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.CATEGORY_NOT_EXISTS, e.getType());
         }
         Mockito.verify(mockProductDAO, Mockito.times(2)).getByID(productEntity.getId());
-        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByID(newCategoryID);
+        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByName(newCategoryName);
         Mockito.verify(mockProductDAO, Mockito.times(0)).merge(Mockito.any(ProductEntity.class));
     }
 
     @Test
     public void testCreateProductPositive() throws Exception {
         final ProductEntity productEntity = productEntities.get(0);
-        final Long newCategoryID = productEntity.getCategory().getId();
+        final ProductDTO productDTO = EntityDTOConverter.productDTO(productEntity);
+        final String newCategoryName = productEntity.getCategory().getCategoryName();
         Mockito.when(mockUserDAO.getByID(productEntity.getSeller().getId())).thenReturn(productEntity.getSeller());
-        Mockito.when(mockCategoryDAO.getByID(newCategoryID)).thenReturn(productEntity.getCategory());
-        Assert.assertEquals(new ProductDTO(productEntity), mockedCatalogService.createProduct(
-                new UserDTO(productEntity.getSeller()),
-                new ProductDTO(productEntity),
-                newCategoryID, null));
+        Mockito.when(mockCategoryDAO.getByName(newCategoryName)).thenReturn(productEntity.getCategory());
+        Assert.assertEquals(productDTO, mockedCatalogService.createProduct(productDTO));
         Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(productEntity.getSeller().getId());
-        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByID(newCategoryID);
+        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByName(newCategoryName);
         Mockito.verify(mockProductDAO, Mockito.times(1)).persist(productEntity);
     }
 
@@ -294,26 +292,20 @@ public class CatalogServiceTest extends AbstractServiceTest {
         final ProductEntity productEntity = productEntities.get(0);
         final Long newCategoryID = -1L;
         try {
-            mockedCatalogService.createProduct(
-                    new UserDTO(productEntity.getSeller()),
-                    new ProductDTO(productEntity),
-                    newCategoryID, null);
+            mockedCatalogService.createProduct(EntityDTOConverter.productDTO(productEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.USER_NOT_EXISTS, e.getType());
         }
         Mockito.when(mockUserDAO.getByID(productEntity.getSeller().getId())).thenReturn(productEntity.getSeller());
         try {
-            mockedCatalogService.createProduct(
-                    new UserDTO(productEntity.getSeller()),
-                    new ProductDTO(productEntity),
-                    newCategoryID, null);
+            mockedCatalogService.createProduct(EntityDTOConverter.productDTO(productEntity));
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.CATEGORY_NOT_EXISTS, e.getType());
         }
         Mockito.verify(mockUserDAO, Mockito.times(2)).getByID(productEntity.getSeller().getId());
-        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByID(newCategoryID);
+        Mockito.verify(mockCategoryDAO, Mockito.times(1)).getByName(productEntity.getCategory().getCategoryName());
         Mockito.verify(mockProductDAO, Mockito.times(0)).persist(Mockito.any(ProductEntity.class));
     }
 

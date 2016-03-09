@@ -75,24 +75,12 @@ public class OrderDetailEntity {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (!(o instanceof OrderDetailEntity)) return false;
-
         final OrderDetailEntity that = (OrderDetailEntity) o;
-
         if (!id.equals(that.id)) return false;
         if (!order.equals(that.order)) return false;
         if (!product.equals(that.product)) return false;
         //noinspection SimplifiableIfStatement
         if (!productCount.equals(that.productCount)) return false;
         return priceTotal.equals(that.priceTotal);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + order.hashCode();
-        result = 31 * result + product.hashCode();
-        result = 31 * result + productCount.hashCode();
-        result = 31 * result + priceTotal.hashCode();
-        return result;
     }
 }

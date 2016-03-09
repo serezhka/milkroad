@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractService {
     protected EntityManager entityManager;
-    //= MilkroadAppContext.getInstance().getEntityManager();
 
     protected AbstractService(final EntityManager entityManager) {
         this.entityManager = entityManager;

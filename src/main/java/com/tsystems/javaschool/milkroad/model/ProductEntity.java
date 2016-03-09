@@ -26,7 +26,6 @@ public class ProductEntity {
     private Integer remainCount;
     private String description;
 
-    // TODO It's ok ?
     private List<ProductParameterEntity> parameters = new ArrayList<>();
 
     @Id
@@ -129,9 +128,7 @@ public class ProductEntity {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         final ProductEntity that = (ProductEntity) o;
-
         if (id != null ? !id.equals(that.id) : that.id != null) return false;
         if (category != null ? !category.equals(that.category) : that.category != null) return false;
         if (productName != null ? !productName.equals(that.productName) : that.productName != null) return false;
@@ -139,16 +136,5 @@ public class ProductEntity {
         //noinspection SimplifiableIfStatement
         if (remainCount != null ? !remainCount.equals(that.remainCount) : that.remainCount != null) return false;
         return description != null ? description.equals(that.description) : that.description == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (productName != null ? productName.hashCode() : 0);
-        result = 31 * result + (productPrice != null ? productPrice.hashCode() : 0);
-        result = 31 * result + (remainCount != null ? remainCount.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        return result;
     }
 }

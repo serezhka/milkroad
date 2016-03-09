@@ -7,6 +7,7 @@ import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +18,7 @@ import org.mockito.Mockito;
 /**
  * Created by Sergey on 20.02.2016.
  */
-public class AddressServiceImplTest extends AbstractServiceTest {
+public class AddressServiceTest extends AbstractServiceTest {
     @InjectMocks
     private AddressServiceImpl mockedAddressService;
     @Mock
@@ -27,6 +28,7 @@ public class AddressServiceImplTest extends AbstractServiceTest {
 
     private UserEntity userEntity;
     private AddressEntity addressEntity;
+    private UserDTO userDTO;
     private AddressDTO addressDTO;
 
     @Override
@@ -34,16 +36,17 @@ public class AddressServiceImplTest extends AbstractServiceTest {
     public void setUp() throws Exception {
         super.setUp();
         userEntity = createUserEntity(0);
-        addressDTO = new AddressDTO(0L, "Russia", "Moscow", 127001, "Arbat", "7A", "8B");
-        addressEntity = new AddressEntity(addressDTO);
+        userDTO = EntityDTOConverter.userDTO(userEntity);
+        addressEntity = new AddressEntity(0L, "Russia", "Moscow", 127001, "Arbat", "7A", "8B");
+        addressDTO = EntityDTOConverter.addressDTO(addressEntity);
     }
 
     @Test
     public void testAddAddressToUserPositive() throws Exception {
         Mockito.when(mockUserDAO.getByID(userEntity.getId())).thenReturn(userEntity);
         Mockito.doNothing().when(mockUserDAO).merge(Mockito.any(UserEntity.class));
-        Assert.assertEquals(new UserDTO(userEntity),
-                mockedAddressService.addAddressToUser(new UserDTO(userEntity), new AddressDTO(addressEntity)));
+        Assert.assertEquals(addressDTO,
+                mockedAddressService.addAddressToUser(userDTO, addressDTO).getAddresses().get(0));
         Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(userEntity.getId());
         Mockito.verify(mockUserDAO, Mockito.times(1)).merge(Mockito.any(UserEntity.class));
     }
@@ -52,7 +55,7 @@ public class AddressServiceImplTest extends AbstractServiceTest {
     public void testAddAddressToUserNegative() throws Exception {
         Mockito.when(mockUserDAO.getByID(userEntity.getId())).thenReturn(null);
         try {
-            mockedAddressService.addAddressToUser(new UserDTO(userEntity), new AddressDTO(addressEntity));
+            mockedAddressService.addAddressToUser(userDTO, addressDTO);
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.USER_NOT_EXISTS, e.getType());
@@ -74,7 +77,7 @@ public class AddressServiceImplTest extends AbstractServiceTest {
     public void testUpdateAddressNegative() throws Exception {
         Mockito.when(mockAddressDAO.getByID(addressDTO.getId())).thenReturn(null);
         try {
-            mockedAddressService.updateAddress(new AddressDTO(addressEntity));
+            mockedAddressService.updateAddress(addressDTO);
             Assert.fail("Failed to assert: No exception thrown");
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS, e.getType());
