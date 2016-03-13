@@ -12,15 +12,18 @@ import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Sergey on 15.02.2016.
  */
-public class OrderServiceImpl extends AbstractService implements OrderService {
+@Service
+public class OrderServiceImpl implements OrderService {
     private static final Logger LOGGER = Logger.getLogger(OrderServiceImpl.class);
 
     private final OrderDAO<OrderEntity, Long> orderDAO;
@@ -28,12 +31,11 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
     private final AddressDAO<AddressEntity, Long> addressDAO;
     private final ProductDAO<ProductEntity, Long> productDAO;
 
-    public OrderServiceImpl(final EntityManager entityManager,
-                            final OrderDAO<OrderEntity, Long> orderDAO,
+    @Autowired
+    public OrderServiceImpl(final OrderDAO<OrderEntity, Long> orderDAO,
                             final UserDAO<UserEntity, Long> userDAO,
                             final AddressDAO<AddressEntity, Long> addressDAO,
                             final ProductDAO<ProductEntity, Long> productDAO) {
-        super(entityManager);
         this.orderDAO = orderDAO;
         this.userDAO = userDAO;
         this.addressDAO = addressDAO;
@@ -41,6 +43,7 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<OrderDTO> getAllOrders() throws MilkroadServiceException {
         final List<OrderEntity> orderEntities;
         try {
@@ -51,17 +54,17 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
         }
         final List<OrderDTO> orderDTOs = new ArrayList<>();
         for (final OrderEntity orderEntity : orderEntities) {
-            entityManager.refresh(orderEntity);
             orderDTOs.add(EntityDTOConverter.orderDTO(orderEntity));
         }
         return orderDTOs;
     }
 
     @Override
+    @Transactional
     public OrderDTO createOrder(final OrderDTO orderDTO) throws MilkroadServiceException {
         final OrderEntity orderEntity = new OrderEntity();
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             final UserEntity userEntity = userDAO.getByID(orderDTO.getCustomer().getId());
             if (userEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
@@ -94,24 +97,24 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
                 orderEntity.addOrderDetail(detailEntity);
             }
             orderDAO.persist(orderEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while creating order for user with email = " + orderDTO.getCustomer().getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.orderDTO(orderEntity);
     }
 
     @Override
+    @Transactional
     public List<OrderDTO> getOrdersByUser(final UserDTO userDTO) throws MilkroadServiceException {
         final List<OrderDTO> orderDTOs = new ArrayList<>();
         try {
             final UserEntity userEntity = userDAO.getByID(userDTO.getId());
-            entityManager.refresh(userEntity);
             final List<OrderEntity> orderEntities = userEntity.getOrders();
             for (final OrderEntity orderEntity : orderEntities) {
                 orderDTOs.add(EntityDTOConverter.orderDTO(orderEntity));
@@ -124,24 +127,25 @@ public class OrderServiceImpl extends AbstractService implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderDTO updateOrder(final OrderDTO orderDTO) throws MilkroadServiceException {
         final OrderEntity orderEntity;
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             orderEntity = orderDAO.getByID(orderDTO.getId());
             orderEntity.setPaymentMethod(orderDTO.getPaymentMethod());
             orderEntity.setPaymentStatus(orderDTO.getPaymentStatus());
             orderEntity.setShippingMethod(orderDTO.getShippingMethod());
             orderEntity.setShippingStatus(orderDTO.getShippingStatus());
             orderDAO.merge(orderEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while update order with id = " + orderDTO.getId());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.orderDTO(orderEntity);
     }

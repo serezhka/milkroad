@@ -4,7 +4,6 @@ import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.AuthUtil;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,10 +17,9 @@ import java.util.Set;
 /**
  * Created by Sergey on 18.02.2016.
  */
+@Deprecated
 @WebServlet(name = "LoginServlet")
 public class LoginServlet extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
-
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/login.jsp").forward(request, response);

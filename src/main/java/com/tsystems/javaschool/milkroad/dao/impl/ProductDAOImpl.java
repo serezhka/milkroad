@@ -5,6 +5,7 @@ import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.ProductEntity;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -16,16 +17,18 @@ import java.util.List;
 /**
  * Created by Sergey on 15.02.2016.
  */
+@Repository
 public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements ProductDAO<ProductEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(ProductDAOImpl.class);
 
-    public ProductDAOImpl(final EntityManager entityManager) {
-        super(entityManager, ProductEntity.class);
+    public ProductDAOImpl() {
+        super(ProductEntity.class);
     }
 
     @Override
     public List<ProductEntity> getAllByCategory(final String category) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<ProductEntity> entityTypedQuery =
                     entityManager.createNamedQuery("ProductEntity.findAllByCategory", ProductEntity.class);
             entityTypedQuery.setParameter("category", category);
@@ -42,6 +45,7 @@ public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements Prod
     @Override
     public List<Pair<ProductEntity, Integer>> getTopProducts(final int count) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<Object[]> entityTypedQuery =
                     entityManager.createNamedQuery("OrderDetailEntity.getTopProducts", Object[].class);
             final List<Pair<ProductEntity, Integer>> topProducts = new ArrayList<>();
@@ -62,6 +66,7 @@ public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements Prod
     @Override
     public List<ProductEntity> searchByName(final String pattern) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<ProductEntity> entityTypedQuery =
                     entityManager.createNamedQuery("ProductEntity.findByPattern", ProductEntity.class);
             entityTypedQuery.setParameter("pattern", "%" + pattern.toLowerCase() + "%");

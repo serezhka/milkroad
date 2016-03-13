@@ -11,15 +11,18 @@ import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceExcepti
 import com.tsystems.javaschool.milkroad.util.DTOEntityConverter;
 import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Sergey on 14.02.2016.
  */
-public class CatalogServiceImpl extends AbstractService implements CatalogService {
+@Service
+public class CatalogServiceImpl implements CatalogService {
     private static final Logger LOGGER = Logger.getLogger(CatalogServiceImpl.class);
 
     private final AttributeDAO<ProductAttributeEntity, Long> attributeDAO;
@@ -28,13 +31,12 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     private final ProductDAO<ProductEntity, Long> productDAO;
     private final UserDAO<UserEntity, Long> userDAO;
 
-    public CatalogServiceImpl(final EntityManager entityManager,
-                              final AttributeDAO<ProductAttributeEntity, Long> attributeDAO,
+    @Autowired
+    public CatalogServiceImpl(final AttributeDAO<ProductAttributeEntity, Long> attributeDAO,
                               final CategoryDAO<ProductCategoryEntity, Long> categoryDAO,
                               final ParameterDAO<ProductParameterEntity, Long> parameterDAO,
                               final ProductDAO<ProductEntity, Long> productDAO,
                               final UserDAO<UserEntity, Long> userDAO) {
-        super(entityManager);
         this.attributeDAO = attributeDAO;
         this.categoryDAO = categoryDAO;
         this.parameterDAO = parameterDAO;
@@ -43,6 +45,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     }
 
     @Override
+    @Transactional
     public List<AttributeDTO> getAllAttributes() throws MilkroadServiceException {
         final List<ProductAttributeEntity> attributeEntities;
         try {
@@ -59,6 +62,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     }
 
     @Override
+    @Transactional
     public List<CategoryDTO> getAllCategories() throws MilkroadServiceException {
         final List<ProductCategoryEntity> categoryEntities;
         try {
@@ -75,6 +79,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     }
 
     @Override
+    @Transactional
     public List<ProductDTO> getAllProducts() throws MilkroadServiceException {
         final List<ProductEntity> productEntities;
         try {
@@ -85,13 +90,13 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
         }
         final List<ProductDTO> productDTOs = new ArrayList<>();
         for (final ProductEntity productEntity : productEntities) {
-            entityManager.refresh(productEntity);
             productDTOs.add(EntityDTOConverter.productDTO(productEntity));
         }
         return productDTOs;
     }
 
     @Override
+    @Transactional
     public List<ProductDTO> getAllProductsByCategory(final String category) throws MilkroadServiceException {
         final List<ProductDTO> productDTOs = new ArrayList<>();
         final List<ProductEntity> productEntities;
@@ -108,6 +113,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     }
 
     @Override
+    @Transactional
     public ProductDTO getProductByArticle(final Long article) throws MilkroadServiceException {
         final ProductEntity productEntity;
         try {
@@ -124,10 +130,11 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
     }
 
     @Override
+    @Transactional
     public CategoryDTO updateCategory(final CategoryDTO categoryDTO) throws MilkroadServiceException {
         final ProductCategoryEntity categoryEntity;
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             final ProductCategoryEntity duplicate = categoryDAO.getByName(categoryDTO.getName());
             if (duplicate != null && !duplicate.getId().equals(categoryDTO.getId())) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.CATEGORY_ALREADY_EXISTS);
@@ -139,46 +146,48 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
                 categoryEntity.setCategoryName(categoryDTO.getName());
                 categoryEntity.setDescription(categoryDTO.getDescription());
                 categoryDAO.merge(categoryEntity);
-                entityManager.getTransaction().commit();
+//                entityManager.getTransaction().commit();
             }
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating product category with name = " + categoryDTO.getName());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.categoryDTO(categoryEntity);
     }
 
     @Override
+    @Transactional
     public CategoryDTO createCategory(final CategoryDTO categoryDTO) throws MilkroadServiceException {
         final ProductCategoryEntity categoryEntity;
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             if (categoryDAO.getByName(categoryDTO.getName()) != null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.CATEGORY_ALREADY_EXISTS);
             }
             categoryEntity = DTOEntityConverter.productCategoryEntity(categoryDTO);
             categoryDAO.persist(categoryEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while creating product category with name = " + categoryDTO.getName());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.categoryDTO(categoryEntity);
     }
 
     @Override
+    @Transactional
     public AttributeDTO updateAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException {
         final ProductAttributeEntity attributeEntity;
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             final ProductAttributeEntity duplicate = attributeDAO.getByName(attributeDTO.getName());
             if (duplicate != null && !duplicate.getId().equals(attributeDTO.getId())) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.ATTRIBUTE_ALREADY_EXISTS);
@@ -190,42 +199,44 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
                 attributeEntity.setAttributeName(attributeDTO.getName());
                 attributeEntity.setDescription(attributeDTO.getDescription());
                 attributeDAO.merge(attributeEntity);
-                entityManager.getTransaction().commit();
+//                entityManager.getTransaction().commit();
             }
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating product attribute with name = " + attributeDTO.getName());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.attributeDTO(attributeEntity);
     }
 
     @Override
+    @Transactional
     public AttributeDTO createAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException {
         final ProductAttributeEntity attributeEntity;
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             if (attributeDAO.getByName(attributeDTO.getName()) != null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.ATTRIBUTE_ALREADY_EXISTS);
             }
             attributeEntity = DTOEntityConverter.productAttributeEntity(attributeDTO);
             attributeDAO.persist(attributeEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while creating product attribute with name = " + attributeDTO.getName());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.attributeDTO(attributeEntity);
     }
 
     @Override
+    @Transactional
     public ProductDTO updateProduct(final ProductDTO productDTO) throws MilkroadServiceException {
         final ProductEntity productEntity;
         try {
@@ -242,7 +253,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
             productEntity.setProductPrice(productDTO.getPrice());
             productEntity.setRemainCount(productDTO.getCount());
             productEntity.setDescription(productDTO.getDescription());
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             for (final ProductDTO.Parameter parameter : productDTO.getParameters()) {
                 final String attrName = parameter.getName();
                 final String attrValue = parameter.getValue();
@@ -264,19 +275,20 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
                 }
             }
             productDAO.merge(productEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating product with article = " + productDTO.getArticle());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.productDTO(productEntity);
     }
 
     @Override
+    @Transactional
     public ProductDTO createProduct(final ProductDTO productDTO) throws MilkroadServiceException {
         final ProductEntity productEntity;
         try {
@@ -296,7 +308,7 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
             productEntity.setProductPrice(productDTO.getPrice());
             productEntity.setRemainCount(productDTO.getCount());
             productEntity.setDescription(productDTO.getDescription());
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             productDAO.persist(productEntity);
             for (final ProductDTO.Parameter parameter : productDTO.getParameters()) {
                 final String attrName = parameter.getName();
@@ -311,19 +323,20 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
                 parameterEntity.setAttributeValue(attrValue);
                 parameterDAO.persist(parameterEntity);
             }
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while creating product with name = " + productDTO.getName());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.productDTO(productEntity);
     }
 
     @Override
+    @Transactional
     public List<ProductDTO> searchProductByName(final String pattern) throws MilkroadServiceException {
         final List<ProductEntity> productEntities;
         try {
@@ -334,7 +347,6 @@ public class CatalogServiceImpl extends AbstractService implements CatalogServic
         }
         final List<ProductDTO> productDTOs = new ArrayList<>();
         for (final ProductEntity productEntity : productEntities) {
-            entityManager.refresh(productEntity);
             productDTOs.add(EntityDTOConverter.productDTO(productEntity));
         }
         return productDTOs;

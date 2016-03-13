@@ -85,7 +85,6 @@ h1, h3, h4, h5, h6, label, p {
     float: left;
     width: 25%;
     background-color: #fff;
-    margin-top: 11px;
 }
 
 .search input[type="text"] {
@@ -367,7 +366,7 @@ h1, h3, h4, h5, h6, label, p {
     cursor: pointer;
     background: #EF5F21;
     border: none;
-    width: 20%;
+    /*width: 20%;*/
     min-width: 100px;
     margin: 1em auto 2em;
     transition: 0.5s all;
@@ -430,10 +429,14 @@ a.create {
     margin-bottom: 1em;
 }
 
+.product-edit-info-div h3,
+.product-edit-image-div h3,
+.product-edit-details-div h3,
 .register-top-grid h3, .register-bottom-grid h3,
 .profile-top-grid h3, .profile-bottom-grid h3,
 .profile-addresses h3, .profile-add-address h3,
-.profile-orders h3, h3.milkroad-h3 {
+.profile-orders h3,
+h3.milkroad-h3 {
     font-size: 1.5em;
     font-family: 'Lato', sans-serif;
     color: #000;
@@ -442,15 +445,26 @@ a.create {
     font-weight: 600;
 }
 
+.product-edit-image-div img {
+    max-height: 500px;
+}
+
+.product-add-detail-div {
+    display: inline-flex;
+    width: 100%;
+}
+
 .register-top-grid span, .register-bottom-grid span,
 .profile-top-grid span, .profile-bottom-grid span,
-.profile-addresses span, .profile-add-address span {
+.profile-addresses span, .profile-add-address span,
+.product-edit-info-div span {
     font-size: 1em;
     display: block;
     color: #A09F9F;
 }
 
 span.error,
+.product-edit-info-div span.error,
 .account-top span.error, .checkout-order-details span.error,
 .register-top-grid span.error, .register-bottom-grid span.error,
 .profile-top-grid span.error, .profile-bottom-grid span.error,
@@ -459,6 +473,19 @@ span.error,
     color: red;
 }
 
+.product-edit-info-div .no-radius button {
+    margin: 1em;
+    padding: 1em;
+    border: 1px solid #A09F9F;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+
+.product-edit-info-div .no-radius span {
+    color: #333;
+}
+
+.product-edit-info-div input[type="text"],
 .register-top-grid input[type="text"],
 .profile-top-grid input[type="text"],
 .register-bottom-grid input[type="text"],
@@ -476,6 +503,7 @@ span.error,
     -webkit-appearance: none;
 }
 
+.product-edit-info-div input[type="submit"],
 .register-bottom-grid input[type="submit"],
 .checkout-order-details input[type="submit"],
 .profile-add-address input[type="submit"],
@@ -492,10 +520,10 @@ span.error,
     border: none;
     outline: none;
     margin: 10px;
-    width: 20%;
     min-width: 100px;
 }
 
+.product-edit-info-div input[type="submit"]:hover,
 .register-bottom-grid input[type="submit"]:hover,
 .checkout-order-details input[type="submit"]:hover,
 .profile-add-address input[type="submit"]:hover,
@@ -825,6 +853,35 @@ a.cart-order:hover {
 /* **************************************************** */
 /* ****************** MANAGEMENT ********************** */
 /* **************************************************** */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+
+.product-edit-info-div,
+.product-edit-image-div,
+.product-edit-details-div,
+.account-top, .left-account, .register-top-grid, .register-bottom-grid,
+.profile-top-grid, .profile-bottom-grid,
+.profile-addresses, .profile-add-address,
+.profile-orders {
+    margin-bottom: 4em;
+}
 
 /* Make it responsive */
 @media (max-width: 1080px) {
@@ -959,6 +1016,9 @@ a.cart-order:hover {
         margin-bottom: 0.3em;
     }
 
+    .product-edit-info-div h3,
+    .product-edit-image-div h3,
+    .product-edit-details-div h3,
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
     .profile-addresses h3, .profile-add-address h3,
@@ -1017,6 +1077,8 @@ a.cart-order:hover {
         font-size: 0.9em;
     }
 
+    .product-edit-info-div input[type="submit"],
+    .product-edit-info-div input[type="submit"],
     .account-top input[type="submit"],
     .register-bottom-grid input[type="submit"],
     .profile-bottom-grid input[type="submit"],
@@ -1025,6 +1087,9 @@ a.cart-order:hover {
         font-size: 1em;
     }
 
+    .product-edit-info-div,
+    .product-edit-image-div,
+    .product-edit-details-div,
     .account-top, .left-account, .register-top-grid, .register-bottom-grid,
     .profile-top-grid, .profile-bottom-grid,
     .profile-addresses, .profile-add-address,
@@ -1032,6 +1097,9 @@ a.cart-order:hover {
         padding: 0;
     }
 
+    .product-edit-info-div h3,
+    .product-edit-image-div h3,
+    .product-edit-details-div h3,
     .register-top-grid h3, .register-bottom-grid h3,
     .profile-top-grid h3, .profile-bottom-grid h3,
     .profile-addresses h3, .profile-add-address h3,

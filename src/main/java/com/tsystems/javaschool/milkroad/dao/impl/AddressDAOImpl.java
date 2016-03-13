@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.dao.AddressDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.AddressEntity;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -14,16 +15,18 @@ import java.util.List;
 /**
  * Created by Sergey on 20.02.2016.
  */
+@Repository
 public class AddressDAOImpl extends DAOImpl<AddressEntity, Long> implements AddressDAO<AddressEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(AddressDAOImpl.class);
 
-    public AddressDAOImpl(final EntityManager entityManager) {
-        super(entityManager, AddressEntity.class);
+    public AddressDAOImpl() {
+        super(AddressEntity.class);
     }
 
     @Override
     public List<AddressEntity> getByUserEmail(final String email) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<AddressEntity> entityTypedQuery =
                     entityManager.createNamedQuery("AddressEntity.findAddressesByUserEmail", AddressEntity.class);
             entityTypedQuery.setParameter("email", email);

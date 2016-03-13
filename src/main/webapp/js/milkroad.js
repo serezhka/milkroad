@@ -481,3 +481,87 @@ function removeProductOnceFromCart(article_id) {
     document.body.appendChild(form);
     form.submit();
 }
+
+function showNewProductImage(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $(".product-add-image-div img").attr("src", e.target.result);
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function addProductDetailField() {
+    var allSelects = $('.product-add-details-div .selectpicker');
+    var lastSelect = $(allSelects).last();
+    if ($(lastSelect).find("option:selected").val()) {
+        var newSelectDiv = $(lastSelect).parent().parent().clone();
+        $(newSelectDiv).find(".bootstrap-select").remove();
+        $(newSelectDiv).find("a").click(function () {
+            removeProductDetailField($(newSelectDiv));
+        });
+        var newSelect = $(lastSelect).clone();
+        $(newSelect).attr("id", "parameter_" + $(allSelects).size());
+        $(newSelect).val("");
+        $(newSelect).change(function () {
+            if ($(this).val()) {
+                addProductDetailField();
+            }
+        });
+        $(newSelect).prependTo($(newSelectDiv));
+        $(newSelectDiv).appendTo($(lastSelect).parent().parent().parent());
+        $(newSelect).selectpicker();
+    }
+}
+
+function removeProductDetailField(field) {
+    if ($(field).find(".selectpicker").attr("id") == "parameter_0") {
+        $(field).find(".selectpicker option").first().attr("selected", true);
+        $(field).find(".selectpicker").selectpicker("refresh");
+    } else {
+        $(field).remove();
+    }
+}
+
+function addOrEditProduct(form) {
+    var formData = new FormData($(form)[0]);
+    $.ajax({
+        url: $(form).attr("action"),
+        type: $(form).attr("method"),
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (returndata) {
+            alert(returndata);
+        }
+    });
+    return false;
+}
+
+$(document).ready(function () {
+    $(".product-add-image-div input").change(function () {
+        showNewProductImage(this);
+    });
+
+    $('.product-add-details-div .selectpicker').each(function () {
+        $(this).change(function () {
+            if ($(this).val()) {
+                addProductDetailField();
+            }
+        });
+    });
+
+    $('.product-add-details-div a').each(function () {
+        $(this).click(function () {
+            removeProductDetailField($(this).parent());
+        });
+    });
+
+    $("#product-data-form").submit(function(e) {
+        addOrEditProduct($(this));
+        e.preventDefault();
+    });
+});

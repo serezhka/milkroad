@@ -6,6 +6,7 @@ import com.tsystems.javaschool.milkroad.util.FormDataValidator;
 
 import javax.servlet.*;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +39,9 @@ public class FormDataFilter implements Filter {
                         errors.add("LAST_NAME_ERROR");
                     }
                     final String birthday = request.getParameter("birthday");
-                    if (!FormDataValidator.validateDate(birthday)) {
+                    if (FormDataValidator.validateDate(birthday)) {
+                        request.setAttribute("birthday", Date.valueOf(birthday));
+                    } else {
                         errors.add("DATE_ERROR");
                     }
                     final String email = request.getParameter("email");
@@ -198,10 +201,14 @@ public class FormDataFilter implements Filter {
                     final String birthday = request.getParameter("birthday");
                     if (!FormDataValidator.validateDate(birthday)) {
                         errors.add("DATE_ERROR");
+                    } else {
+                        request.setAttribute("birthday", Date.valueOf(birthday));
                     }
                     final String pass = request.getParameter("pass");
                     if (!(pass != null && pass.isEmpty()) && !FormDataValidator.validatePass(pass)) {
                         errors.add("PASS_ERROR");
+                    } else {
+                        request.setAttribute("pass", pass);
                     }
                     input.put("firstname", firstName);
                     input.put("lastname", lastName);

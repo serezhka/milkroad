@@ -12,55 +12,59 @@ import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceExcepti
 import com.tsystems.javaschool.milkroad.util.DTOEntityConverter;
 import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import org.apache.log4j.Logger;
-
-import javax.persistence.EntityManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by Sergey on 20.02.2016.
  */
-public class AddressServiceImpl extends AbstractService implements AddressService {
+@Service
+public class AddressServiceImpl implements AddressService {
     private static final Logger LOGGER = Logger.getLogger(AddressServiceImpl.class);
 
     private final AddressDAO<AddressEntity, Long> addressDAO;
     private final UserDAO<UserEntity, Long> userDAO;
 
-    public AddressServiceImpl(final EntityManager entityManager,
-                              final AddressDAO<AddressEntity, Long> addressDAO, final UserDAO<UserEntity, Long> userDAO) {
-        super(entityManager);
+    @Autowired
+    public AddressServiceImpl(final AddressDAO<AddressEntity, Long> addressDAO,
+                              final UserDAO<UserEntity, Long> userDAO) {
         this.addressDAO = addressDAO;
         this.userDAO = userDAO;
     }
 
     @Override
+    @Transactional
     public UserDTO addAddressToUser(final UserDTO userDTO, final AddressDTO addressDTO) throws MilkroadServiceException {
         final UserEntity userEntity;
         final AddressEntity addressEntity = DTOEntityConverter.addressEntity(addressDTO);
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             userEntity = userDAO.getByID(userDTO.getId());
             if (userEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
             }
             userEntity.addAddress(addressEntity);
             userDAO.merge(userEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while adding address for user with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }
 
     @Override
+    @Transactional
     public AddressDTO updateAddress(final AddressDTO addressDTO) throws MilkroadServiceException {
         final AddressEntity addressEntity;
         try {
 
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             addressEntity = addressDAO.getByID(addressDTO.getId());
             if (addressEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS);
@@ -72,14 +76,14 @@ public class AddressServiceImpl extends AbstractService implements AddressServic
             addressEntity.setBuilding(addressDTO.getBuilding());
             addressEntity.setApartment(addressDTO.getApartment());
             addressDAO.merge(addressEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating address with id = " + addressDTO.getId());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.addressDTO(addressEntity);
     }

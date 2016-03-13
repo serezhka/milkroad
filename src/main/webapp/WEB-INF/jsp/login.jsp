@@ -41,7 +41,7 @@
                 </form>
             </div>
             <div class="col-md-4 left-account ">
-                <img class="img-responsive" src="images/discount.jpg" alt="">
+                <img class="img-responsive" src="<c:url value="/images/discount.jpg"/>" alt="">
                 <div class="five">
                     <h2>25% </h2><span>discount</span>
                 </div>

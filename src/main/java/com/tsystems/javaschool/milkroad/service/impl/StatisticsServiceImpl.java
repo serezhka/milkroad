@@ -14,8 +14,10 @@ import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceExcepti
 import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,24 +26,25 @@ import java.util.List;
 /**
  * Created by Sergey on 03.03.2016.
  */
-public class StatisticsServiceImpl extends AbstractService implements StatisticsService {
+@Service
+public class StatisticsServiceImpl implements StatisticsService {
     private static final Logger LOGGER = Logger.getLogger(StatisticsServiceImpl.class);
 
     private final ProductDAO<ProductEntity, Long> productDAO;
     private final UserDAO<UserEntity, Long> userDAO;
     private final OrderDAO<OrderEntity, Long> orderDAO;
 
-    public StatisticsServiceImpl(final EntityManager entityManager,
-                                 final ProductDAO<ProductEntity, Long> productDAO,
+    @Autowired
+    public StatisticsServiceImpl(final ProductDAO<ProductEntity, Long> productDAO,
                                  final UserDAO<UserEntity, Long> userDAO,
                                  final OrderDAO<OrderEntity, Long> orderDAO) {
-        super(entityManager);
         this.productDAO = productDAO;
         this.userDAO = userDAO;
         this.orderDAO = orderDAO;
     }
 
     @Override
+    @Transactional
     public List<Pair<ProductDTO, Integer>> getTopProducts(final int count) throws MilkroadServiceException {
         final List<Pair<ProductEntity, Integer>> topProductEntities;
         try {
@@ -58,6 +61,7 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
     }
 
     @Override
+    @Transactional
     public List<Pair<UserDTO, BigDecimal>> getTopCustomers(final int count) throws MilkroadServiceException {
         final List<Pair<UserEntity, BigDecimal>> topCustomersEntities;
         try {
@@ -74,6 +78,7 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
     }
 
     @Override
+    @Transactional
     public BigDecimal getTotalCash() throws MilkroadServiceException {
         try {
             return orderDAO.getTotalCash();
@@ -84,6 +89,7 @@ public class StatisticsServiceImpl extends AbstractService implements Statistics
     }
 
     @Override
+    @Transactional
     public BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadServiceException {
         try {
             return orderDAO.getTotalCashByPeriod(from, to);

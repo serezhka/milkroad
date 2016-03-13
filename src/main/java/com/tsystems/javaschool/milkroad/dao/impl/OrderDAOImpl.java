@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.dao.OrderDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.OrderEntity;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -14,16 +15,18 @@ import java.sql.Date;
 /**
  * Created by Sergey on 15.02.2016.
  */
+@Repository
 public class OrderDAOImpl extends DAOImpl<OrderEntity, Long> implements OrderDAO<OrderEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(OrderDAOImpl.class);
 
-    public OrderDAOImpl(final EntityManager entityManager) {
-        super(entityManager, OrderEntity.class);
+    public OrderDAOImpl() {
+        super(OrderEntity.class);
     }
 
     @Override
     public BigDecimal getTotalCash() throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<BigDecimal> entityTypedQuery =
                     entityManager.createNamedQuery("OrderEntity.getTotalCash", BigDecimal.class);
             return entityTypedQuery.getSingleResult();
@@ -39,6 +42,7 @@ public class OrderDAOImpl extends DAOImpl<OrderEntity, Long> implements OrderDAO
     @Override
     public BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<BigDecimal> entityTypedQuery =
                     entityManager.createNamedQuery("OrderEntity.getTotalCashByPeriod", BigDecimal.class);
             entityTypedQuery.setParameter("from", from);

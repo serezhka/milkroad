@@ -1,10 +1,8 @@
 package com.tsystems.javaschool.milkroad;
 
 import com.tsystems.javaschool.milkroad.dao.*;
-import com.tsystems.javaschool.milkroad.dao.impl.*;
 import com.tsystems.javaschool.milkroad.model.*;
 import com.tsystems.javaschool.milkroad.service.*;
-import com.tsystems.javaschool.milkroad.service.impl.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,6 +11,7 @@ import javax.persistence.Persistence;
 /**
  * Created by Sergey on 11.02.2016.
  */
+@Deprecated
 public class MilkroadAppContext {
 
     private static class SingletonHolder {
@@ -79,7 +78,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = userDAO;
                 if (localInstance == null) {
-                    userDAO = localInstance = new UserDAOImpl(getEntityManager());
+//                    userDAO = localInstance = new UserDAOImpl(getEntityManager());
                 }
             }
         }
@@ -92,7 +91,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = productDAO;
                 if (localInstance == null) {
-                    productDAO = localInstance = new ProductDAOImpl(getEntityManager());
+//                    productDAO = localInstance = new ProductDAOImpl(getEntityManager());
                 }
             }
         }
@@ -105,7 +104,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = orderDAO;
                 if (localInstance == null) {
-                    orderDAO = localInstance = new OrderDAOImpl(getEntityManager());
+//                    orderDAO = localInstance = new OrderDAOImpl(getEntityManager());
                 }
             }
         }
@@ -118,7 +117,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = addressDAO;
                 if (localInstance == null) {
-                    addressDAO = localInstance = new AddressDAOImpl(getEntityManager());
+//                    addressDAO = localInstance = new AddressDAOImpl(getEntityManager());
                 }
             }
         }
@@ -131,7 +130,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = categoryDAO;
                 if (localInstance == null) {
-                    categoryDAO = localInstance = new CategoryDAOImpl(getEntityManager());
+//                    categoryDAO = localInstance = new CategoryDAOImpl(getEntityManager());
                 }
             }
         }
@@ -144,7 +143,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = attributeDAO;
                 if (localInstance == null) {
-                    attributeDAO = localInstance = new AttributeDAOImpl(getEntityManager());
+//                    attributeDAO = localInstance = new AttributeDAOImpl(getEntityManager());
                 }
             }
         }
@@ -157,7 +156,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = parameterDAO;
                 if (localInstance == null) {
-                    parameterDAO = localInstance = new ParameterDAOImpl(getEntityManager());
+//                    parameterDAO = localInstance = new ParameterDAOImpl(getEntityManager());
                 }
             }
         }
@@ -170,7 +169,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = userService;
                 if (localInstance == null) {
-                    userService = localInstance = new UserServiceImpl(getEntityManager(), getUserDAO());
+//                    userService = localInstance = new UserServiceImpl(getEntityManager(), getUserDAO());
                 }
             }
         }
@@ -183,8 +182,8 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = catalogService;
                 if (localInstance == null) {
-                    catalogService = localInstance = new CatalogServiceImpl(getEntityManager(),
-                            getAttributeDAO(), getCategoryDAO(), getParameterDAO(), getProductDAO(), getUserDAO());
+//                    catalogService = localInstance = new CatalogServiceImpl(getEntityManager(),
+//                            getAttributeDAO(), getCategoryDAO(), getParameterDAO(), getProductDAO(), getUserDAO());
                 }
             }
         }
@@ -197,8 +196,8 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localinstance = orderService;
                 if (localinstance == null) {
-                    orderService = localinstance
-                            = new OrderServiceImpl(getEntityManager(), getOrderDAO(), getUserDAO(), getAddressDAO(), getProductDAO());
+//                    orderService = localinstance
+//                            = new OrderServiceImpl(getEntityManager(), getOrderDAO(), getUserDAO(), getAddressDAO(), getProductDAO());
                 }
             }
         }
@@ -211,7 +210,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localinstance = addressService;
                 if (localinstance == null) {
-                    addressService = localinstance = new AddressServiceImpl(getEntityManager(), getAddressDAO(), getUserDAO());
+//                    addressService = localinstance = new AddressServiceImpl(getEntityManager(), getAddressDAO(), getUserDAO());
                 }
             }
         }
@@ -224,7 +223,7 @@ public class MilkroadAppContext {
             synchronized (this) {
                 localInstance = statisticsService;
                 if (localInstance == null) {
-                    statisticsService = localInstance = new StatisticsServiceImpl(getEntityManager(), getProductDAO(), getUserDAO(), getOrderDAO());
+//                    statisticsService = localInstance = new StatisticsServiceImpl(getEntityManager(), getProductDAO(), getUserDAO(), getOrderDAO());
                 }
             }
         }

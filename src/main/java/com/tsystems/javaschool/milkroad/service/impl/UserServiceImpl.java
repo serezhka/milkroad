@@ -11,8 +11,10 @@ import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import com.tsystems.javaschool.milkroad.util.PassHash;
 import com.tsystems.javaschool.milkroad.util.PassUtil;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +22,19 @@ import java.util.List;
 /**
  * Created by Sergey on 09.02.2016.
  */
-public class UserServiceImpl extends AbstractService implements UserService {
+@Service
+public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class);
 
     private final UserDAO<UserEntity, Long> userDAO;
 
-    public UserServiceImpl(final EntityManager entityManager,
-                           final UserDAO<UserEntity, Long> userDAO) {
-        super(entityManager);
+    @Autowired
+    public UserServiceImpl(final UserDAO<UserEntity, Long> userDAO) {
         this.userDAO = userDAO;
     }
 
     @Override
+    @Transactional
     public List<UserDTO> getAllUsers() throws MilkroadServiceException {
         final List<UserEntity> userEntities;
         try {
@@ -42,17 +45,16 @@ public class UserServiceImpl extends AbstractService implements UserService {
         }
         final List<UserDTO> userDTOs = new ArrayList<>();
         for (final UserEntity userEntity : userEntities) {
-            entityManager.refresh(userEntity);
             userDTOs.add(EntityDTOConverter.userDTO(userEntity));
         }
         return userDTOs;
     }
 
     @Override
+    @Transactional
     public UserDTO getUserByEmail(final String email) throws MilkroadServiceException {
         final UserEntity userEntity = getUserEntityByEmail(email);
         if (userEntity != null) {
-            entityManager.refresh(userEntity);
             return EntityDTOConverter.userDTO(userEntity);
         } else {
             LOGGER.warn("User with email = " + email + " doesn't exist");
@@ -61,10 +63,10 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO getUserByEmailAndPass(final String email, final String pass) throws MilkroadServiceException {
         final UserEntity userEntity = getUserEntityByEmail(email);
         if (userEntity != null) {
-            entityManager.refresh(userEntity);
             try {
                 if (PassUtil.verifyPass(pass, userEntity.getPassHash(), userEntity.getPassSalt())) {
                     return EntityDTOConverter.userDTO(userEntity);
@@ -83,6 +85,7 @@ public class UserServiceImpl extends AbstractService implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDTO addNewUser(final UserDTO userDTO, final String pass) throws MilkroadServiceException {
         if (getUserEntityByEmail(userDTO.getEmail()) != null) {
             throw new MilkroadServiceException(MilkroadServiceException.Type.USER_EMAIL_ALREADY_EXISTS);
@@ -92,24 +95,25 @@ public class UserServiceImpl extends AbstractService implements UserService {
             final PassHash passHash = PassUtil.createPassHash(pass);
             userEntity.setPassHash(passHash.getHash());
             userEntity.setPassSalt(passHash.getSalt());
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             userDAO.persist(userEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while adding new user");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while adding new user");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }
 
     @Override
+    @Transactional
     public UserDTO updateUserInfo(final UserDTO userDTO) throws MilkroadServiceException {
         final UserEntity userEntity = getUserEntityByEmail(userDTO.getEmail());
         if (userEntity == null) {
@@ -119,21 +123,22 @@ public class UserServiceImpl extends AbstractService implements UserService {
         userEntity.setLastName(userDTO.getLastName());
         userEntity.setBirthday(userDTO.getBirthday());
         try {
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             userDAO.merge(userEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user info with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }
 
     @Override
+    @Transactional
     public UserDTO updateUserPass(final UserDTO userDTO, final String pass) throws MilkroadServiceException {
         final UserEntity userEntity = getUserEntityByEmail(userDTO.getEmail());
         if (userEntity == null) {
@@ -144,19 +149,19 @@ public class UserServiceImpl extends AbstractService implements UserService {
             passHash = PassUtil.createPassHash(pass);
             userEntity.setPassHash(passHash.getHash());
             userEntity.setPassSalt(passHash.getSalt());
-            entityManager.getTransaction().begin();
+//            entityManager.getTransaction().begin();
             userDAO.merge(userEntity);
-            entityManager.getTransaction().commit();
+//            entityManager.getTransaction().commit();
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while updating user pass");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user pass");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-        } finally {
-            if (entityManager.getTransaction().isActive()) {
-                entityManager.getTransaction().rollback();
-            }
+//        } finally {
+//            if (entityManager.getTransaction().isActive()) {
+//                entityManager.getTransaction().rollback();
+//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }

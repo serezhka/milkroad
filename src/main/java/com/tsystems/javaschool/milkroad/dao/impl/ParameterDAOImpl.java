@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.dao.ParameterDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.ProductParameterEntity;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -14,16 +15,18 @@ import java.util.List;
 /**
  * Created by Sergey on 02.03.2016.
  */
+@Repository
 public class ParameterDAOImpl extends DAOImpl<ProductParameterEntity, Long> implements ParameterDAO<ProductParameterEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(ParameterDAOImpl.class);
 
-    public ParameterDAOImpl(final EntityManager entityManager) {
-        super(entityManager, ProductParameterEntity.class);
+    public ParameterDAOImpl() {
+        super(ProductParameterEntity.class);
     }
 
     @Override
     public List<ProductParameterEntity> getByProductID(final Long productID) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<ProductParameterEntity> entityTypedQuery =
                     entityManager.createNamedQuery("ProductParameterEntity.findAllByProductID", ProductParameterEntity.class);
             entityTypedQuery.setParameter("productID", productID);
@@ -40,6 +43,7 @@ public class ParameterDAOImpl extends DAOImpl<ProductParameterEntity, Long> impl
     @Override
     public ProductParameterEntity getByProductIDAndAttrID(final Long productID, final Long attrID) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<ProductParameterEntity> entityTypedQuery =
                     entityManager.createNamedQuery("ProductParameterEntity.findAllByProductIDAndAttrID", ProductParameterEntity.class);
             entityTypedQuery.setParameter("productID", productID);

@@ -16,7 +16,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                <img src="images/milkroad-logo.png" alt="" width="150" height="50">
+                <img src="<c:url value="/images/milkroad-logo.png"/>" alt="" width="150" height="50">
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -49,9 +49,15 @@
                         </li>
                         <li>
                             <c:url value="/management" var="productsURL">
+                                <c:param name="action" value="addProduct"/>
+                            </c:url>
+                            <a href="${productsURL}">Add product</a>
+                        </li>
+                        <li>
+                            <c:url value="/management" var="statisticsURL">
                                 <c:param name="action" value="viewStatistics"/>
                             </c:url>
-                            <a href="${productsURL}">Statistics</a>
+                            <a href="${statisticsURL}">Statistics</a>
                         </li>
                     </c:when>
                     <c:otherwise>

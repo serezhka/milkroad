@@ -19,6 +19,7 @@ import java.util.Set;
 /**
  * Created by Sergey on 18.02.2016.
  */
+@Deprecated
 @WebServlet(name = "RegisterServlet")
 public class RegisterServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(RegisterServlet.class);

@@ -48,7 +48,7 @@
                                 </c:choose>
                             </span>
                             </div>
-                            <img src="images/cart.png" alt=""/>
+                            <img src="<c:url value="/images/cart.png"/>" alt=""/>
                         </a>
                     </div>
                 </c:if>

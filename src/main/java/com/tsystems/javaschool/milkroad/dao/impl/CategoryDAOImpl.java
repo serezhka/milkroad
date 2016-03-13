@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.dao.CategoryDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.ProductCategoryEntity;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,16 +13,18 @@ import javax.persistence.TypedQuery;
 /**
  * Created by Sergey on 24.02.2016.
  */
+@Repository
 public class CategoryDAOImpl extends DAOImpl<ProductCategoryEntity, Long> implements CategoryDAO<ProductCategoryEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(CategoryDAOImpl.class);
 
-    public CategoryDAOImpl(final EntityManager entityManager) {
-        super(entityManager, ProductCategoryEntity.class);
+    public CategoryDAOImpl() {
+        super(ProductCategoryEntity.class);
     }
 
     @Override
     public ProductCategoryEntity getByName(final String name) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<ProductCategoryEntity> entityTypedQuery =
                     entityManager.createNamedQuery("ProductCategoryEntity.findByName", ProductCategoryEntity.class);
             entityTypedQuery.setParameter("name", name);

@@ -15,7 +15,7 @@
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
     <div class="user-info">
-        <form action="${pageContext.request.contextPath}/profile" method="post">
+        <form action="${pageContext.request.contextPath}/profile/edit" method="post">
             <input type="hidden" name="action" value="updateProfile"/>
             <div class="col-md-6 profile-top-grid">
                 <h3>Personal infomation</h3>

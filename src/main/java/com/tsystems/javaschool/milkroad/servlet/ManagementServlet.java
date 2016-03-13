@@ -10,6 +10,7 @@ import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import javafx.util.Pair;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,7 +74,19 @@ public class ManagementServlet extends HttpServlet {
                     }
                     return;
                 }
-
+                case "addProduct": {
+                    try {
+                        final List<CategoryDTO> categories = catalogService.getAllCategories();
+                        final List<AttributeDTO> attributes = catalogService.getAllAttributes();
+                        request.setAttribute("categories", categories);
+                        request.setAttribute("attributes", attributes);
+                        request.getRequestDispatcher("/product-edit.jsp").forward(request, response);
+                    } catch (final MilkroadServiceException e) {
+                        request.setAttribute("message", "DB error! Please, try later");
+                        request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+                    }
+                    return;
+                }
                 case "viewStatistics": {
                     try {
                         final StatisticsService statisticsService = MilkroadAppContext.getInstance().getStatisticsService();
@@ -105,6 +118,8 @@ public class ManagementServlet extends HttpServlet {
     }
 
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+
+
         final String action = request.getParameter("action");
         if (action != null && !action.isEmpty()) {
             final Set<String> errors;
@@ -286,6 +301,15 @@ public class ManagementServlet extends HttpServlet {
                     request.setAttribute("errors", errors);
                     request.setAttribute("action", "editProducts");
                     doGet(request, response);
+                    return;
+                }
+
+                case "addOrEditProduct": {
+                    if (ServletFileUpload.isMultipartContent(request)) {
+
+                        System.out.println("sad");
+                    }
+                    System.out.println("gii");
                     return;
                 }
             }

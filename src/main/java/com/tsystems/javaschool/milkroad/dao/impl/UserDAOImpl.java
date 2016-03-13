@@ -5,6 +5,7 @@ import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import javafx.util.Pair;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,16 +18,18 @@ import java.util.List;
 /**
  * Created by Sergey on 10.02.2016.
  */
+@Repository
 public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<UserEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImpl.class);
 
-    public UserDAOImpl(final EntityManager entityManager) {
-        super(entityManager, UserEntity.class);
+    public UserDAOImpl() {
+        super(UserEntity.class);
     }
 
     @Override
     public UserEntity getByEmail(final String email) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<UserEntity> entityTypedQuery =
                     entityManager.createNamedQuery("UserEntity.findByEmail", UserEntity.class);
             entityTypedQuery.setParameter("email", email);
@@ -43,6 +46,7 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
     @Override
     public List<Pair<UserEntity, BigDecimal>> getTopCustomers(final int count) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<Object[]> entityTypedQuery =
                     entityManager.createNamedQuery("OrderEntity.getTopCustomers", Object[].class);
             final List<Pair<UserEntity, BigDecimal>> topCustomers = new ArrayList<>();

@@ -255,5 +255,11 @@ VALUES
   1, (SELECT product_price FROM product WHERE product_name = 'Bike')),
   ((SELECT id FROM `order` WHERE note = 'o4'),
    (SELECT id FROM product WHERE product_name = 'Pepsi'),
+  1, (SELECT product_price FROM product WHERE product_name = 'Pepsi')),
+  ((SELECT id FROM `order` WHERE note = 'o5'),
+   (SELECT id FROM product WHERE product_name = 'Bike'),
+  1, (SELECT product_price FROM product WHERE product_name = 'Bike')),
+  ((SELECT id FROM `order` WHERE note = 'o5'),
+   (SELECT id FROM product WHERE product_name = 'Pepsi'),
   1, (SELECT product_price FROM product WHERE product_name = 'Pepsi'));
 # @formatter:on (for IntelliJIDEA)

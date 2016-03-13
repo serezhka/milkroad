@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -6,11 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
+    <%-- Favicon --%>
+    <link rel="icon" type="image/gif" href="<c:url value="favicon.ico"/>">
+
     <%-- Stylesheets --%>
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="css/font-awesome.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="css/bootstrap-select.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="css/milkroad-theme.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/font-awesome.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/bootstrap-select.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/milkroad-theme.css"/>" rel="stylesheet" type="text/css" media="all"/>
 
     <%-- Fonts --%>
     <link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
@@ -18,11 +22,11 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
 
     <%-- Javascript --%>
-    <script src="js/jquery-2.2.0.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
-    <script src="js/bootstrap-select.js"></script>
-    <script src="js/milkroad.js"></script>
+    <script src="<c:url value="/js/jquery-2.2.0.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap-dropdown.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap-select.js"/>"></script>
+    <script src="<c:url value="/js/milkroad.js"/>"></script>
 
     <%-- Hide url bar --%>
     <script type="application/x-javascript"> addEventListener("load", function () {

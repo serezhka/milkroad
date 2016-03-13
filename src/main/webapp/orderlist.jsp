@@ -37,7 +37,7 @@
                     <td rowspan=${details_count}>${order.customer.email}</td>
                     <%-- TODO Try to avoid string constants --%>
                     <td rowspan=${details_count}>
-                        <select id="paymentMethod_${order.id}" class="selectpicker" data-width="100%">
+                        <select id="paymentMethod_${order.id}" class="selectpicker" data-width="100%" disabled>
                             <c:choose>
                                 <c:when test="${order.paymentMethod eq 'ONLINE'}">
                                     <option value="ONLINE" selected>ONLINE</option>
@@ -65,7 +65,7 @@
                         </select>
                     </td>
                     <td rowspan=${details_count}>
-                        <select id="shippingMethod_${order.id}" class="selectpicker" data-width="100%">
+                        <select id="shippingMethod_${order.id}" class="selectpicker" data-width="100%" disabled>
                             <c:choose>
                                 <c:when test="${order.shippingMethod eq 'POST'}">
                                     <option value="POST" selected>POST</option>

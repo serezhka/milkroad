@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.dao.AttributeDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.ProductAttributeEntity;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,16 +13,18 @@ import javax.persistence.TypedQuery;
 /**
  * Created by Sergey on 01.03.2016.
  */
+@Repository
 public class AttributeDAOImpl extends DAOImpl<ProductAttributeEntity, Long> implements AttributeDAO<ProductAttributeEntity, Long> {
     private static final Logger LOGGER = Logger.getLogger(AttributeDAOImpl.class);
 
-    public AttributeDAOImpl(final EntityManager entityManager) {
-        super(entityManager, ProductAttributeEntity.class);
+    public AttributeDAOImpl() {
+        super(ProductAttributeEntity.class);
     }
 
     @Override
     public ProductAttributeEntity getByName(final String name) throws MilkroadDAOException {
         try {
+            final EntityManager entityManager = getEntityManager();
             final TypedQuery<ProductAttributeEntity> entityTypedQuery =
                     entityManager.createNamedQuery("ProductAttributeEntity.findByName", ProductAttributeEntity.class);
             entityTypedQuery.setParameter("name", name);

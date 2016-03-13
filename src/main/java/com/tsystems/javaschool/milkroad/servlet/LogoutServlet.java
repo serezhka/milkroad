@@ -12,6 +12,7 @@ import java.io.IOException;
 /**
  * Created by Sergey on 23.02.2016.
  */
+@Deprecated
 @WebServlet(name = "LogoutServlet")
 public class LogoutServlet extends HttpServlet {
     @Override
