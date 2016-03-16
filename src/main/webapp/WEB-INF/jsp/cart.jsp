@@ -37,11 +37,12 @@
                         <div class="cart-item-image">
                             <c:choose>
                                 <c:when test="${cartItem.key.article < 11}">
-                                    <img class="img-responsive" src="images/product/product_${cartItem.key.article}.jpg"
+                                    <img class="img-responsive"
+                                         src="<c:url value="/images/product/product_${cartItem.key.article}.jpg"/>"
                                          alt="">
                                 </c:when>
                                 <c:otherwise>
-                                    <img class="img-responsive" src="images/product-item-image.png" alt="">
+                                    <img class="img-responsive" src="<c:url value="/images/product-item-image.png"/>" alt="">
                                 </c:otherwise>
                             </c:choose>
                         </div>

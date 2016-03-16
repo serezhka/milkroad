@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Created by Sergey on 24.02.2016.
  */
+@Deprecated
 @WebServlet(name = "CatalogServlet")
 public class CatalogServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(CatalogServlet.class);

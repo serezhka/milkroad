@@ -220,6 +220,8 @@ public class FormDataFilter implements Filter {
                     final String addressID = request.getParameter("addressID");
                     if (!FormDataValidator.validateLong(addressID)) {
                         errors.add("ADDRESS_ID_ERROR");
+                    } else {
+                        request.setAttribute("addressID", Long.valueOf(addressID));
                     }
                     final String country = request.getParameter("country");
                     if (!FormDataValidator.validateName(country)) {
@@ -232,6 +234,8 @@ public class FormDataFilter implements Filter {
                     final String postcode = request.getParameter("postcode");
                     if (!FormDataValidator.validateInteger(postcode)) {
                         errors.add("POSTCODE_ERROR");
+                    } else {
+                        request.setAttribute("postcode", Integer.valueOf(postcode));
                     }
                     final String street = request.getParameter("street");
                     if (!FormDataValidator.validateName(street)) {
@@ -260,6 +264,8 @@ public class FormDataFilter implements Filter {
                     final String postcode = request.getParameter("postcode");
                     if (!FormDataValidator.validateInteger(postcode)) {
                         errors.add("POSTCODE_ERROR");
+                    } else {
+                        request.setAttribute("postcode", Integer.valueOf(postcode));
                     }
                     final String street = request.getParameter("street");
                     if (!FormDataValidator.validateName(street)) {
@@ -279,6 +285,12 @@ public class FormDataFilter implements Filter {
                     input.put("street", street);
                     input.put("building", building);
                     input.put("apartment", apartment);
+                    break;
+                }
+
+                case "addProduct": {
+                    // Add product to cart
+                    // TODO check article
                     break;
                 }
             }

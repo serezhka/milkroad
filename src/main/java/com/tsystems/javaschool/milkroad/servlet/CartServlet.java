@@ -17,6 +17,7 @@ import java.util.Map;
 /**
  * Created by Sergey on 25.02.2016.
  */
+@Deprecated
 @WebServlet(name = "CartServlet")
 public class CartServlet extends HttpServlet {
     @Override

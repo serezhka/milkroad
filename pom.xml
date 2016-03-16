@@ -23,6 +23,8 @@
         <maven.plugin.compiler.version>3.5.1</maven.plugin.compiler.version>
         <maven.plugin.surefire.version>2.19.1</maven.plugin.surefire.version>
         <spring.version>4.2.5.RELEASE</spring.version>
+        <javax.validation.version>1.1.0.Final</javax.validation.version>
+        <jackson.version>2.7.2</jackson.version>
     </properties>
 
     <dependencies>
@@ -128,6 +130,24 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${javax.validation.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
     </dependencies>

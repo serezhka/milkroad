@@ -32,7 +32,7 @@
                 <tbody>
                 <c:forEach items="${orders}" var="order">
                     <c:set var="details_count">${fn:length(order.details)+1}</c:set>
-                    <tr>
+                    <tr id="order_${order.id}">
                     <td rowspan=${details_count}>${order.id}</td>
                     <td rowspan=${details_count}>${order.customer.email}</td>
                     <%-- TODO Try to avoid string constants --%>

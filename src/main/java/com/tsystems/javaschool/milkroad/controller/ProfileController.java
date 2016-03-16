@@ -1,7 +1,9 @@
 package com.tsystems.javaschool.milkroad.controller;
 
+import com.tsystems.javaschool.milkroad.dto.AddressDTO;
 import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
+import com.tsystems.javaschool.milkroad.service.AddressService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
@@ -29,6 +31,8 @@ public class ProfileController {
     private OrderService orderService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AddressService addressService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profilePage(final HttpServletRequest request) {
@@ -77,8 +81,68 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/editAddress", method = RequestMethod.POST)
-    public String editAddress() {
-        return "";
+    public String editAddress(
+            @ModelAttribute("errors") final Set<String> errors,
+            @ModelAttribute("addressID") final Long addressID,
+            @ModelAttribute("postcode") final Integer postcode,
+            @RequestParam("country") final String country,
+            @RequestParam("city") final String city,
+            @RequestParam("street") final String street,
+            @RequestParam("building") final String building,
+            @RequestParam("apartment") final String apartment,
+            final HttpServletRequest request) {
+
+        if (errors.size() == 0) {
+            final AddressDTO addressDTO = new AddressDTO();
+            addressDTO.setId(addressID);
+            addressDTO.setCountry(country);
+            addressDTO.setCity(city);
+            addressDTO.setPostcode(postcode);
+            addressDTO.setStreet(street);
+            addressDTO.setBuilding(building);
+            addressDTO.setApartment(apartment);
+            try {
+                addressService.updateAddress(addressDTO);
+                return "redirect:/profile";
+            } catch (final MilkroadServiceException e) {
+                request.setAttribute("message", "DB error! Please, try later");
+                return "single-message";
+            }
+        }
+        request.setAttribute("errors", errors);
+        return profilePage(request);
+    }
+
+    @RequestMapping(value = "/profile/addAddress", method = RequestMethod.POST)
+    public String addAddress(
+            @ModelAttribute("errors") final Set<String> errors,
+            @ModelAttribute("postcode") final Integer postcode,
+            @RequestParam("country") final String country,
+            @RequestParam("city") final String city,
+            @RequestParam("street") final String street,
+            @RequestParam("building") final String building,
+            @RequestParam("apartment") final String apartment,
+            final HttpServletRequest request) {
+
+        if (errors.size() == 0) {
+            final AddressDTO addressDTO = new AddressDTO();
+            addressDTO.setCountry(country);
+            addressDTO.setCity(city);
+            addressDTO.setPostcode(postcode);
+            addressDTO.setStreet(street);
+            addressDTO.setBuilding(building);
+            addressDTO.setApartment(apartment);
+            try {
+                final UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
+                addressService.addAddressToUser(userDTO, addressDTO);
+                return "redirect:/profile";
+            } catch (final MilkroadServiceException e) {
+                request.setAttribute("message", "DB error! Please, try later");
+                return "single-message";
+            }
+        }
+        request.setAttribute("errors", errors);
+        return profilePage(request);
     }
 
     @ModelAttribute("errors")
@@ -93,5 +157,19 @@ public class ProfileController {
         final Object birthday = request.getAttribute("birthday");
         //noinspection unchecked
         return (birthday == null) ? null : (Date) birthday;
+    }
+
+    @ModelAttribute("addressID")
+    public Long getAddressID(final HttpServletRequest request) {
+        final Object addressID = request.getAttribute("addressID");
+        //noinspection unchecked
+        return (addressID == null) ? null : (Long) addressID;
+    }
+
+    @ModelAttribute("postcode")
+    public Integer getPostcode(final HttpServletRequest request) {
+        final Object postcode = request.getAttribute("postcode");
+        //noinspection unchecked
+        return (postcode == null) ? null : (Integer) postcode;
     }
 }

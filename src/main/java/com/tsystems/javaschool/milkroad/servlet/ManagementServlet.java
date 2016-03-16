@@ -118,8 +118,6 @@ public class ManagementServlet extends HttpServlet {
     }
 
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-
-
         final String action = request.getParameter("action");
         if (action != null && !action.isEmpty()) {
             final Set<String> errors;

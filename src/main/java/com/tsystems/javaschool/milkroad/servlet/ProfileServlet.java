@@ -24,6 +24,7 @@ import java.util.Set;
 /**
  * Created by Sergey on 23.02.2016.
  */
+@Deprecated
 @WebServlet(name = "ProfileServlet")
 public class ProfileServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(ProfileServlet.class);

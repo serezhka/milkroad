@@ -10,7 +10,7 @@
                 <img class="img-responsive" src="images/product/product_${product.article}.jpg" alt="">
             </c:when>
             <c:otherwise>
-                <img class="img-responsive" src="images/product-item-image.png" alt="">
+                <img class="img-responsive" src="../../images/product-item-image.png" alt="">
             </c:otherwise>
         </c:choose>
     </div>

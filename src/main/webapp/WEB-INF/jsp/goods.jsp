@@ -17,10 +17,13 @@
                 <c:choose>
                     <c:when test="${product.article < 11}">
                         <a href="${productURL}"><img class="img-responsive"
-                                                     src="images/product/product_${product.article}.jpg" alt=""></a>
+                                                     src="<c:url value="/images/product/product_${product.article}.jpg"/>"
+                                                     alt=""></a>
                     </c:when>
                     <c:otherwise>
-                        <a href="${productURL}"><img class="img-responsive" src="images/product-item-image.png" alt=""></a>
+                        <a href="${productURL}"><img class="img-responsive"
+                                                     src="<c:url value="/images/product-item-image.png"/>"
+                                                     alt=""></a>
                     </c:otherwise>
                 </c:choose>
             </div>

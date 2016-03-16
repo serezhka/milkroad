@@ -8,12 +8,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
     <%-- Favicon --%>
-    <link rel="icon" type="image/gif" href="<c:url value="favicon.ico"/>">
+    <link rel="icon" type="image/gif" href="<c:url value="/favicon.ico"/>">
 
     <%-- Stylesheets --%>
-    <link href="<c:url value="/css/bootstrap.css"/>" rel="stylesheet" type="text/css" media="all"/>
-    <link href="<c:url value="/css/font-awesome.css"/>" rel="stylesheet" type="text/css" media="all"/>
-    <link href="<c:url value="/css/bootstrap-select.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <%--<link href="<c:url value="/css/bootstrap-theme.min.css"/>" rel="stylesheet" type="text/css" media="all"/>--%>
+    <link href="<c:url value="/css/jquery-ui.min.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<c:url value="/css/bootstrap-select.min.css"/>" rel="stylesheet" type="text/css" media="all"/>
     <link href="<c:url value="/css/milkroad-theme.css"/>" rel="stylesheet" type="text/css" media="all"/>
 
     <%-- Fonts --%>
@@ -22,10 +24,11 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900' rel='stylesheet' type='text/css'>
 
     <%-- Javascript --%>
-    <script src="<c:url value="/js/jquery-2.2.0.js"/>"></script>
-    <script src="<c:url value="/js/bootstrap.js"/>"></script>
+    <script src="<c:url value="/js/jquery-2.2.0.min.js"/>"></script>
+    <script src="<c:url value="/js/jquery-ui.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap.min.js"/>"></script>
     <script src="<c:url value="/js/bootstrap-dropdown.js"/>"></script>
-    <script src="<c:url value="/js/bootstrap-select.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap-select.min.js"/>"></script>
     <script src="<c:url value="/js/milkroad.js"/>"></script>
 
     <%-- Hide url bar --%>

@@ -50,7 +50,7 @@
         </div>
         <div class="col-md-6 product-edit-image-div">
             <h3>Product image</h3>
-            <img class="img-responsive" src="images/product-item-image.png" alt="">
+            <img class="img-responsive" src="../../images/product-item-image.png" alt="">
         <span class="file-input btn btn-block btn-primary btn-file">
                 Browse&hellip;<input type="file" id="image" accept="image/jpeg"></span>
         </div>
