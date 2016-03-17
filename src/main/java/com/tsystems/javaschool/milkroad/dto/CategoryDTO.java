@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.dto;
 
+import javax.validation.constraints.Size;
+
 /**
  * Created by Sergey on 24.02.2016.
  */
@@ -25,6 +27,7 @@ public class CategoryDTO {
         this.id = id;
     }
 
+    @Size(min = 1, max = 45, message = "CATEGORY_NAME_ERROR")
     public String getName() {
         return name;
     }
@@ -33,6 +36,7 @@ public class CategoryDTO {
         this.name = name;
     }
 
+    @Size(max = 45, message = "CATEGORY_DESC_ERROR")
     public String getDescription() {
         return description;
     }

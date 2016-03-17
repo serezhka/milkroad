@@ -15,12 +15,9 @@
 <div class="container">
     <div class="col-md-6 product-categories">
         <h3 class="milkroad-h3">Categories</h3>
-        <c:if test="${errors.contains('CATEGORY_NAME_ERROR')}">
-            <span class="error">Incorrect category name</span>
-        </c:if>
-        <c:if test="${errors.contains('CATEGORY_DUPLICATE_ERROR')}">
-            <span class="error">Duplicate category name</span>
-        </c:if>
+        <span class="error" id="CATEGORY_NAME_ERROR">Incorrect category name</span>
+        <span class="error" id="CATEGORY_DESC_ERROR">Incorrect category description</span>
+        <span class="error" id="CATEGORY_ALREADY_EXISTS">Duplicate category name</span>
         <div class="table-responsive">
             <table class="table" border=3>
                 <thead>
@@ -32,7 +29,7 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${categories}" var="category">
-                    <tr>
+                    <tr id="category_${category.id}">
                         <td><input id="categoryName_${category.id}" type="text" class="form-control"
                                    value="${category.name}"/></td>
                         <td><input id="categoryDesc_${category.id}" type="text" class="form-control"
@@ -42,7 +39,7 @@
                             <i class="fa fa-pencil-square-o"></i> </a></td>
                     </tr>
                 </c:forEach>
-                <tr>
+                <tr id="category_new">
                     <td><input id="categoryNameNew" type="text" class="form-control"
                                value=""/></td>
                     <td><input id="categoryDescNew" type="text" class="form-control"
@@ -57,12 +54,8 @@
     </div>
     <div class="col-md-6 product-attributes">
         <h3 class="milkroad-h3">Attributes</h3>
-        <c:if test="${errors.contains('ATTRIBUTE_NAME_ERROR')}">
-            <span class="error">Incorrect attribute name</span>
-        </c:if>
-        <c:if test="${errors.contains('ATTRIBUTE_DUPLICATE_ERROR')}">
-            <span class="error">Duplicate attribute name</span>
-        </c:if>
+        <span class="error" id="ATTRIBUTE_NAME_ERROR">Incorrect attribute name</span>
+        <span class="error" id="ATTRIBUTE_ALREADY_EXISTS">Duplicate attribute name</span>
         <div class="table-responsive">
             <table class="table" border=3>
                 <thead>
@@ -74,7 +67,7 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${attributes}" var="attribute">
-                    <tr>
+                    <tr id="attribute_${attribute.id}">
                         <td><input id="attributeName_${attribute.id}" type="text" class="form-control"
                                    value="${attribute.name}"/></td>
                         <td><input id="attributeDesc_${attribute.id}" type="text" class="form-control"
@@ -84,7 +77,7 @@
                             <i class="fa fa-pencil-square-o"></i> </a></td>
                     </tr>
                 </c:forEach>
-                <tr>
+                <tr id="attribute_new">
                     <td><input id="attributeNameNew" type="text" class="form-control"
                                value=""/></td>
                     <td><input id="attributeDescNew" type="text" class="form-control"
