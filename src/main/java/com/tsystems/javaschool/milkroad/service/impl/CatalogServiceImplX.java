@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Sergey on 14.02.2016.
  */
 @Service
-public class CatalogServiceImpl implements CatalogService {
+public class CatalogServiceImplX implements CatalogService {
     private static final Logger LOGGER = Logger.getLogger(CatalogServiceImpl.class);
 
     private final AttributeDAO<ProductAttributeEntity, Long> attributeDAO;
