@@ -33,31 +33,37 @@
                 <div class="clearfix"></div>
             </div>
             <div class="col-md-9 checkout-order-details">
-                <form action="${pageContext.request.contextPath}/checkout" method="post">
-                    <input type="hidden" name="formName" value="checkoutForm"/>
-                    <h3 class="milkroad-h3">Payment method</h3>
-                    <label class="radio-inline">
-                        <input type="radio" name="payment" value="ONLINE" checked>Online
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="payment" value="CASH">Cash
-                    </label>
-                    <h3 class="milkroad-h3">Shipping method</h3>
-                    <label class="radio-inline">
-                        <input type="radio" name="shipping" value="POST" checked>Post
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="shipping" value="PICKUP" disabled>Pickup
-                    </label>
-                    <h3 class="milkroad-h3">Shipping method</h3>
-                    <c:if test="${empty user.addresses}">
-                        <span class="error">Add address first</span>
-                    </c:if>
-                    <c:forEach items="${user.addresses}" var="address">
-                        <label class="radio">
-                            <input type="radio" name="address" value="${address.id}" checked>${address}
+                <form id="checkout_form" action="${pageContext.request.contextPath}/checkout" method="post">
+                    <div>
+                        <h3 class="milkroad-h3">Payment method</h3>
+                        <label class="radio-inline">
+                            <input type="radio" name="paymentMethod" value="ONLINE" checked>Online
                         </label>
-                    </c:forEach>
+                        <label class="radio-inline">
+                            <input type="radio" name="paymentMethod" value="CASH">Cash
+                        </label>
+                    </div>
+                    <div>
+                        <h3 class="milkroad-h3">Shipping method</h3>
+                        <label class="radio-inline">
+                            <input type="radio" name="shippingMethod" value="POST" checked>Post
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="shippingMethod" value="PICKUP">Pickup
+                        </label>
+                    </div>
+                    <div id="shipping_address">
+                        <h3 class="milkroad-h3">Shipping address</h3>
+                        <c:if test="${empty user.addresses}">
+                            <span class="error">Add address first</span>
+                        </c:if>
+                        <c:forEach items="${user.addresses}" var="address" varStatus="status">
+                            <label class="radio">
+                                <input type="radio" name="address.id" value="${address.id}"
+                                       <c:if test="${status.first}">checked</c:if>>${address}
+                            </label>
+                        </c:forEach>
+                    </div>
                     <input type="submit" value="ORDER">
                 </form>
             </div>

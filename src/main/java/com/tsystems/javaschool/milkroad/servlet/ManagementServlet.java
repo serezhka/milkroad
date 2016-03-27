@@ -10,7 +10,6 @@ import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import javafx.util.Pair;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,6 +27,7 @@ import java.util.Set;
 /**
  * Created by Sergey on 29.02.2016.
  */
+@Deprecated
 @WebServlet(name = "ManagementServlet")
 public class ManagementServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
@@ -303,11 +303,6 @@ public class ManagementServlet extends HttpServlet {
                 }
 
                 case "addOrEditProduct": {
-                    if (ServletFileUpload.isMultipartContent(request)) {
-
-                        System.out.println("sad");
-                    }
-                    System.out.println("gii");
                     return;
                 }
             }

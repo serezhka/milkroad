@@ -7,8 +7,8 @@
 <jsp:include page="header-nav.jsp"/>
 
 <%-- TODO Add _jspx_page_context.findAttribute("errors") to watches to debug :) --%>
-<%--@elvariable id="errors" type="java.util.Set<java.lang.String>"--%>
-<%--@elvariable id="input" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
+<%--@elvariable id="errors" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
+<%--@elvariable id="input" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
 
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
@@ -19,42 +19,39 @@
                 <h3>Personal infomation</h3>
                 <div>
                     <span>First Name</span>
-                    <c:if test="${errors.contains('FIRST_NAME_ERROR')}">
-                        <span class="error">Incorrect first name</span>
+                    <c:if test="${not empty errors && errors.containsKey('firstName')}">
+                        <span class="error">${errors.get('firstName')}</span>
                     </c:if>
-                    <input name="firstname" type="text" value="${input.get('firstname')}">
+                    <input name="firstName" type="text" value="${input.firstName}">
                 </div>
                 <div>
                     <span>Last Name</span>
-                    <c:if test="${errors.contains('LAST_NAME_ERROR')}">
-                        <span class="error">Incorrect last name</span>
+                    <c:if test="${not empty errors && errors.containsKey('lastName')}">
+                        <span class="error">${errors.get('lastName')}</span>
                     </c:if>
-                    <input name="lastname" type="text" value="${input.get('lastname')}">
+                    <input name="lastName" type="text" value="${input.lastName}">
                 </div>
                 <div>
                     <span>Date of birth (YYYY-MM-DD)</span>
-                    <c:if test="${errors.contains('DATE_ERROR')}">
-                        <span class="error">Incorrect date</span>
+                    <c:if test="${not empty errors && errors.containsKey('birthday')}">
+                        <span class="error">${errors.get('birthday')}</span>
                     </c:if>
-                    <input name="birthday" type="text" value="${input.get('birthday')}">
+                    <input name="birthday" type="text" value="${input.birthday}">
                 </div>
             </div>
             <div class="col-md-6 register-bottom-grid">
                 <h3>Login information</h3>
                 <div>
                     <span>Email Address</span>
-                    <c:if test="${errors.contains('USER_EMAIL_ALREADY_EXISTS')}">
-                        <span class="error">Email is used</span>
+                    <c:if test="${not empty errors && errors.containsKey('email')}">
+                        <span class="error">${errors.get('email')}</span>
                     </c:if>
-                    <c:if test="${errors.contains('EMAIL_ERROR')}">
-                        <span class="error">Incorrect email</span>
-                    </c:if>
-                    <input name="email" type="text" value="${input.get('email')}">
+                    <input name="email" type="text" value="${input.email}">
                 </div>
                 <div>
                     <span>Password</span>
-                    <c:if test="${errors.contains('PASS_ERROR')}">
-                        <span class="error">Incorrect pass</span>
+                    <c:if test="${not empty errors && errors.containsKey('pass')}">
+                        <span class="error">${errors.get('pass')}</span>
                     </c:if>
                     <input name="pass" type="password">
                 </div>

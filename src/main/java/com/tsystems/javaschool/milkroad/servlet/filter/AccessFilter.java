@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.tsystems.javaschool.milkroad.model.UserTypeEnum.*;
+
 /**
  * Created by Sergey on 23.02.2016.
  */
@@ -17,38 +19,55 @@ public class AccessFilter implements Filter {
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final UserTypeEnum userType = AuthUtil.getAuthedUserType(httpRequest.getSession());
         final String requestURI = httpRequest.getRequestURI();
-        // TODO Too hard logic here :(
-        if (userType == null) {
-            if (!requestURI.equals("/login") && !requestURI.equals("/register")) {
+
+        if (requestURI.startsWith("/management")) {
+            if (userType != ADMIN && userType != SELLER) {
+                messagePage("Access denied", request, response);
+                return;
+            } else if (userType == null) {
                 ((HttpServletResponse) response).sendRedirect("/login");
                 return;
             }
-        } else {
-            if (requestURI.equals("/checkout")) {
-                if (userType != UserTypeEnum.CUSTOMER) {
-                    request.setAttribute("message", "Access denied");
-                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
-                }
-            }
-            if (requestURI.equals("/management")) {
-                if (userType != UserTypeEnum.ADMIN && userType != UserTypeEnum.SELLER) {
-                    request.setAttribute("message", "Access denied");
-                    request.getRequestDispatcher("/single-message.jsp").forward(request, response);
-                }
-            }
-            if (requestURI.equals("/login") || requestURI.equals("/register")) {
-                request.setAttribute("message", "Logout first");
-                request.getRequestDispatcher("/single-message.jsp").forward(request, response);
+        }
+
+        if (requestURI.startsWith("/checkout")) {
+            if (userType == null) {
+                ((HttpServletResponse) response).sendRedirect("/login");
+                return;
+            } else if (userType != CUSTOMER) {
+                messagePage("Access denied", request, response);
+                return;
             }
         }
+
+        if (requestURI.startsWith("/login") || requestURI.startsWith("/register")) {
+            if (userType != null) {
+                messagePage("Logout first", request, response);
+                return;
+            }
+        }
+
+        if (requestURI.startsWith("/profile")) {
+            if (userType == null) {
+                ((HttpServletResponse) response).sendRedirect("/login");
+                return;
+            }
+        }
+
         chain.doFilter(request, response);
     }
 
     @Override
     public void destroy() {
+    }
+
+    private void messagePage(final String message, final ServletRequest request, final ServletResponse response) throws ServletException, IOException {
+        request.setAttribute("message", message);
+        request.getRequestDispatcher("/WEB-INF/jsp/single-message.jsp").forward(request, response);
     }
 }

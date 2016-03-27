@@ -113,7 +113,7 @@ CREATE TABLE product_parameter (
 CREATE TABLE `order` (
   id              BIGINT                      NOT NULL AUTO_INCREMENT,
   customer_id     BIGINT                      NOT NULL,
-  address_id      BIGINT                      NOT NULL,
+  address_id      BIGINT                      NULL,
   price_total     DECIMAL(10, 2)              NOT NULL,
   payment_method  ENUM('CASH', 'ONLINE')      NOT NULL DEFAULT 'ONLINE',
   shipping_method ENUM('PICKUP', 'POST')      NOT NULL DEFAULT 'POST',

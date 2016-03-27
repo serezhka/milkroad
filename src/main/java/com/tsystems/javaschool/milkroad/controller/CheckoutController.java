@@ -1,32 +1,28 @@
 package com.tsystems.javaschool.milkroad.controller;
 
-import com.tsystems.javaschool.milkroad.dto.AddressDTO;
+import com.tsystems.javaschool.milkroad.controller.util.ControllerUtils;
 import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
-import com.tsystems.javaschool.milkroad.dto.UserDTO;
-import com.tsystems.javaschool.milkroad.model.PaymentMethodEnum;
-import com.tsystems.javaschool.milkroad.model.ShippingMethodEnum;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Sergey on 15.03.2016.
  */
 @Controller
 public class CheckoutController {
-
     @Autowired
     private OrderService orderService;
 
@@ -37,22 +33,14 @@ public class CheckoutController {
 
     @RequestMapping(value = "/checkout", method = RequestMethod.POST)
     public String createOrder(
-            @ModelAttribute("errors") final Set<String> errors,
+            @ModelAttribute @Valid final OrderDTO orderDTO,
+            final BindingResult bindingResult,
+            //@RequestParam final Long addressID,
             final HttpServletRequest request) {
-
+        final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
-            final UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
-            final AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setId(Long.valueOf(request.getParameter("address")));
-            final PaymentMethodEnum paymentMethod = PaymentMethodEnum.valueOf(request.getParameter("payment"));
-            final ShippingMethodEnum shippingMethod = ShippingMethodEnum.valueOf(request.getParameter("shipping"));
-            final BigDecimal totalPrice = (BigDecimal) request.getSession().getAttribute("cartTotal");
-            final OrderDTO orderDTO = new OrderDTO();
-            orderDTO.setAddress(addressDTO);
-            orderDTO.setCustomer(userDTO);
-            orderDTO.setPaymentMethod(paymentMethod);
-            orderDTO.setShippingMethod(shippingMethod);
-            orderDTO.setTotalPrice(totalPrice);
+            orderDTO.setCustomer(AuthUtil.getAuthedUser(request.getSession()));
+            orderDTO.setTotalPrice((BigDecimal) request.getSession().getAttribute("cartTotal"));
             //noinspection unchecked
             final Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) request.getSession().getAttribute("cart");
             for (final ProductDTO productDTO : cart.keySet()) {
@@ -76,12 +64,5 @@ public class CheckoutController {
             }
         }
         return "checkout";
-    }
-
-    @ModelAttribute("errors")
-    public Set<String> getErrors(final HttpServletRequest request) {
-        final Object errors = request.getAttribute("errors");
-        //noinspection unchecked
-        return (errors == null) ? new HashSet<>() : (Set<String>) errors;
     }
 }

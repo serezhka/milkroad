@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.dto;
 
+import javax.validation.constraints.Size;
+
 /**
  * Created by Sergey on 14.02.2016.
  */
@@ -34,6 +36,7 @@ public class AddressDTO {
         this.id = id;
     }
 
+    @Size(min = 1, max = 45, message = "Country must not be blank, not exceed 45 characters")
     public String getCountry() {
         return country;
     }
@@ -42,6 +45,7 @@ public class AddressDTO {
         this.country = country;
     }
 
+    @Size(min = 1, max = 45, message = "City must not be blank, not exceed 45 characters")
     public String getCity() {
         return city;
     }
@@ -58,6 +62,7 @@ public class AddressDTO {
         this.postcode = postcode;
     }
 
+    @Size(min = 1, max = 45, message = "Street must not be blank, not exceed 45 characters")
     public String getStreet() {
         return street;
     }
@@ -66,6 +71,7 @@ public class AddressDTO {
         this.street = street;
     }
 
+    @Size(min = 1, max = 45, message = "Building must not be blank, not exceed 45 characters")
     public String getBuilding() {
         return building;
     }
@@ -88,5 +94,10 @@ public class AddressDTO {
         if (!(o instanceof AddressDTO)) return false;
         final AddressDTO that = (AddressDTO) o;
         return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public String toString() {
+        return postcode + ", " + country + ", " + city + ", " + street + ", " + building + ", " + apartment;
     }
 }

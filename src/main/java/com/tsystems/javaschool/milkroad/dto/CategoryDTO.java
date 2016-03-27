@@ -27,7 +27,7 @@ public class CategoryDTO {
         this.id = id;
     }
 
-    @Size(min = 1, max = 45, message = "CATEGORY_NAME_ERROR")
+    @Size(min = 1, max = 45, message = "Name must not be blank, not exceed 45 characters")
     public String getName() {
         return name;
     }
@@ -36,7 +36,7 @@ public class CategoryDTO {
         this.name = name;
     }
 
-    @Size(max = 45, message = "CATEGORY_DESC_ERROR")
+    @Size(max = 45, message = "Description must not exceed 45 characters")
     public String getDescription() {
         return description;
     }

@@ -2,11 +2,11 @@
  * Created by Sergey on 01.03.2016.
  */
 $(document).ready(function () {
-    $(".product-add-image-div input").change(function () {
+    $(".product-edit-image-div input").change(function () {
         showNewProductImage(this);
     });
 
-    $('.product-add-details-div .selectpicker').each(function () {
+    $('.product-edit-details-div .selectpicker').each(function () {
         $(this).change(function () {
             if ($(this).val()) {
                 addProductDetailField();
@@ -14,18 +14,30 @@ $(document).ready(function () {
         });
     });
 
-    $('.product-add-details-div a').each(function () {
+    $('.product-edit-details-div a').each(function () {
         $(this).click(function () {
             removeProductDetailField($(this).parent());
         });
     });
 
-    $("#product-data-form").submit(function (e) {
-        addOrEditProduct($(this));
+    $('#product-data-form').submit(function (e) {
+        createOrEditProduct($(this));
         e.preventDefault();
     });
 
-    $("span.error").hide();
+    $('.checkout-order-details input[type=radio][name=shippingMethod]').change(function () {
+        if (this.value == 'PICKUP') {
+            $('.checkout-order-details #shipping_address').hide();
+        } else {
+            $('.checkout-order-details #shipping_address').show();
+        }
+    });
+
+    $('#checkout_form').submit(function () {
+        if ($(this).find('input[type=radio][name=shippingMethod]:checked').val() == 'PICKUP') {
+            $(this).find('input[type=radio][name="address.id"]:checked').val("");
+        }
+    });
 });
 
 /**
@@ -47,9 +59,9 @@ function updateOrderDetails(id) {
             }
         })
         .done(function (data) {
-            if (data.errors && data.errors.length > 0) {
+            if (data.errors && Object.keys(data.errors).length > 0) {
                 $.each(data.errors, function (idx, val) {
-                    alert(val);
+                    alert(idx + " : " + val);
                 });
                 $("tr#order_" + id).effect('highlight', {color: 'red'}, 1000);
             } else {
@@ -76,9 +88,9 @@ function updateCategoryDetails(id) {
         })
         .done(function (data) {
             $("span.error").hide();
-            if (data.errors && data.errors.length > 0) {
+            if (data.errors && Object.keys(data.errors).length > 0) {
                 $.each(data.errors, function (idx, val) {
-                    $("span.error#" + val).show();
+                    $("span.error#category_" + idx + "_error").text(val).show();
                 });
                 $("tr#category_" + id).effect('highlight', {color: 'red'}, 1000);
             } else {
@@ -105,9 +117,9 @@ function updateAttributeDetails(id) {
         })
         .done(function (data) {
             $("span.error").hide();
-            if (data.errors && data.errors.length > 0) {
+            if (data.errors && Object.keys(data.errors).length > 0) {
                 $.each(data.errors, function (idx, val) {
-                    $("span.error#" + val).show();
+                    $("span.error#attribute_" + idx + "_error").text(val).show();
                 });
                 $("tr#attribute_" + id).effect('highlight', {color: 'red'}, 1000);
             } else {
@@ -119,7 +131,7 @@ function updateAttributeDetails(id) {
 /**
  * Creates new category
  */
-function addCategory() {
+function createCategory() {
     $.ajax({
             method: "POST",
             url: "/management/createCategory",
@@ -131,9 +143,9 @@ function addCategory() {
         })
         .done(function (data) {
             $("span.error").hide();
-            if (data.errors && data.errors.length > 0) {
+            if (data.errors && Object.keys(data.errors).length > 0) {
                 $.each(data.errors, function (idx, val) {
-                    $("span.error#" + val).show();
+                    $("span.error#category_" + idx + "_error").text(val).show();
                 });
                 $("tr#category_new").effect('highlight', {color: 'red'}, 1000);
             } else {
@@ -146,7 +158,7 @@ function addCategory() {
 /**
  * Creates new attribute
  */
-function addAttribute() {
+function createAttribute() {
     $.ajax({
             method: "POST",
             url: "/management/createAttribute",
@@ -158,9 +170,9 @@ function addAttribute() {
         })
         .done(function (data) {
             $("span.error").hide();
-            if (data.errors && data.errors.length > 0) {
+            if (data.errors && Object.keys(data.errors).length > 0) {
                 $.each(data.errors, function (idx, val) {
-                    $("span.error#" + val).show();
+                    $("span.error#attribute_" + idx + "_error").text(val).show();
                 });
                 $("tr#attribute_new").effect('highlight', {color: 'red'}, 1000);
             } else {
@@ -170,145 +182,13 @@ function addAttribute() {
         });
 }
 
-function updateProduct(productArticle, paramsCount) {
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/management";
-
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "updateProduct";
-    action.type = 'hidden';
-    form.appendChild(action);
-
-    var product_article = document.createElement("INPUT");
-    product_article.name = "productArticle";
-    product_article.value = productArticle;
-    product_article.type = 'hidden';
-    form.appendChild(product_article);
-
-    var productName = document.createElement("INPUT");
-    productName.name = "productName";
-    productName.value = $("input#productName_" + productArticle).val();
-    productName.type = 'hidden';
-    form.appendChild(productName);
-
-    var productCategory = document.createElement("INPUT");
-    productCategory.name = "productCategoryID";
-    productCategory.value = $("select#productCategory_" + productArticle).val();
-    productCategory.type = 'hidden';
-    form.appendChild(productCategory);
-
-    var productPrice = document.createElement("INPUT");
-    productPrice.name = "productPrice";
-    productPrice.value = $("input#productPrice_" + productArticle).val();
-    productPrice.type = 'hidden';
-    form.appendChild(productPrice);
-
-    var productCount = document.createElement("INPUT");
-    productCount.name = "productCount";
-    productCount.value = $("input#productCount_" + productArticle).val();
-    productCount.type = 'hidden';
-    form.appendChild(productCount);
-
-    var productDescription = document.createElement("INPUT");
-    productDescription.name = "productDescription";
-    productDescription.value = $("input#productDesc_" + productArticle).val();
-    productDescription.type = 'hidden';
-    form.appendChild(productDescription);
-
-    for (var i = 0; i < paramsCount; i++) {
-        var productParameter = document.createElement("INPUT");
-        var paramID = $("select#productAttrID_" + productArticle + "_" + i).val();
-        var paramValue = $("input#productAttrValue_" + productArticle + "_" + i).val();
-        productParameter.name = "productParameter"; // for PHP: [" + paramName + "]";
-        productParameter.value = paramID + "|" + paramValue;
-        productParameter.type = 'hidden';
-        form.appendChild(productParameter);
-    }
-
-    var paramNewID = $("select#productAttrNewID_" + productArticle).val();
-    var paramNewValue = $("input#productAttrNewValue_" + productArticle).val();
-    if (paramNewID && paramNewValue && !(paramNewID.length === 0) && !(paramNewValue === 0)) {
-        var productNewParameter = document.createElement("INPUT");
-        productNewParameter.name = "productParameter"; // for PHP : [" + paramNewName + "]";
-        productNewParameter.value = paramNewID + "|" + paramNewValue;
-        productNewParameter.type = 'hidden';
-        form.appendChild(productNewParameter);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-}
-
-function createProduct() {
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = "/management";
-
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "createProduct";
-    action.type = 'hidden';
-    form.appendChild(action);
-
-    var productName = document.createElement("INPUT");
-    productName.name = "productName";
-    productName.value = $("input#productNewName").val();
-    productName.type = 'hidden';
-    form.appendChild(productName);
-
-    var productCategory = document.createElement("INPUT");
-    productCategory.name = "productCategoryID";
-    productCategory.value = $("select#productNewCategory").val();
-    productCategory.type = 'hidden';
-    form.appendChild(productCategory);
-
-    var productPrice = document.createElement("INPUT");
-    productPrice.name = "productPrice";
-    productPrice.value = $("input#productNewPrice").val();
-    productPrice.type = 'hidden';
-    form.appendChild(productPrice);
-
-    var productCount = document.createElement("INPUT");
-    productCount.name = "productCount";
-    productCount.value = $("input#productNewCount").val();
-    productCount.type = 'hidden';
-    form.appendChild(productCount);
-
-    var productDescription = document.createElement("INPUT");
-    productDescription.name = "productDescription";
-    productDescription.value = $("input#productNewDesc").val();
-    productDescription.type = 'hidden';
-    form.appendChild(productDescription);
-
-    var paramNewID = $("select#productNewAttrID").val();
-    var paramNewValue = $("input#productNewAttrValue").val();
-    if (paramNewID && paramNewValue && !(paramNewID.length === 0) && !(paramNewValue === 0)) {
-        var productNewParameter = document.createElement("INPUT");
-        productNewParameter.name = "productParameter"; // for PHP : [" + paramNewName + "]";
-        productNewParameter.value = paramNewID + "|" + paramNewValue;
-        productNewParameter.type = 'hidden';
-        form.appendChild(productNewParameter);
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-}
-
 function updateAddress(addressID) {
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "/profile/editAddress";
 
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "updateAddress";
-    action.type = 'hidden';
-    form.appendChild(action);
-
     var address_id = document.createElement("INPUT");
-    address_id.name = "addressID";
+    address_id.name = "id";
     address_id.value = addressID;
     address_id.type = 'hidden';
     form.appendChild(address_id);
@@ -357,12 +237,6 @@ function createAddress() {
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "/profile/addAddress";
-
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "createAddress";
-    action.type = 'hidden';
-    form.appendChild(action);
 
     var country = document.createElement("INPUT");
     country.name = "country";
@@ -471,18 +345,19 @@ function showNewProductImage(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            $(".product-add-image-div img").attr("src", e.target.result);
+            $(".product-edit-image-div img").attr("src", e.target.result);
         };
         reader.readAsDataURL(input.files[0]);
     }
 }
 
 function addProductDetailField() {
-    var allSelects = $('.product-add-details-div .selectpicker');
+    var allSelects = updateProductDetailFields();
     var lastSelect = $(allSelects).last();
     if ($(lastSelect).find("option:selected").val()) {
         var newSelectDiv = $(lastSelect).parent().parent().clone();
         $(newSelectDiv).find(".bootstrap-select").remove();
+        $(newSelectDiv).find("input").val("");
         $(newSelectDiv).find("a").click(function () {
             removeProductDetailField($(newSelectDiv));
         });
@@ -501,15 +376,32 @@ function addProductDetailField() {
 }
 
 function removeProductDetailField(field) {
-    if ($(field).find(".selectpicker").attr("id") == "parameter_0") {
+    if ($('.product-edit-details-div .selectpicker').size() > 1) {
+        $(field).remove();
+    } else {
         $(field).find(".selectpicker option").first().attr("selected", true);
         $(field).find(".selectpicker").selectpicker("refresh");
-    } else {
-        $(field).remove();
     }
+    updateProductDetailFields();
+    addProductDetailField();
 }
 
-function addOrEditProduct(form) {
+function updateProductDetailFields() {
+    var allSelects = $('.product-edit-details-div .selectpicker');
+    $(allSelects).each(function (idx, select) {
+        $(select).attr("id", "parameter_" + idx);
+        if (idx != ($(allSelects).size() - 1)) {
+            $(select).attr("name", "parameters[" + idx + "].attribute.id");
+            $(select).parent().parent().find("input").attr("name", "parameters[" + idx + "].value");
+        } else {
+            $(select).removeAttr("name");
+            $(select).parent().parent().find("input").removeAttr("name");
+        }
+    });
+    return allSelects;
+}
+
+function createOrEditProduct(form) {
     var formData = new FormData($(form)[0]);
     $.ajax({
         url: $(form).attr("action"),
@@ -519,8 +411,19 @@ function addOrEditProduct(form) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (returndata) {
-            alert(returndata);
+        success: function (data) {
+            $("span.error").hide();
+            if (data.errors && Object.keys(data.errors).length > 0) {
+                $.each(data.errors, function (idx, val) {
+                    $("span.error#" + idx + "_error").text(val).show();
+                });
+                $("input[name='" + idx + "']").effect('highlight', {color: 'red'}, 1000);
+            } else {
+                window.location.href="/editProducts";
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.response);
         }
     });
     return false;

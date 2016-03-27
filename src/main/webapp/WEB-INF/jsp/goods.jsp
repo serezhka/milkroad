@@ -13,19 +13,10 @@
                 <c:url value="/catalog" var="productURL">
                     <c:param name="article" value="${product.article}"/>
                 </c:url>
-                    <%-- TODO This is stub ;) --%>
-                <c:choose>
-                    <c:when test="${product.article < 11}">
-                        <a href="${productURL}"><img class="img-responsive"
-                                                     src="<c:url value="/images/product/product_${product.article}.jpg"/>"
-                                                     alt=""></a>
-                    </c:when>
-                    <c:otherwise>
-                        <a href="${productURL}"><img class="img-responsive"
-                                                     src="<c:url value="/images/product-item-image.png"/>"
-                                                     alt=""></a>
-                    </c:otherwise>
-                </c:choose>
+                <c:url value="/images/product/default.png" var="defaultImageURL"/>
+                <c:url value="/images/product/product_${product.article}.png" var="productImageURL"/>
+                <a href="${productURL}"><img class="img-responsive" src="${productImageURL}"
+                                             onerror="this.onerror=null;this.src='${defaultImageURL}';" alt=""></a>
             </div>
             <p class="product-name">${product.name}</p>
             <c:url value="/cart" var="cartURL">

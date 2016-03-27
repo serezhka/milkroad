@@ -9,15 +9,13 @@
 
 <%--@elvariable id="categories" type="java.util.List<com.tsystems.javaschool.milkroad.dto.CategoryDTO>"--%>
 <%--@elvariable id="attributes" type="java.util.List<com.tsystems.javaschool.milkroad.dto.AttributeDTO>"--%>
-<%--@elvariable id="errors" type="java.util.Set<java.lang.String>"--%>
 
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
     <div class="col-md-6 product-categories">
         <h3 class="milkroad-h3">Categories</h3>
-        <span class="error" id="CATEGORY_NAME_ERROR">Incorrect category name</span>
-        <span class="error" id="CATEGORY_DESC_ERROR">Incorrect category description</span>
-        <span class="error" id="CATEGORY_ALREADY_EXISTS">Duplicate category name</span>
+        <span class="error" id="category_name_error"></span>
+        <span class="error" id="category_description_error"></span>
         <div class="table-responsive">
             <table class="table" border=3>
                 <thead>
@@ -45,7 +43,7 @@
                     <td><input id="categoryDescNew" type="text" class="form-control"
                                value=""/></td>
                     <td><a class="btn btn-success" href="javascript:;"
-                           onclick="addCategory();">
+                           onclick="createCategory();">
                         <i class="fa fa-plus"></i></a></td>
                 </tr>
                 </tbody>
@@ -54,8 +52,8 @@
     </div>
     <div class="col-md-6 product-attributes">
         <h3 class="milkroad-h3">Attributes</h3>
-        <span class="error" id="ATTRIBUTE_NAME_ERROR">Incorrect attribute name</span>
-        <span class="error" id="ATTRIBUTE_ALREADY_EXISTS">Duplicate attribute name</span>
+        <span class="error" id="attribute_name_error"></span>
+        <span class="error" id="attribute_description_error"></span>
         <div class="table-responsive">
             <table class="table" border=3>
                 <thead>
@@ -83,7 +81,7 @@
                     <td><input id="attributeDescNew" type="text" class="form-control"
                                value=""/></td>
                     <td><a class="btn btn-success" href="javascript:;"
-                           onclick="addAttribute();">
+                           onclick="createAttribute();">
                         <i class="fa fa-plus"></i></a></td>
                 </tr>
                 </tbody>

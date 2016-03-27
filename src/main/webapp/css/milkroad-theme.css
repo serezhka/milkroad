@@ -789,16 +789,9 @@ a.cart-continue:hover {
     padding-bottom: 10px;
 }
 
-.price-details h3 {
-    color: #000;
-    font-size: 1.2em;
-    margin-bottom: 1em;
-}
-
 .price-details span {
     width: 50%;
     float: left;
-    font-size: 0.8125em;
     color: #000;
     line-height: 1.8em;
 }
@@ -846,6 +839,10 @@ a.cart-order:hover {
 /* **************************************************** */
 /* ****************** CHECKOUT ************************ */
 /* **************************************************** */
+.checkout-order-details > form > div {
+    margin-bottom: 30px;
+}
+
 .checkout-order-details .radio {
     padding-left: 20px;
 }

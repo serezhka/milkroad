@@ -9,34 +9,33 @@
 
 <%--@elvariable id="user" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
 <%--@elvariable id="orders" type="java.util.List<com.tsystems.javaschool.milkroad.dto.OrderDTO>"--%>
-<%--@elvariable id="errors" type="java.util.Set<java.lang.String>"--%>
+<%--@elvariable id="errors" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
 <%--@elvariable id="input" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
 
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
     <div class="user-info">
         <form action="${pageContext.request.contextPath}/profile/edit" method="post">
-            <input type="hidden" name="action" value="updateProfile"/>
             <div class="col-md-6 profile-top-grid">
                 <h3>Personal infomation</h3>
                 <div>
                     <span>First Name</span>
-                    <c:if test="${errors.contains('FIRST_NAME_ERROR')}">
-                        <span class="error">Incorrect first name</span>
+                    <c:if test="${not empty errors && errors.containsKey('firstName')}">
+                        <span class="error">${errors.get('firstName')}</span>
                     </c:if>
-                    <input name="firstname" type="text" value="${user.firstName}">
+                    <input name="firstName" type="text" value="${user.firstName}">
                 </div>
                 <div>
                     <span>Last Name</span>
-                    <c:if test="${errors.contains('LAST_NAME_ERROR')}">
-                        <span class="error">Incorrect last name</span>
+                    <c:if test="${not empty errors && errors.containsKey('lastName')}">
+                        <span class="error">${errors.get('lastName')}</span>
                     </c:if>
-                    <input name="lastname" type="text" value="${user.lastName}">
+                    <input name="lastName" type="text" value="${user.lastName}">
                 </div>
                 <div>
                     <span>Date of birth (YYYY-MM-DD)</span>
-                    <c:if test="${errors.contains('DATE_ERROR')}">
-                        <span class="error">Incorrect date</span>
+                    <c:if test="${not empty errors && errors.containsKey('birthday')}">
+                        <span class="error">${errors.get('birthday')}</span>
                     </c:if>
                     <input name="birthday" type="text" value="${user.birthday}">
                 </div>
@@ -49,8 +48,8 @@
                 </div>
                 <div>
                     <span>New Password (Leave blank to keep old pass)</span>
-                    <c:if test="${errors.contains('PASS_ERROR')}">
-                        <span class="error">Incorrect pass</span>
+                    <c:if test="${not empty errors && errors.containsKey('pass')}">
+                        <span class="error">${errors.get('pass')}</span>
                     </c:if>
                     <input name="pass" type="password">
                 </div>
@@ -66,23 +65,10 @@
         <c:if test="${not (user.userType eq 'ADMIN') and not (user.userType eq 'SELLER')}">
             <div class="col-md-12 user-addresses">
                 <h3 class="milkroad-h3">Addresses</h3>
-                <c:if test="${errors.contains('COUNTRY_ERROR')}">
-                    <span class="error">Incorrect country name</span>
-                </c:if>
-                <c:if test="${errors.contains('CITY_ERROR')}">
-                    <span class="error">Incorrect city name</span>
-                </c:if>
-                <c:if test="${errors.contains('POSTCODE_ERROR')}">
-                    <span class="error">Incorrect poscode</span>
-                </c:if>
-                <c:if test="${errors.contains('STREET_ERROR')}">
-                    <span class="error">Incorrect street name</span>
-                </c:if>
-                <c:if test="${errors.contains('BUILDING_ERROR')}">
-                    <span class="error">Incorrect building value</span>
-                </c:if>
-                <c:if test="${errors.contains('APARTMENT_ERROR')}">
-                    <span class="error">Incorrect apartment value</span>
+                <c:if test="${not empty errors}">
+                    <c:forEach items="${errors.values()}" var="error">
+                        <span class="error">${error}</span>
+                    </c:forEach>
                 </c:if>
                 <div class="table-responsive">
                     <table class="table" border=3>

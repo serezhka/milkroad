@@ -20,7 +20,6 @@ import java.util.Map;
  */
 @Controller
 public class CartController {
-
     @Autowired
     private CatalogService catalogService;
 

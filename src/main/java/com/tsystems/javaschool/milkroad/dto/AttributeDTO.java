@@ -1,5 +1,7 @@
 package com.tsystems.javaschool.milkroad.dto;
 
+import javax.validation.constraints.Size;
+
 /**
  * Created by Sergey on 01.03.2016.
  */
@@ -25,6 +27,7 @@ public class AttributeDTO {
         this.id = id;
     }
 
+    @Size(min = 1, max = 45, message = "Name must not be blank, not exceed 45 characters")
     public String getName() {
         return name;
     }
@@ -33,6 +36,7 @@ public class AttributeDTO {
         this.name = name;
     }
 
+    @Size(max = 45, message = "Description must not exceed 45 characters")
     public String getDescription() {
         return description;
     }

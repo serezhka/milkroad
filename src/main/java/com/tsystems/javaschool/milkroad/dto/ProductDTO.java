@@ -1,5 +1,8 @@
 package com.tsystems.javaschool.milkroad.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,7 @@ public class ProductDTO {
     private BigDecimal price;
     private Integer count;
     private String description;
-    private List<Parameter> parameters;
+    private List<ParameterDTO> parameters;
 
     public ProductDTO() {
         parameters = new ArrayList<>();
@@ -49,6 +52,7 @@ public class ProductDTO {
         this.seller = seller;
     }
 
+    @Size(min = 1, max = 45, message = "Name must not be blank, not exceed 45 characters")
     public String getName() {
         return name;
     }
@@ -57,6 +61,7 @@ public class ProductDTO {
         this.name = name;
     }
 
+    @NotNull(message = "Category is required field")
     public CategoryDTO getCategory() {
         return category;
     }
@@ -65,6 +70,8 @@ public class ProductDTO {
         this.category = category;
     }
 
+    @NotNull(message = "Price is required field")
+    @Min(value = 0, message = "Price should be positive value")
     public BigDecimal getPrice() {
         return price;
     }
@@ -73,6 +80,8 @@ public class ProductDTO {
         this.price = price;
     }
 
+    @NotNull(message = "Remain count is required field")
+    @Min(value = 0, message = "Remain count should be positive value")
     public Integer getCount() {
         return count;
     }
@@ -81,6 +90,7 @@ public class ProductDTO {
         this.count = count;
     }
 
+    @Size(max = 45, message = "Description must not exceed 45 characters")
     public String getDescription() {
         return description;
     }
@@ -89,45 +99,16 @@ public class ProductDTO {
         this.description = description;
     }
 
-    public List<Parameter> getParameters() {
+    public List<ParameterDTO> getParameters() {
         return parameters;
     }
 
-    public void setParameters(final List<Parameter> parameters) {
+    public void setParameters(final List<ParameterDTO> parameters) {
         this.parameters = parameters;
     }
 
-    public void addParameter(final String name, final String value) {
-        this.parameters.add(new Parameter(name, value));
-    }
-
-    public class Parameter {
-        private String name;
-        private String value;
-
-        public Parameter() {
-        }
-
-        public Parameter(final String name, final String value) {
-            this.name = name;
-            this.value = value;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(final String name) {
-            this.name = name;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-        public void setValue(final String value) {
-            this.value = value;
-        }
+    public void addParameter(final ParameterDTO parameterDTO) {
+        this.parameters.add(parameterDTO);
     }
 
     @Override

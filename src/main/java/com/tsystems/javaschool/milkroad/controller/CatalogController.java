@@ -18,7 +18,6 @@ import java.util.List;
  */
 @Controller
 public class CatalogController {
-
     @Autowired
     private CatalogService catalogService;
 

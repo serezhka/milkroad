@@ -35,16 +35,10 @@
                             </div>
                         </div>
                         <div class="cart-item-image">
-                            <c:choose>
-                                <c:when test="${cartItem.key.article < 11}">
-                                    <img class="img-responsive"
-                                         src="<c:url value="/images/product/product_${cartItem.key.article}.jpg"/>"
-                                         alt="">
-                                </c:when>
-                                <c:otherwise>
-                                    <img class="img-responsive" src="<c:url value="/images/product-item-image.png"/>" alt="">
-                                </c:otherwise>
-                            </c:choose>
+                            <c:url value="/images/product/default.png" var="defaultImageURL"/>
+                            <c:url value="/images/product/product_${cartItem.key.article}.png" var="productImageURL"/>
+                            <img class="img-responsive" src="${productImageURL}"
+                                 onerror="this.onerror=null;this.src='${defaultImageURL}';" alt="">
                         </div>
                         <div class="cart-item-info">
                             <c:url value="/catalog" var="productURL">
@@ -54,7 +48,7 @@
                             </h3>
                             <ul class="cart-item-details">
                                 <c:forEach items="${cartItem.key.parameters}" var="parameter">
-                                    <li><p>${parameter.name} : ${parameter.value}</p></li>
+                                    <li><p>${parameter.attribute.name} : ${parameter.value}</p></li>
                                 </c:forEach>
                                 <li><p>Remain count : ${cartItem.key.count}</p></li>
                             </ul>

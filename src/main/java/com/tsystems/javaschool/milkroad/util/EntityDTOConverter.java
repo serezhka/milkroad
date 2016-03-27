@@ -83,10 +83,10 @@ public class EntityDTOConverter {
                 productEntity.getDescription()
         );
         for (final ProductParameterEntity parameterEntity : productEntity.getParameters()) {
-            productDTO.addParameter(
-                    parameterEntity.getAttribute().getAttributeName(),
+            productDTO.addParameter(new ParameterDTO(
+                    attributeDTO(parameterEntity.getAttribute()),
                     parameterEntity.getAttributeValue()
-            );
+            ));
         }
         return productDTO;
     }
@@ -98,10 +98,11 @@ public class EntityDTOConverter {
      * @return OrderDTO
      */
     public static OrderDTO orderDTO(final OrderEntity orderEntity) {
+        final AddressDTO addressDTO = orderEntity.getAddress() != null ? addressDTO(orderEntity.getAddress()) : null;
         final OrderDTO orderDTO = new OrderDTO(
                 orderEntity.getId(),
                 userDTO(orderEntity.getCustomer()),
-                addressDTO(orderEntity.getAddress()),
+                addressDTO,
                 orderEntity.getPriceTotal(),
                 orderEntity.getPaymentMethod(),
                 orderEntity.getPaymentStatus(),

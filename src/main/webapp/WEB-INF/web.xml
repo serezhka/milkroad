@@ -17,15 +17,28 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
-    <!-- TODO -->
     <filter>
+        <filter-name>AccessFilter</filter-name>
+        <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AccessFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AccessFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/register</url-pattern>
+        <url-pattern>/profile</url-pattern>
+        <url-pattern>/checkout</url-pattern>
+        <url-pattern>/management/*</url-pattern>
+    </filter-mapping>
+
+    <!-- TODO -->
+    <!--<filter>
         <filter-name>FormDataFilter</filter-name>
         <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.FormDataFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FormDataFilter</filter-name>
         <servlet-name>spring</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

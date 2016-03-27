@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.milkroad.controller;
 
+import com.tsystems.javaschool.milkroad.controller.util.ControllerUtils;
 import com.tsystems.javaschool.milkroad.dto.AddressDTO;
 import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
@@ -10,23 +11,22 @@ import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceExcepti
 import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Date;
-import java.util.HashSet;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Created by Sergey on 12.03.2016.
  */
 @Controller
 public class ProfileController {
-
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -51,19 +51,14 @@ public class ProfileController {
 
     @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
     public String editProfile(
-            @ModelAttribute("errors") final Set<String> errors,
-            @ModelAttribute("pass") final String pass,
-            @ModelAttribute("birthday") final Date birthday,
-            @RequestParam("firstname") final String firstname,
-            @RequestParam("lastname") final String lastname,
+            @ModelAttribute @Valid UserDTO userDTO,
+            final BindingResult bindingResult,
+            @RequestParam final String pass,
             final HttpServletRequest request) {
-
+        final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
-            UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
             //noinspection ConstantConditions
-            userDTO.setFirstName(firstname);
-            userDTO.setLastName(lastname);
-            userDTO.setBirthday(birthday);
+            userDTO.setId(AuthUtil.getAuthedUser(request.getSession()).getId());
             try {
                 userDTO = userService.updateUserInfo(userDTO);
                 if (!pass.isEmpty()) {
@@ -82,25 +77,11 @@ public class ProfileController {
 
     @RequestMapping(value = "/profile/editAddress", method = RequestMethod.POST)
     public String editAddress(
-            @ModelAttribute("errors") final Set<String> errors,
-            @ModelAttribute("addressID") final Long addressID,
-            @ModelAttribute("postcode") final Integer postcode,
-            @RequestParam("country") final String country,
-            @RequestParam("city") final String city,
-            @RequestParam("street") final String street,
-            @RequestParam("building") final String building,
-            @RequestParam("apartment") final String apartment,
+            @ModelAttribute @Valid final AddressDTO addressDTO,
+            final BindingResult bindingResult,
             final HttpServletRequest request) {
-
+        final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
-            final AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setId(addressID);
-            addressDTO.setCountry(country);
-            addressDTO.setCity(city);
-            addressDTO.setPostcode(postcode);
-            addressDTO.setStreet(street);
-            addressDTO.setBuilding(building);
-            addressDTO.setApartment(apartment);
             try {
                 addressService.updateAddress(addressDTO);
                 return "redirect:/profile";
@@ -115,23 +96,11 @@ public class ProfileController {
 
     @RequestMapping(value = "/profile/addAddress", method = RequestMethod.POST)
     public String addAddress(
-            @ModelAttribute("errors") final Set<String> errors,
-            @ModelAttribute("postcode") final Integer postcode,
-            @RequestParam("country") final String country,
-            @RequestParam("city") final String city,
-            @RequestParam("street") final String street,
-            @RequestParam("building") final String building,
-            @RequestParam("apartment") final String apartment,
+            @ModelAttribute @Valid final AddressDTO addressDTO,
+            final BindingResult bindingResult,
             final HttpServletRequest request) {
-
+        final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
-            final AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setCountry(country);
-            addressDTO.setCity(city);
-            addressDTO.setPostcode(postcode);
-            addressDTO.setStreet(street);
-            addressDTO.setBuilding(building);
-            addressDTO.setApartment(apartment);
             try {
                 final UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
                 addressService.addAddressToUser(userDTO, addressDTO);
@@ -143,33 +112,5 @@ public class ProfileController {
         }
         request.setAttribute("errors", errors);
         return profilePage(request);
-    }
-
-    @ModelAttribute("errors")
-    public Set<String> getErrors(final HttpServletRequest request) {
-        final Object errors = request.getAttribute("errors");
-        //noinspection unchecked
-        return (errors == null) ? new HashSet<>() : (Set<String>) errors;
-    }
-
-    @ModelAttribute("birthday")
-    public Date getBirthday(final HttpServletRequest request) {
-        final Object birthday = request.getAttribute("birthday");
-        //noinspection unchecked
-        return (birthday == null) ? null : (Date) birthday;
-    }
-
-    @ModelAttribute("addressID")
-    public Long getAddressID(final HttpServletRequest request) {
-        final Object addressID = request.getAttribute("addressID");
-        //noinspection unchecked
-        return (addressID == null) ? null : (Long) addressID;
-    }
-
-    @ModelAttribute("postcode")
-    public Integer getPostcode(final HttpServletRequest request) {
-        final Object postcode = request.getAttribute("postcode");
-        //noinspection unchecked
-        return (postcode == null) ? null : (Integer) postcode;
     }
 }

@@ -115,24 +115,19 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO updateUserInfo(final UserDTO userDTO) throws MilkroadServiceException {
-        final UserEntity userEntity = getUserEntityByEmail(userDTO.getEmail());
-        if (userEntity == null) {
-            throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
-        }
-        userEntity.setFirstName(userDTO.getFirstName());
-        userEntity.setLastName(userDTO.getLastName());
-        userEntity.setBirthday(userDTO.getBirthday());
+        final UserEntity userEntity;
         try {
-//            entityManager.getTransaction().begin();
+            userEntity = userDAO.getByID(userDTO.getId());
+            if (userEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
+            }
+            userEntity.setFirstName(userDTO.getFirstName());
+            userEntity.setLastName(userDTO.getLastName());
+            userEntity.setBirthday(userDTO.getBirthday());
             userDAO.merge(userEntity);
-//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user info with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }
@@ -140,28 +135,23 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDTO updateUserPass(final UserDTO userDTO, final String pass) throws MilkroadServiceException {
-        final UserEntity userEntity = getUserEntityByEmail(userDTO.getEmail());
-        if (userEntity == null) {
-            throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
-        }
-        final PassHash passHash;
+        final UserEntity userEntity;
         try {
+            userEntity = userDAO.getByID(userDTO.getId());
+            if (userEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
+            }
+            final PassHash passHash;
             passHash = PassUtil.createPassHash(pass);
             userEntity.setPassHash(passHash.getHash());
             userEntity.setPassSalt(passHash.getSalt());
-//            entityManager.getTransaction().begin();
             userDAO.merge(userEntity);
-//            entityManager.getTransaction().commit();
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while updating user pass");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating user pass");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }

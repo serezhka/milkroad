@@ -14,6 +14,7 @@ import java.util.Set;
 /**
  * Created by Sergey on 23.02.2016.
  */
+@Deprecated
 public class FormDataFilter implements Filter {
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
@@ -93,51 +94,6 @@ public class FormDataFilter implements Filter {
         final String actionName = request.getParameter("action");
         if (actionName != null && !actionName.isEmpty()) {
             switch (actionName) {
-                case "updateOrder": {
-                    // TODO Validate order id, payment method/status, shipping method/status, note
-                }
-
-                case "updateCategory": {
-                    final String categoryID = request.getParameter("categoryID");
-                    if (!FormDataValidator.validateLong(categoryID)) {
-                        errors.add("CATEGORY_ID_ERROR");
-                    }
-                    final String categoryName = request.getParameter("categoryName");
-                    if (!FormDataValidator.validateName(categoryName)) {
-                        errors.add("CATEGORY_NAME_ERROR");
-                    }
-                    break;
-                }
-
-                case "createCategory": {
-                    final String categoryName = request.getParameter("categoryName");
-                    if (!FormDataValidator.validateName(categoryName)) {
-                        errors.add("CATEGORY_NAME_ERROR");
-                    }
-                    break;
-                }
-
-                case "updateAttribute": {
-                    final String attributeID = request.getParameter("attributeID");
-                    if (!FormDataValidator.validateLong(attributeID)) {
-                        errors.add("ATTRIBUTE_ID_ERROR");
-                    }
-                    final String attributeName = request.getParameter("attributeName");
-                    if (!FormDataValidator.validateName(attributeName)) {
-                        errors.add("ATTRIBUTE_NAME_ERROR");
-                    }
-                    break;
-                }
-
-                case "createAttribute": {
-                    // TODO Validate desc
-                    final String attributeName = request.getParameter("attributeName");
-                    if (!FormDataValidator.validateName(attributeName)) {
-                        errors.add("ATTRIBUTE_NAME_ERROR");
-                    }
-                    break;
-                }
-
                 case "updateProduct": {
                     final String productArticle = request.getParameter("productArticle");
                     if (!FormDataValidator.validateLong(productArticle)) {

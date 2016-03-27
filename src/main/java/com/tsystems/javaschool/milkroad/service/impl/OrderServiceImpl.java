@@ -64,18 +64,20 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO createOrder(final OrderDTO orderDTO) throws MilkroadServiceException {
         final OrderEntity orderEntity = new OrderEntity();
         try {
-//            entityManager.getTransaction().begin();
             final UserEntity userEntity = userDAO.getByID(orderDTO.getCustomer().getId());
             if (userEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
             }
-            final AddressEntity addressEntity = addressDAO.getByID(orderDTO.getAddress().getId());
-            if (addressEntity == null) {
-                throw new MilkroadServiceException(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS);
+            final Long addressId = orderDTO.getAddress().getId();
+            if (addressId != null) {
+                final AddressEntity addressEntity = addressDAO.getByID(orderDTO.getAddress().getId());
+                if (addressEntity == null) {
+                    throw new MilkroadServiceException(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS);
+                }
+                orderEntity.setAddress(addressEntity);
             }
             orderEntity.setId(orderDTO.getId());
             orderEntity.setCustomer(userEntity);
-            orderEntity.setAddress(addressEntity);
             orderEntity.setPriceTotal(orderDTO.getTotalPrice());
             orderEntity.setPaymentMethod(orderDTO.getPaymentMethod());
             orderEntity.setPaymentStatus(orderDTO.getPaymentStatus());
@@ -97,14 +99,9 @@ public class OrderServiceImpl implements OrderService {
                 orderEntity.addOrderDetail(detailEntity);
             }
             orderDAO.persist(orderEntity);
-//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while creating order for user with email = " + orderDTO.getCustomer().getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.orderDTO(orderEntity);
     }
@@ -131,21 +128,13 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO updateOrder(final OrderDTO orderDTO) throws MilkroadServiceException {
         final OrderEntity orderEntity;
         try {
-//            entityManager.getTransaction().begin();
             orderEntity = orderDAO.getByID(orderDTO.getId());
-            orderEntity.setPaymentMethod(orderDTO.getPaymentMethod());
             orderEntity.setPaymentStatus(orderDTO.getPaymentStatus());
-            orderEntity.setShippingMethod(orderDTO.getShippingMethod());
             orderEntity.setShippingStatus(orderDTO.getShippingStatus());
             orderDAO.merge(orderEntity);
-//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while update order with id = " + orderDTO.getId());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.orderDTO(orderEntity);
     }

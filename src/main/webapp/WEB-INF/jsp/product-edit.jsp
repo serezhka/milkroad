@@ -1,72 +1,106 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="header.jsp">
     <jsp:param name="pageName" value="Management"/>
 </jsp:include>
 <jsp:include page="header-top.jsp"/>
 <jsp:include page="header-nav.jsp"/>
 
+<%--@elvariable id="product" type="com.tsystems.javaschool.milkroad.dto.ProductDTO"--%>
 <%--@elvariable id="categories" type="java.util.List<com.tsystems.javaschool.milkroad.dto.CategoryDTO>"--%>
 <%--@elvariable id="attributes" type="java.util.List<com.tsystems.javaschool.milkroad.dto.AttributeDTO>"--%>
-<%--@elvariable id="product" type="com.tsystems.javaschool.milkroad.dto.ProductDTO"--%>
-<%--@elvariable id="input" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
-<%--@elvariable id="errors" type="java.util.Set<java.lang.String>"--%>
 
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
-    <form id="product-data-form" action="${pageContext.request.contextPath}/management" method="post"
+    <c:url var="action" value="/management/createProduct"/>
+    <c:if test="${not empty product.article}">
+        <c:url var="action" value="/management/updateProduct"/>
+    </c:if>
+    <form id="product-data-form" action="${action}" method="post"
           enctype="multipart/form-data">
-        <input type="hidden" name="action" value="addOrEditProduct"/>
         <div class="col-md-6 product-edit-info-div">
             <h3>Product info</h3>
+            <input name="article" type="hidden" value="${product.article}">
             <div>
                 <span>Name</span>
-                <input id="name" type="text" value="">
+                <span class="error" id="name_error"></span>
+                <input name="name" type="text" value="${product.name}">
             </div>
             <div>
                 <span>Description</span>
-                <input id="description" type="text" value="">
+                <span class="error" id="description_error"></span>
+                <input name="description" type="text" value="${product.description}">
             </div>
             <div class="dropup">
                 <span>Category</span>
-                <select id="category" class="selectpicker no-radius" data-width="100%">
+                <span class="error" id="category_error"></span>
+                <select name="category.id" class="selectpicker no-radius" data-width="100%">
                     <option data-hidden="true"></option>
                     <c:forEach items="${categories}" var="category">
-                        <option value="${category.id}">${category.name}</option>
+                        <option value="${category.id}" <c:if test="${category.name eq product.category.name}">
+                            selected</c:if>>${category.name}</option>
                     </c:forEach>
                 </select>
             </div>
             <div>
                 <span>Price</span>
-                <input id="price" type="text" value="">
+                <span class="error" id="price_error"></span>
+                <input name="price" type="text" value="${product.price}">
             </div>
             <div>
                 <span>Remain count</span>
-                <input id="remain" type="text" value="">
+                <span class="error" id="count_error"></span>
+                <input name="count" type="text" value="${product.count}">
             </div>
-            <input id="article" type="hidden" value="${product.article}"/>
-            <input id="submit" type="submit" value="Add product">
+            <input name="article" type="hidden" value="${product.article}"/>
+            <input name="seller.id" type="hidden" value="${product.seller.id}"/>
+            <c:set var="btnText" value="Add product"/>
+            <c:if test="${not empty product.article}">
+                <c:set var="btnText" value="Edit product"/>
+            </c:if>
+            <input id="submit" type="submit" value="${btnText}">
         </div>
         <div class="col-md-6 product-edit-image-div">
             <h3>Product image</h3>
-            <img class="img-responsive" src="../../images/product-item-image.png" alt="">
+            <span class="error" id="image_error"></span>
+            <c:url value="/images/product/default.png" var="defaultImageURL"/>
+            <c:url value="/images/product/product_${product.article}.png" var="productImageURL"/>
+            <img class="img-responsive" src="${productImageURL}"
+                 onerror="this.onerror=null;this.src='${defaultImageURL}';" alt="">
         <span class="file-input btn btn-block btn-primary btn-file">
-                Browse&hellip;<input type="file" id="image" accept="image/jpeg"></span>
+                Browse&hellip;<input type="file" id="image" name="image" accept="image/jpeg"></span>
         </div>
         <div class="col-md-6 product-edit-details-div">
             <h3>Product parameters</h3>
+            <c:forEach items="${product.parameters}" var="parameter" varStatus="status">
+                <div class="dropup product-add-detail-div">
+                    <select name="parameters[${status.index}].attribute.id" id="parameter_${status.index}"
+                            class="selectpicker no-radius"
+                            data-width="100%">
+                        <option data-hidden="true"></option>
+                        <c:forEach items="${attributes}" var="attribute">
+                            <option value="${attribute.id}" <c:if
+                                    test="${attribute.id eq parameter.attribute.id}">
+                                selected</c:if>>${attribute.name}</option>
+                        </c:forEach>
+                    </select>
+                    <input name="parameters[${status.index}].value" type="text" value="${parameter.value}">
+                    <a class="btn btn-danger" href="javascript:;"><i class="fa fa-close"></i> </a>
+                </div>
+            </c:forEach>
+            <c:set value="0" var="paramsCount"/>
+            <c:if test="${not empty product}">
+                <c:set value="${product.parameters.size()}" var="paramsCount"/>
+            </c:if>
             <div class="dropup product-add-detail-div">
-                <select id="parameter_0" class="selectpicker no-radius" data-width="100%">
+                <select id="parameter_${paramsCount}" class="selectpicker no-radius"
+                        data-width="100%">
                     <option data-hidden="true"></option>
                     <c:forEach items="${attributes}" var="attribute">
                         <option value="${attribute.id}">${attribute.name}</option>
                     </c:forEach>
-                    <option value="1">Test</option>
-                    <option value="2">Test</option>
-                    <option value="3">Test</option>
                 </select>
-                <input name="value" type="text" value="">
+                <input type="text" value="">
                 <a class="btn btn-danger" href="javascript:;"><i class="fa fa-close"></i> </a>
             </div>
         </div>
