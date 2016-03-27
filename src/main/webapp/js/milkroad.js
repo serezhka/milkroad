@@ -283,12 +283,6 @@ function addProductToCart(article_id) {
     form.method = "POST";
     form.action = "/cart/addProduct";
 
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "addProduct";
-    action.type = 'hidden';
-    form.appendChild(action);
-
     var article = document.createElement("INPUT");
     article.name = "article";
     article.value = article_id;
@@ -304,12 +298,6 @@ function removeProductFromCart(article_id) {
     form.method = "POST";
     form.action = "/cart/removeProduct";
 
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "removeProduct";
-    action.type = 'hidden';
-    form.appendChild(action);
-
     var article = document.createElement("INPUT");
     article.name = "article";
     article.value = article_id;
@@ -324,12 +312,6 @@ function removeProductOnceFromCart(article_id) {
     var form = document.createElement("form");
     form.method = "POST";
     form.action = "/cart/removeProductOnce";
-
-    var action = document.createElement("INPUT");
-    action.name = "action";
-    action.value = "removeProductOnce";
-    action.type = 'hidden';
-    form.appendChild(action);
 
     var article = document.createElement("INPUT");
     article.name = "article";
@@ -416,10 +398,10 @@ function createOrEditProduct(form) {
             if (data.errors && Object.keys(data.errors).length > 0) {
                 $.each(data.errors, function (idx, val) {
                     $("span.error#" + idx + "_error").text(val).show();
+                    $("input[name='" + idx + "']").effect('highlight', {color: 'red'}, 1000);
                 });
-                $("input[name='" + idx + "']").effect('highlight', {color: 'red'}, 1000);
             } else {
-                window.location.href="/editProducts";
+                $(".container").effect('highlight', {color: 'green'}, 1000);
             }
         },
         error: function (jqXHR, textStatus, errorThrown) {

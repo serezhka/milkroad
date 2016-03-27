@@ -30,33 +30,23 @@
                 <c:choose>
                     <c:when test="${(user.userType eq 'ADMIN') or (user.userType eq 'SELLER')}">
                         <li>
-                            <c:url value="/management/editOrders" var="ordersURL">
-                                <c:param name="action" value="editOrders"/>
-                            </c:url>
+                            <c:url value="/management/editOrders" var="ordersURL"/>
                             <a href="${ordersURL}">Orders</a>
                         </li>
                         <li>
-                            <c:url value="/management/editCategories" var="categoriesURL">
-                                <c:param name="action" value="editCategories"/>
-                            </c:url>
+                            <c:url value="/management/editCategories" var="categoriesURL"/>
                             <a href="${categoriesURL}">Categories & attributes</a>
                         </li>
                         <li>
-                            <c:url value="/management/editProducts" var="productsURL">
-                                <c:param name="action" value="editProducts"/>
-                            </c:url>
+                            <c:url value="/management/editProducts" var="productsURL"/>
                             <a href="${productsURL}">Products</a>
                         </li>
                         <li>
-                            <c:url value="/management/addProduct" var="productsURL">
-                                <c:param name="action" value="addProduct"/>
-                            </c:url>
+                            <c:url value="/management/addProduct" var="productsURL"/>
                             <a href="${productsURL}">Add product</a>
                         </li>
                         <li>
-                            <c:url value="/management/statistics" var="statisticsURL">
-                                <c:param name="action" value="viewStatistics"/>
-                            </c:url>
+                            <c:url value="/management/statistics" var="statisticsURL"/>
                             <a href="${statisticsURL}">Statistics</a>
                         </li>
                     </c:when>
