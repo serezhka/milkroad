@@ -9,7 +9,7 @@
 <%--@elvariable id="product" type="com.tsystems.javaschool.milkroad.dto.ProductDTO"--%>
 
 <div class="container">
-    <jsp:include page="categories.jsp"/>
+    <jsp:include page="catalog-menu.jsp"/>
     <c:choose>
         <c:when test="${not empty product}">
             <jsp:include page="product.jsp"/>
