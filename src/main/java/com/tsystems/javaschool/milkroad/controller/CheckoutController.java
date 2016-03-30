@@ -5,7 +5,6 @@ import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -35,11 +34,9 @@ public class CheckoutController {
     public String createOrder(
             @ModelAttribute @Valid final OrderDTO orderDTO,
             final BindingResult bindingResult,
-            //@RequestParam final Long addressID,
             final HttpServletRequest request) {
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
-            orderDTO.setCustomer(AuthUtil.getAuthedUser(request.getSession()));
             orderDTO.setTotalPrice((BigDecimal) request.getSession().getAttribute("cartTotal"));
             //noinspection unchecked
             final Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) request.getSession().getAttribute("cart");

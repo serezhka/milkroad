@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%--@elvariable id="products" type="java.util.List<com.tsystems.javaschool.milkroad.dto.ProductDTO>"--%>
 
@@ -22,9 +23,20 @@
             <c:url value="/cart" var="cartURL">
                 <c:param name="article" value="${product.article}"/>
             </c:url>
-            <a href="javascript:;" class="product-add" onclick="addProductToCart(${product.article});">
-                <p class="product-price"><i> </i>${product.price}</p>
-            </a>
+            <c:set value="" var="clickAction"/>
+            <sec:authorize access="hasAnyAuthority('ADMIN', 'SELLER')">
+                <c:url value="/management/editProduct" var="productEditURL">
+                    <c:param name="article" value="${product.article}"/>
+                </c:url>
+                <a href="${productEditURL}" class="product-add">
+                    <p class="product-price"><i> </i>${product.price}</p>
+                </a>
+            </sec:authorize>
+            <sec:authorize access="hasAnyAuthority('ANONYMOUS', 'CUSTOMER')">
+                <a href="javascript:;" class="product-add" onclick="addProductToCart(${product.article});">
+                    <p class="product-price"><i> </i>${product.price}</p>
+                </a>
+            </sec:authorize>
         </div>
     </c:forEach>
 </div>

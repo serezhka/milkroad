@@ -7,6 +7,18 @@
 
     <display-name>Milkroad</display-name>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            WEB-INF/spring-mvc.xml,
+            WEB-INF/spring-security.xml
+        </param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>spring</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -18,6 +30,15 @@
     </servlet-mapping>
 
     <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!--<filter>
         <filter-name>AccessFilter</filter-name>
         <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.AccessFilter</filter-class>
     </filter>
@@ -28,9 +49,9 @@
         <url-pattern>/profile</url-pattern>
         <url-pattern>/checkout</url-pattern>
         <url-pattern>/management/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
-    <!-- TODO -->
+
     <!--<filter>
         <filter-name>FormDataFilter</filter-name>
         <filter-class>com.tsystems.javaschool.milkroad.servlet.filter.FormDataFilter</filter-class>
@@ -39,10 +60,6 @@
         <filter-name>FormDataFilter</filter-name>
         <servlet-name>spring</servlet-name>
     </filter-mapping>-->
-
-    <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-    </listener>
 
     <!--<servlet>
         <servlet-name>LoginServlet</servlet-name>

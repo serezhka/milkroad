@@ -7,7 +7,6 @@ import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import javafx.util.Pair;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -231,7 +230,7 @@ public class ManagementController {
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.isEmpty()) {
             try {
-                productDTO.setSeller(AuthUtil.getAuthedUser(session));
+                //productDTO.setSeller(AuthUtil.getAuthedUser(session));
                 final Long article = catalogService.createProduct(productDTO).getArticle();
                 if (!image.isEmpty()) {
                     saveProductImage(image, article, errors);

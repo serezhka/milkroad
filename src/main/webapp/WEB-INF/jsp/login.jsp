@@ -15,7 +15,9 @@
         <div class="account-pass">
             <div class="col-md-8 account-top">
                 <form action="${pageContext.request.contextPath}/login" method="post">
-                    <input type="hidden" name="formName" value="loginForm"/>
+                    <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+                        <span class="error">${SPRING_SECURITY_LAST_EXCEPTION.message}</span>
+                    </c:if>
                     <div>
                         <span>Email</span>
                         <c:if test="${not empty errors && errors.containsKey('email')}">
@@ -31,6 +33,7 @@
                         <%-- TODO encrypt? --%>
                         <input name="pass" type="password">
                     </div>
+                    <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
                     <input type="submit" value="Login">
                 </form>
             </div>

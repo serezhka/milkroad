@@ -1,5 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%--@elvariable id="product" type="com.tsystems.javaschool.milkroad.dto.ProductDTO"--%>
 
@@ -20,6 +21,15 @@
             </c:forEach>
             <li><span>Remain count</span><span>: ${product.count}</span></li>
         </ul>
-        <a href="javascript:;" class="product-add-cart" onclick="addProductToCart(${product.article});">ADD TO CART</a>
+        <sec:authorize access="hasAnyAuthority('ADMIN', 'SELLER')">
+            <c:url value="/management/editProduct" var="productEditURL">
+                <c:param name="article" value="${product.article}"/>
+            </c:url>
+            <a href="${productEditURL}" class="product-add-cart">EDIT</a>
+        </sec:authorize>
+        <sec:authorize access="hasAnyAuthority('ANONYMOUS', 'CUSTOMER')">
+            <a href="javascript:;" class="product-add-cart" onclick="addProductToCart(${product.article});">ADD TO
+                CART</a>
+        </sec:authorize>
     </div>
 </div>

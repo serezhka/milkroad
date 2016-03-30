@@ -1,0 +1,33 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <http auto-config='true'>
+        <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/profile/addAddress" access="hasAuthority('CUSTOMER')"/>
+        <intercept-url pattern="/profile/editAddress" access="hasAuthority('CUSTOMER')"/>
+        <intercept-url pattern="/management/**" access="hasAnyAuthority('ADMIN', 'SELLER')"/>
+        <intercept-url pattern="/checkout" access="hasAuthority('CUSTOMER')"/>
+        <intercept-url pattern="/cart/**" access="hasAnyAuthority('ANONYMOUS', 'CUSTOMER')"/>
+        <form-login login-page="/login" username-parameter="email" password-parameter="pass"
+                    authentication-success-handler-ref="customAuthenticationHandler"/>
+        <logout logout-success-url="/logoutSuccess"/>
+        <access-denied-handler error-page="/accessDenied"/>
+        <anonymous username="guest" granted-authority="ANONYMOUS"/>
+        <csrf disabled="true"/>
+    </http>
+
+    <context:component-scan base-package="com.tsystems.javaschool.milkroad.service.security"/>
+
+    <authentication-manager>
+        <authentication-provider ref="customAuthenticationProvider"/>
+    </authentication-manager>
+
+</beans:beans>

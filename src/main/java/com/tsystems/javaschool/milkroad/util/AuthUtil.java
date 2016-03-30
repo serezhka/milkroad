@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by Sergey on 22.02.2016.
  */
+@Deprecated
 public class AuthUtil {
     public static final String AUTHED_USER = "AUTHED_USER";
 

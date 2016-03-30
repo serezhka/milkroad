@@ -8,8 +8,8 @@ import com.tsystems.javaschool.milkroad.service.AddressService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,10 +38,11 @@ public class ProfileController {
     public String profilePage(final HttpServletRequest request) {
         try {
             //noinspection ConstantConditions
-            final UserDTO user = userService.getUserByEmail(AuthUtil.getAuthedUser(request.getSession()).getEmail());
-            final List<OrderDTO> orders = orderService.getOrdersByUser(AuthUtil.getAuthedUser(request.getSession()));
-            request.setAttribute("user", user);
-            request.setAttribute("orders", orders);
+            final String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            final UserDTO userDTO = userService.getUserByEmail(email);
+            final List<OrderDTO> orderDTOs = orderService.getOrdersByUser(userDTO);
+            request.setAttribute("user", userDTO);
+            request.setAttribute("orders", orderDTOs);
         } catch (final MilkroadServiceException e) {
             request.setAttribute("message", "DB error! Please, try later");
             return "single-message";
@@ -58,13 +59,13 @@ public class ProfileController {
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
             //noinspection ConstantConditions
-            userDTO.setId(AuthUtil.getAuthedUser(request.getSession()).getId());
+            final String email = SecurityContextHolder.getContext().getAuthentication().getName();
             try {
+                userDTO.setId(userService.getUserByEmail(email).getId());
                 userDTO = userService.updateUserInfo(userDTO);
                 if (!pass.isEmpty()) {
-                    userDTO = userService.updateUserPass(userDTO, pass);
+                    userService.updateUserPass(userDTO, pass);
                 }
-                AuthUtil.authUser(request.getSession(), userDTO);
                 return "redirect:/profile";
             } catch (final MilkroadServiceException e) {
                 request.setAttribute("message", "DB error! Please, try later");
@@ -102,7 +103,8 @@ public class ProfileController {
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
             try {
-                final UserDTO userDTO = AuthUtil.getAuthedUser(request.getSession());
+                final String email = SecurityContextHolder.getContext().getAuthentication().getName();
+                final UserDTO userDTO = userService.getUserByEmail(email);
                 addressService.addAddressToUser(userDTO, addressDTO);
                 return "redirect:/profile";
             } catch (final MilkroadServiceException e) {

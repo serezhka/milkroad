@@ -6,9 +6,12 @@
 <jsp:include page="header-top.jsp"/>
 <jsp:include page="header-nav.jsp"/>
 
+<%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
 <%--@elvariable id="product" type="com.tsystems.javaschool.milkroad.dto.ProductDTO"--%>
 <%--@elvariable id="categories" type="java.util.List<com.tsystems.javaschool.milkroad.dto.CategoryDTO>"--%>
 <%--@elvariable id="attributes" type="java.util.List<com.tsystems.javaschool.milkroad.dto.AttributeDTO>"--%>
+
+<c:set var="user" value="${AUTHED_USER}"/>
 
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
@@ -19,8 +22,9 @@
     <form id="product-data-form" action="${action}" method="post"
           enctype="multipart/form-data">
         <div class="col-md-6 product-edit-info-div">
-            <h3>Product info</h3>
+            <input name="seller.id" type="hidden" value="${user.id}">
             <input name="article" type="hidden" value="${product.article}">
+            <h3>Product info</h3>
             <div>
                 <span>Name</span>
                 <span class="error" id="name_error"></span>

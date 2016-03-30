@@ -30,7 +30,7 @@ public class ControllerUtils {
      * @return errors map
      */
     public static Map<String, String> getErrors(final BindingResult bindingResult) {
-        // TODO implement multi map, cos' fields can have more multiple errors
+        // TODO implement multi map, cos' fields can have multiple errors
         final Map<String, String> errors = new HashMap<>();
         // TODO Crutch ??
         for (final FieldError error : bindingResult.getFieldErrors()) {

@@ -13,6 +13,7 @@ public interface UserService {
 
     UserDTO getUserByEmail(final String email) throws MilkroadServiceException;
 
+    @Deprecated
     UserDTO getUserByEmailAndPass(final String email, final String pass) throws MilkroadServiceException;
 
     UserDTO addNewUser(final UserDTO userDTO, final String pass) throws MilkroadServiceException;

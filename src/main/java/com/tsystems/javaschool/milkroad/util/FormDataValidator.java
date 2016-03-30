@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 /**
  * Form data validation methods
- * <p/>
+ * <p>
  * Created by Sergey on 23.02.2016.
  */
 public class FormDataValidator {

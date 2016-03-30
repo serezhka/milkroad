@@ -4,7 +4,6 @@ import com.tsystems.javaschool.milkroad.controller.util.ControllerUtils;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import com.tsystems.javaschool.milkroad.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,11 +26,7 @@ public class RegisterController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String registerPage(final HttpServletRequest request) {
-        if (!AuthUtil.isUserAuthed(request.getSession())) {
-            return "register";
-        }
-        request.setAttribute("message", "Logout first");
-        return "single-message";
+        return "register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

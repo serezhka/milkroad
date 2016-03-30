@@ -34,6 +34,7 @@
             </div>
             <div class="col-md-9 checkout-order-details">
                 <form id="checkout_form" action="${pageContext.request.contextPath}/checkout" method="post">
+                    <input type="hidden" name="customer.id" value="${user.id}">
                     <div>
                         <h3 class="milkroad-h3">Payment method</h3>
                         <label class="radio-inline">

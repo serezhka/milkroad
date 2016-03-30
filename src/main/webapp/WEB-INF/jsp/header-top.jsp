@@ -1,10 +1,12 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <%--@elvariable id="AUTHED_USER" type="com.tsystems.javaschool.milkroad.dto.UserDTO"--%>
 <%--@elvariable id="cartTotal" type="java.math.BigDecimal"--%>
 
 <c:set var="user" value="${AUTHED_USER}"/>
+<sec:authorize access="isAuthenticated()" var="isAuthed"/>
 
 <%-- Top header (search, login, logout, cart) --%>
 <div class="header">
@@ -21,7 +23,7 @@
             <div class="header-left">
                 <ul>
                     <c:choose>
-                        <c:when test="${not empty user}">
+                        <c:when test="${isAuthed}">
                             <li><a href="${pageContext.request.contextPath}/profile">Hi, ${user.firstName}</a>
                             </li>
                             <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
@@ -31,9 +33,19 @@
                             <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
                         </c:otherwise>
                     </c:choose>
+                    <%--<c:choose>
+                        <c:when test="${not empty user}">
+                            <li><a href="${pageContext.request.contextPath}/profile">Hi, ${user.firstName}</a>
+                            </li>
+                            <li><a href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="${pageContext.request.contextPath}/login">Login</a></li>
+                            <li><a href="${pageContext.request.contextPath}/register">Register</a></li>
+                        </c:otherwise>
+                    </c:choose>--%>
                 </ul>
-                <%-- TODO Compare user type without string constants --%>
-                <c:if test="${empty user or (not empty user and (user.userType eq 'CUSTOMER'))}">
+                <sec:authorize access="hasAnyAuthority('CUSTOMER', 'ANONYMOUS')">
                     <div class="cart">
                         <a href="${pageContext.request.contextPath}/cart">
                             <div class="total">
@@ -51,7 +63,27 @@
                             <img src="<c:url value="/images/cart.png"/>" alt=""/>
                         </a>
                     </div>
-                </c:if>
+                </sec:authorize>
+                <%-- TODO Compare user type without string constants --%>
+                <%--<c:if test="${empty user or (not empty user and (user.userType eq 'CUSTOMER'))}">
+                    <div class="cart">
+                        <a href="${pageContext.request.contextPath}/cart">
+                            <div class="total">
+                            <span class="header_cart_total">
+                                <c:choose>
+                                    <c:when test="${not empty cartTotal}">
+                                        <c:out value="$${cartTotal}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:out value="$0.00"/>
+                                    </c:otherwise>
+                                </c:choose>
+                            </span>
+                            </div>
+                            <img src="<c:url value="/images/cart.png"/>" alt=""/>
+                        </a>
+                    </div>
+                </c:if>--%>
                 <div class="clearfix"></div>
             </div>
             <div class="clearfix"></div>

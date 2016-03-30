@@ -124,67 +124,6 @@
                     </table>
                 </div>
             </div>
-            <%-- <div class="col-md-6 profile-addresses">
-                 <h3>Addresses</h3>
-                 <table class="table">
-                     <tbody>
-                     <c:forEach items="${user.addresses}" var="address">
-                         <tr>
-                             <td>${address}</td>
-                         </tr>
-                     </c:forEach>
-                     </tbody>
-                 </table>
-             </div>
-             <div class="col-md-6 profile-add-address">
-                 <h3>Add address</h3>
-                 <form action="${pageContext.request.contextPath}/profile" method="post">
-                     <input type="hidden" name="formName" value="addAddressForm"/>
-                     <div>
-                         <span>Country</span>
-                         <c:if test="${errors.contains('COUNTRY_ERROR')}">
-                             <span class="error">Incorrect country name</span>
-                         </c:if>
-                         <input name="country" type="text" value="${input.get('country')}">
-                     </div>
-                     <div>
-                         <span>City</span>
-                         <c:if test="${errors.contains('CITY_ERROR')}">
-                             <span class="error">Incorrect city name</span>
-                         </c:if>
-                         <input name="city" type="text" value="${input.get('city')}">
-                     </div>
-                     <div>
-                         <span>Postcode</span>
-                         <c:if test="${errors.contains('POSTCODE_ERROR')}">
-                             <span class="error">Incorrect poscode</span>
-                         </c:if>
-                         <input name="postcode" type="text" value="${input.get('postcode')}">
-                     </div>
-                     <div>
-                         <span>Street</span>
-                         <c:if test="${errors.contains('STREET_ERROR')}">
-                             <span class="error">Incorrect street name</span>
-                         </c:if>
-                         <input name="street" type="text" value="${input.get('street')}">
-                     </div>
-                     <div>
-                         <span>Building</span>
-                         <c:if test="${errors.contains('BUILDING_ERROR')}">
-                             <span class="error">Incorrect building value</span>
-                         </c:if>
-                         <input name="building" type="text" value="${input.get('building')}">
-                     </div>
-                     <div>
-                         <span>Apartment</span>
-                         <c:if test="${errors.contains('APARTMENT_ERROR')}">
-                             <span class="error">Incorrect apartment value</span>
-                         </c:if>
-                         <input name="apartment" type="text" value="${input.get('apartment')}">
-                     </div>
-                     <input type="submit" value="Add">
-                 </form>
-             </div>--%>
             <div class="col-md-12 profile-orders">
                 <h3>Orders</h3>
                 <div class="table-responsive">
