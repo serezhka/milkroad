@@ -20,8 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sergey on 03.03.2016.
@@ -45,7 +46,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     @Transactional
-    public List<Pair<ProductDTO, Integer>> getTopProducts(final int count) throws MilkroadServiceException {
+    public Map<ProductDTO, Integer> getTopProducts(final int count) throws MilkroadServiceException {
         final List<Pair<ProductEntity, Integer>> topProductEntities;
         try {
             topProductEntities = productDAO.getTopProducts(count);
@@ -53,16 +54,16 @@ public class StatisticsServiceImpl implements StatisticsService {
             LOGGER.error("Error while loading top products");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
-        final List<Pair<ProductDTO, Integer>> topProductDTOs = new ArrayList<>();
+        final Map<ProductDTO, Integer> topProductDTOs = new HashMap<>();
         for (final Pair<ProductEntity, Integer> topProductEntity : topProductEntities) {
-            topProductDTOs.add(new Pair<>(EntityDTOConverter.productDTO(topProductEntity.getKey()), topProductEntity.getValue()));
+            topProductDTOs.put(EntityDTOConverter.productDTO(topProductEntity.getKey()), topProductEntity.getValue());
         }
         return topProductDTOs;
     }
 
     @Override
     @Transactional
-    public List<Pair<UserDTO, BigDecimal>> getTopCustomers(final int count) throws MilkroadServiceException {
+    public Map<UserDTO, BigDecimal> getTopCustomers(final int count) throws MilkroadServiceException {
         final List<Pair<UserEntity, BigDecimal>> topCustomersEntities;
         try {
             topCustomersEntities = userDAO.getTopCustomers(count);
@@ -70,9 +71,9 @@ public class StatisticsServiceImpl implements StatisticsService {
             LOGGER.error("Error while loading top customers");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
-        final List<Pair<UserDTO, BigDecimal>> topCustomerDTOs = new ArrayList<>();
+        final Map<UserDTO, BigDecimal> topCustomerDTOs = new HashMap<>();
         for (final Pair<UserEntity, BigDecimal> topCustomersEntity : topCustomersEntities) {
-            topCustomerDTOs.add(new Pair<>(EntityDTOConverter.userDTO(topCustomersEntity.getKey()), topCustomersEntity.getValue()));
+            topCustomerDTOs.put(EntityDTOConverter.userDTO(topCustomersEntity.getKey()), topCustomersEntity.getValue());
         }
         return topCustomerDTOs;
     }

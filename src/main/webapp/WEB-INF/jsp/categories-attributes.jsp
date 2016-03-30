@@ -16,6 +16,7 @@
         <h3 class="milkroad-h3">Categories</h3>
         <span class="error" id="category_name_error"></span>
         <span class="error" id="category_description_error"></span>
+        <span class="error" id="category_milkroad_error"></span>
         <div class="table-responsive">
             <table class="table" border=3>
                 <thead>
@@ -54,6 +55,7 @@
         <h3 class="milkroad-h3">Attributes</h3>
         <span class="error" id="attribute_name_error"></span>
         <span class="error" id="attribute_description_error"></span>
+        <span class="error" id="attribute_milkroad_error"></span>
         <div class="table-responsive">
             <table class="table" border=3>
                 <thead>

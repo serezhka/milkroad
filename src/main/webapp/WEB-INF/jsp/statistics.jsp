@@ -7,8 +7,8 @@
 <jsp:include page="header-top.jsp"/>
 <jsp:include page="header-nav.jsp"/>
 
-<%--@elvariable id="products" type="java.util.List<javafx.util.Pair<com.tsystems.javaschool.milkroad.dto.ProductDTO, java.lang.Integer>>"--%>
-<%--@elvariable id="users" type="java.util.List<javafx.util.Pair<com.tsystems.javaschool.milkroad.dto.UserDTO, java.math.BigDecimal>>"--%>
+<%--@elvariable id="products" type="java.util.Map<com.tsystems.javaschool.milkroad.dto.ProductDTO, java.lang.Integer>"--%>
+<%--@elvariable id="users" type="java.util.Map<com.tsystems.javaschool.milkroad.dto.UserDTO, java.math.BigDecimal>"--%>
 <%--@elvariable id="totalCash" type="java.math.BigDecimal"--%>
 <%--@elvariable id="totalCashThisMonth" type="java.math.BigDecimal"--%>
 <%--@elvariable id="totalCashLast7Days" type="java.math.BigDecimal"--%>

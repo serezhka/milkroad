@@ -19,16 +19,17 @@ import java.util.Map;
  * Created by Sergey on 14.03.2016.
  */
 @Controller
+@RequestMapping("/cart")
 public class CartController {
     @Autowired
     private CatalogService catalogService;
 
-    @RequestMapping(value = "/cart", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public String cartPage() {
         return "cart";
     }
 
-    @RequestMapping(value = "/cart/addProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
     public String addProduct(
             @ModelAttribute("cart") final Map<ProductDTO, Integer> cart,
             @ModelAttribute("cartTotal") final BigDecimal cartTotal,
@@ -53,7 +54,7 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    @RequestMapping(value = "/cart/removeProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/removeProduct", method = RequestMethod.POST)
     public String removeProduct(
             @ModelAttribute("cart") final Map<ProductDTO, Integer> cart,
             @ModelAttribute("cartTotal") final BigDecimal cartTotal,
@@ -77,7 +78,7 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    @RequestMapping(value = "/cart/removeProductOnce", method = RequestMethod.POST)
+    @RequestMapping(value = "/removeProductOnce", method = RequestMethod.POST)
     public String removeProductOnce(
             @ModelAttribute("cart") final Map<ProductDTO, Integer> cart,
             @ModelAttribute("cartTotal") final BigDecimal cartTotal,

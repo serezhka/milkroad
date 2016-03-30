@@ -7,7 +7,6 @@ import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import javafx.util.Pair;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +34,7 @@ import java.util.Map;
  * Created by Sergey on 12.03.2016.
  */
 @Controller
+@RequestMapping("/management")
 public class ManagementController {
     @Autowired
     private OrderService orderService;
@@ -55,7 +55,7 @@ public class ManagementController {
         binder.setValidator(categoryInitValidator);
     }*/
 
-    @RequestMapping(value = "/management/editOrders", method = RequestMethod.GET)
+    @RequestMapping(value = "/editOrders", method = RequestMethod.GET)
     public ModelAndView editOrdersPage() {
         final List<OrderDTO> orders;
         try {
@@ -66,7 +66,7 @@ public class ManagementController {
         return new ModelAndView("orderlist").addObject("orders", orders);
     }
 
-    @RequestMapping(value = "/management/editCategories", method = RequestMethod.GET)
+    @RequestMapping(value = "/editCategories", method = RequestMethod.GET)
     public ModelAndView editCategoriesPage() {
         final List<CategoryDTO> categories;
         final List<AttributeDTO> attributes;
@@ -81,7 +81,7 @@ public class ManagementController {
                 .addObject("attributes", attributes);
     }
 
-    @RequestMapping(value = "/management/editProducts", method = RequestMethod.GET)
+    @RequestMapping(value = "/editProducts", method = RequestMethod.GET)
     public ModelAndView editProductsPage() {
         final List<ProductDTO> products;
         try {
@@ -93,7 +93,7 @@ public class ManagementController {
                 .addObject("products", products);
     }
 
-    @RequestMapping(value = "/management/editProduct", params = {"article"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/editProduct", params = {"article"}, method = RequestMethod.GET)
     public ModelAndView editProductPage(@RequestParam final Long article) {
         final ProductDTO product;
         final List<CategoryDTO> categories;
@@ -111,7 +111,7 @@ public class ManagementController {
                 .addObject("attributes", attributes);
     }
 
-    @RequestMapping(value = "/management/addProduct", method = RequestMethod.GET)
+    @RequestMapping(value = "/addProduct", method = RequestMethod.GET)
     public ModelAndView addProductPage() {
         final List<CategoryDTO> categories;
         final List<AttributeDTO> attributes;
@@ -126,10 +126,10 @@ public class ManagementController {
                 .addObject("attributes", attributes);
     }
 
-    @RequestMapping(value = "/management/statistics", method = RequestMethod.GET)
+    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
     public ModelAndView statisticsPage() {
-        final List<Pair<ProductDTO, Integer>> products;
-        final List<Pair<UserDTO, BigDecimal>> users;
+        final Map<ProductDTO, Integer> products;
+        final Map<UserDTO, BigDecimal> users;
         final BigDecimal totalCash;
         final BigDecimal totalCashThisMonth;
         final BigDecimal totalCashLast7Days;
@@ -155,7 +155,7 @@ public class ManagementController {
                 .addObject("totalCashLast7Days", totalCashLast7Days);
     }
 
-    @RequestMapping(value = "/management/updateOrder", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateOrder", method = RequestMethod.POST)
     public ModelAndView updateOrder(
             @ModelAttribute @Valid final OrderDTO orderDTO,
             final BindingResult bindingResult) {
@@ -168,7 +168,7 @@ public class ManagementController {
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
     }
 
-    @RequestMapping(value = "/management/updateCategory", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateCategory", method = RequestMethod.POST)
     public ModelAndView updateCategory(
             @ModelAttribute @Valid final CategoryDTO categoryDTO,
             final BindingResult bindingResult) {
@@ -181,7 +181,7 @@ public class ManagementController {
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
     }
 
-    @RequestMapping(value = "/management/updateAttribute", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateAttribute", method = RequestMethod.POST)
     public ModelAndView updateAttribute(
             @ModelAttribute @Valid final AttributeDTO attributeDTO,
             final BindingResult bindingResult) {
@@ -194,7 +194,7 @@ public class ManagementController {
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
     }
 
-    @RequestMapping(value = "/management/createCategory", method = RequestMethod.POST)
+    @RequestMapping(value = "/createCategory", method = RequestMethod.POST)
     public ModelAndView createCategory(
             @ModelAttribute @Valid final CategoryDTO categoryDTO,
             final BindingResult bindingResult) {
@@ -207,7 +207,7 @@ public class ManagementController {
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
     }
 
-    @RequestMapping(value = "/management/createAttribute", method = RequestMethod.POST)
+    @RequestMapping(value = "/createAttribute", method = RequestMethod.POST)
     public ModelAndView createAttribute(
             @ModelAttribute @Valid final AttributeDTO attributeDTO,
             final BindingResult bindingResult) {
@@ -220,7 +220,7 @@ public class ManagementController {
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
     }
 
-    @RequestMapping(value = "/management/createProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/createProduct", method = RequestMethod.POST)
     public ModelAndView createProduct(
             @ModelAttribute @Valid final ProductDTO productDTO,
             final BindingResult bindingResult,
@@ -242,7 +242,7 @@ public class ManagementController {
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
     }
 
-    @RequestMapping(value = "/management/updateProduct", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
     public ModelAndView updateProduct(
             @ModelAttribute @Valid final ProductDTO productDTO,
             final BindingResult bindingResult,

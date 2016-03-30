@@ -22,6 +22,12 @@
     <bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
           p:validationMessageSource-ref="messageSource"/> <!-- TODO Doesn't work! -->
 
+   <!-- <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"
+          p:messageConverters-ref="jsonMessageConverter"/>
+
+    <bean id="jsonMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>-->
+
     <context:annotation-config/>
     <context:component-scan base-package="com.tsystems.javaschool.milkroad.controller"/>
 

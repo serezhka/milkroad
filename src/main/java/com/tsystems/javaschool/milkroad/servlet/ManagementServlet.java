@@ -9,7 +9,6 @@ import com.tsystems.javaschool.milkroad.model.ShippingStatusEnum;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
-import javafx.util.Pair;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,10 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Sergey on 29.02.2016.
@@ -90,8 +86,8 @@ public class ManagementServlet extends HttpServlet {
                 case "viewStatistics": {
                     try {
                         final StatisticsService statisticsService = MilkroadAppContext.getInstance().getStatisticsService();
-                        final List<Pair<ProductDTO, Integer>> products = statisticsService.getTopProducts(10);
-                        final List<Pair<UserDTO, BigDecimal>> users = statisticsService.getTopCustomers(10);
+                        final Map<ProductDTO, Integer> products = statisticsService.getTopProducts(10);
+                        final Map<UserDTO, BigDecimal> users = statisticsService.getTopCustomers(10);
                         final BigDecimal totalCash = statisticsService.getTotalCash();
                         final Calendar calendar = Calendar.getInstance();
                         final long currentDay = calendar.getTime().getTime();

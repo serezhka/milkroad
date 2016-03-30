@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Map;
 
@@ -20,16 +19,17 @@ import java.util.Map;
  * Created by Sergey on 12.03.2016.
  */
 @Controller
+@RequestMapping("/register")
 public class RegisterController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String registerPage(final HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET)
+    public String registerPage() {
         return "register";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ModelAndView processRegister(
             @ModelAttribute @Valid final UserDTO userDTO,
             final BindingResult bindingResult,

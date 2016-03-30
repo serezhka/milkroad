@@ -21,16 +21,17 @@ import java.util.Map;
  * Created by Sergey on 15.03.2016.
  */
 @Controller
+@RequestMapping("/checkout")
 public class CheckoutController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/checkout", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String checkoutPage() {
         return "checkout";
     }
 
-    @RequestMapping(value = "/checkout", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String createOrder(
             @ModelAttribute @Valid final OrderDTO orderDTO,
             final BindingResult bindingResult,

@@ -26,6 +26,7 @@ import java.util.Map;
  * Created by Sergey on 12.03.2016.
  */
 @Controller
+@RequestMapping("/profile")
 public class ProfileController {
     @Autowired
     private OrderService orderService;
@@ -34,7 +35,7 @@ public class ProfileController {
     @Autowired
     private AddressService addressService;
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String profilePage(final HttpServletRequest request) {
         try {
             //noinspection ConstantConditions
@@ -50,7 +51,7 @@ public class ProfileController {
         return "profile";
     }
 
-    @RequestMapping(value = "/profile/edit", method = RequestMethod.POST)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String editProfile(
             @ModelAttribute @Valid UserDTO userDTO,
             final BindingResult bindingResult,
@@ -76,7 +77,7 @@ public class ProfileController {
         return profilePage(request);
     }
 
-    @RequestMapping(value = "/profile/editAddress", method = RequestMethod.POST)
+    @RequestMapping(value = "/editAddress", method = RequestMethod.POST)
     public String editAddress(
             @ModelAttribute @Valid final AddressDTO addressDTO,
             final BindingResult bindingResult,
@@ -95,7 +96,7 @@ public class ProfileController {
         return profilePage(request);
     }
 
-    @RequestMapping(value = "/profile/addAddress", method = RequestMethod.POST)
+    @RequestMapping(value = "/addAddress", method = RequestMethod.POST)
     public String addAddress(
             @ModelAttribute @Valid final AddressDTO addressDTO,
             final BindingResult bindingResult,

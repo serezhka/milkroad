@@ -25,6 +25,7 @@ import java.util.Map;
  * Created by Sergey on 14.03.2016.
  */
 @Controller
+@RequestMapping("/catalog")
 public class CatalogController {
     @Autowired
     private CatalogService catalogService;
@@ -70,7 +71,7 @@ public class CatalogController {
         return "catalog";
     }*/
 
-    @RequestMapping(value = "/catalog", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String catalogByFilter(
             @ModelAttribute final FilterForm filterForm,
             final BindingResult bindingResult,
@@ -131,7 +132,7 @@ public class CatalogController {
         return "catalog";
     }
 
-    @RequestMapping(value = "/catalog", params = "search", method = RequestMethod.GET)
+    @RequestMapping(params = "search", method = RequestMethod.GET)
     public String catalogBySearch(
             @RequestParam final String search,
             final HttpServletRequest request) {
@@ -152,7 +153,7 @@ public class CatalogController {
         return "catalog";
     }
 
-    @RequestMapping(value = "/catalog", params = "article", method = RequestMethod.GET)
+    @RequestMapping(params = "article", method = RequestMethod.GET)
     public String catalogByArticle(
             @RequestParam final Long article,
             final HttpServletRequest request) {
