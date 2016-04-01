@@ -139,18 +139,18 @@ public class UserServiceTest extends AbstractServiceTest {
     @Test
     public void testUpdateUserInfoPositive() throws Exception {
         final UserEntity userEntity = userEntities.get(random.nextInt(userEntities.size()));
-        Mockito.when(mockUserDAO.getByEmail(userEntity.getEmail()))
+        Mockito.when(mockUserDAO.getByID(userEntity.getId()))
                 .thenReturn(userEntity);
         Assert.assertEquals(EntityDTOConverter.userDTO(userEntity),
                 mockedUserService.updateUserInfo(EntityDTOConverter.userDTO(userEntity)));
-        Mockito.verify(mockUserDAO, Mockito.times(1)).getByEmail(userEntity.getEmail());
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(userEntity.getId());
         Mockito.verify(mockUserDAO, Mockito.times(1)).merge(Mockito.any(UserEntity.class));
     }
 
     @Test
     public void testUpdateUserInfoNegative() throws Exception {
         final UserEntity userEntity = userEntities.get(random.nextInt(userEntities.size()));
-        Mockito.when(mockUserDAO.getByEmail(Mockito.anyString()))
+        Mockito.when(mockUserDAO.getByID(userEntity.getId()))
                 .thenReturn(null);
         try {
             mockedUserService.updateUserInfo(EntityDTOConverter.userDTO(userEntity));
@@ -158,7 +158,7 @@ public class UserServiceTest extends AbstractServiceTest {
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.USER_NOT_EXISTS, e.getType());
         }
-        Mockito.verify(mockUserDAO, Mockito.times(1)).getByEmail(userEntity.getEmail());
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(userEntity.getId());
         Mockito.verify(mockUserDAO, Mockito.times(0)).persist(Mockito.any(UserEntity.class));
     }
 
@@ -167,10 +167,10 @@ public class UserServiceTest extends AbstractServiceTest {
         final UserEntity userEntity = userEntities.get(random.nextInt(userEntities.size()));
         final UserDTO userDTO = EntityDTOConverter.userDTO(userEntity);
         final String newPass = userEntity.getLastName(); // Let new pass equals last name
-        Mockito.when(mockUserDAO.getByEmail(userEntity.getEmail()))
+        Mockito.when(mockUserDAO.getByID(userEntity.getId()))
                 .thenReturn(userEntity);
         Assert.assertEquals(userDTO, mockedUserService.updateUserPass(userDTO, newPass));
-        Mockito.verify(mockUserDAO, Mockito.times(1)).getByEmail(userEntity.getEmail());
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(userEntity.getId());
         Mockito.verify(mockUserDAO, Mockito.times(1)).merge(Mockito.any(UserEntity.class));
     }
 
@@ -178,7 +178,7 @@ public class UserServiceTest extends AbstractServiceTest {
     public void testUpdateUserPassNegative() throws Exception {
         final UserEntity userEntity = userEntities.get(random.nextInt(userEntities.size()));
         final String newPass = userEntity.getLastName(); // Let new pass equals last name
-        Mockito.when(mockUserDAO.getByEmail(userEntity.getEmail()))
+        Mockito.when(mockUserDAO.getByID(userEntity.getId()))
                 .thenReturn(null);
         try {
             mockedUserService.updateUserPass(EntityDTOConverter.userDTO(userEntity), newPass);
@@ -186,7 +186,7 @@ public class UserServiceTest extends AbstractServiceTest {
         } catch (final MilkroadServiceException e) {
             Assert.assertEquals(MilkroadServiceException.Type.USER_NOT_EXISTS, e.getType());
         }
-        Mockito.verify(mockUserDAO, Mockito.times(1)).getByEmail(userEntity.getEmail());
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(userEntity.getId());
         Mockito.verify(mockUserDAO, Mockito.times(0)).persist(Mockito.any(UserEntity.class));
     }
 }

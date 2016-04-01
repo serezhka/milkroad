@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  * <p>
  * Created by Sergey on 23.02.2016.
  */
+@Deprecated
 public class FormDataValidator {
     private static final String EMAIL_PATTERN =
             "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -108,7 +109,7 @@ public class FormDataValidator {
     }
 
     /**
-     * Chacks if enumString is one of T enum values
+     * Checks if enumString is one of T enum values
      *
      * @param clazz      enum class
      * @param enumString enum value to validate

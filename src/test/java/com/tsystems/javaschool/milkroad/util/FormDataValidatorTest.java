@@ -19,7 +19,6 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateEmail() {
-        LOGGER.info("Test testValidateEmail BEGIN");
         Assert.assertFalse(FormDataValidator.validateEmail(null));
         Assert.assertFalse(FormDataValidator.validateEmail(""));
         Assert.assertFalse(FormDataValidator.validateEmail(" "));
@@ -34,7 +33,6 @@ public class FormDataValidatorTest {
         Assert.assertTrue(FormDataValidator.validateEmail("me@example.com"));
         Assert.assertTrue(FormDataValidator.validateEmail("a.nonymous@example.com"));
         Assert.assertTrue(FormDataValidator.validateEmail("name+tag@example.com"));
-        LOGGER.info("Test testValidateEmail END");
     }
 
     /**
@@ -44,13 +42,11 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateName() {
-        LOGGER.info("Test testValidateName BEGIN");
         Assert.assertTrue(FormDataValidator.validateName("Sergey"));
         Assert.assertTrue(FormDataValidator.validateName("Sergey_93"));
         Assert.assertFalse(FormDataValidator.validateName(null));
         Assert.assertFalse(FormDataValidator.validateName(""));
         Assert.assertFalse(FormDataValidator.validateName("VeryLongStringBiggerThan45CharactersVeryLongStringBiggerThan45Characters"));
-        LOGGER.info("Test testValidateName END");
     }
 
     /**
@@ -60,13 +56,11 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidatePass() {
-        LOGGER.info("Test testValidatePass BEGIN");
         Assert.assertTrue(FormDataValidator.validateName("Pass"));
         Assert.assertTrue(FormDataValidator.validateName("Pass_!!"));
         Assert.assertFalse(FormDataValidator.validateName(null));
         Assert.assertFalse(FormDataValidator.validateName(""));
         Assert.assertFalse(FormDataValidator.validateName("VeryLongStringBiggerThan45CharactersVeryLongStringBiggerThan45Characters"));
-        LOGGER.info("Test testValidatePass END");
     }
 
     /**
@@ -76,7 +70,6 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateDate() throws Exception {
-        LOGGER.info("Test testValidateDate BEGIN");
         Assert.assertTrue(FormDataValidator.validateDate("2000-12-12"));
         Assert.assertTrue(FormDataValidator.validateDate("2000-12-1"));
         Assert.assertTrue(FormDataValidator.validateDate("2000-1-12"));
@@ -86,7 +79,6 @@ public class FormDataValidatorTest {
         Assert.assertFalse(FormDataValidator.validateDate("1"));
         Assert.assertFalse(FormDataValidator.validateDate("1-1-1"));
         Assert.assertFalse(FormDataValidator.validateDate("2000-13-13"));
-        LOGGER.info("Test testValidateDate END");
     }
 
     /**
@@ -96,7 +88,6 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateInteger() throws Exception {
-        LOGGER.info("Test testValidateInteger BEGIN");
         Assert.assertTrue(FormDataValidator.validateInteger("0"));
         Assert.assertTrue(FormDataValidator.validateInteger("-1"));
         Assert.assertTrue(FormDataValidator.validateInteger("" + Integer.MIN_VALUE));
@@ -106,7 +97,6 @@ public class FormDataValidatorTest {
         Assert.assertFalse(FormDataValidator.validateInteger("integer"));
         Assert.assertFalse(FormDataValidator.validateInteger("" + Long.MIN_VALUE));
         Assert.assertFalse(FormDataValidator.validateInteger("" + Long.MAX_VALUE));
-        LOGGER.info("Test testValidateInteger END");
     }
 
     /**
@@ -116,7 +106,6 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateLong() throws Exception {
-        LOGGER.info("Test testValidateLong BEGIN");
         Assert.assertTrue(FormDataValidator.validateLong("0"));
         Assert.assertTrue(FormDataValidator.validateLong("-1"));
         Assert.assertTrue(FormDataValidator.validateLong("" + Long.MIN_VALUE));
@@ -125,7 +114,6 @@ public class FormDataValidatorTest {
         Assert.assertFalse(FormDataValidator.validateLong(""));
         Assert.assertFalse(FormDataValidator.validateLong("long"));
         Assert.assertFalse(FormDataValidator.validateLong("1" + Long.MAX_VALUE));
-        LOGGER.info("Test testValidateLong END");
     }
 
     /**
@@ -135,14 +123,12 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateBigDecimal() throws Exception {
-        LOGGER.info("Test testValidateBigDecimal BEGIN");
         Assert.assertTrue(FormDataValidator.validateBigDecimal("0"));
         Assert.assertTrue(FormDataValidator.validateBigDecimal("-1"));
         Assert.assertTrue(FormDataValidator.validateBigDecimal("" + BigDecimal.TEN.toPlainString()));
         Assert.assertFalse(FormDataValidator.validateBigDecimal(null));
         Assert.assertFalse(FormDataValidator.validateBigDecimal(""));
         Assert.assertFalse(FormDataValidator.validateBigDecimal("BigDecimal"));
-        LOGGER.info("Test testValidateBigDecimal END");
     }
 
     /**
@@ -152,7 +138,6 @@ public class FormDataValidatorTest {
      */
     @Test
     public void testValidateEnum() throws Exception {
-        LOGGER.info("Test testValidateEnum BEGIN");
         Assert.assertTrue(FormDataValidator.validateEnum(TestEnum.class, TestEnum.E1.name()));
         Assert.assertTrue(FormDataValidator.validateEnum(TestEnum.class, TestEnum.e2.name()));
         Assert.assertTrue(FormDataValidator.validateEnum(TestEnum.class, TestEnum.E_3.name()));
@@ -164,7 +149,6 @@ public class FormDataValidatorTest {
         Assert.assertFalse(FormDataValidator.validateEnum(TestEnum.class, "0"));
         Assert.assertFalse(FormDataValidator.validateEnum(TestEnum.class, "e1"));
         Assert.assertFalse(FormDataValidator.validateEnum(TestEnum.class, "e_4"));
-        LOGGER.info("Test testValidateEnum END");
     }
 
     private enum TestEnum {

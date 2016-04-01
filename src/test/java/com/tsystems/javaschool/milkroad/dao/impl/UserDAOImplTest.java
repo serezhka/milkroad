@@ -6,10 +6,7 @@ import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 import javax.persistence.EntityManager;
 import java.sql.Date;
@@ -18,6 +15,7 @@ import java.util.List;
 /**
  * Created by Sergey on 11.02.2016.
  */
+@Ignore(value = "Development stage DAO test using deprecated features")
 public class UserDAOImplTest {
     private static final Logger LOGGER = Logger.getLogger(UserDAOImplTest.class);
 

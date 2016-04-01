@@ -42,66 +42,56 @@ public class AuthUtilTest {
             }
         };
         user1 = new UserDTO();
-        user1.setEmail("user1@mail.ru");
+        user1.setId(1L);
         user1.setUserType(UserTypeEnum.ADMIN);
         user2 = new UserDTO();
-        user2.setEmail("user2@mail.ru");
+        user2.setId(2L);
         user2.setUserType(UserTypeEnum.SELLER);
         user3 = new UserDTO();
-        user3.setEmail("user2@mail.ru");
+        user3.setId(3L);
         user3.setUserType(UserTypeEnum.SELLER); // UserDTOs with same fields are equals
         user4 = new UserDTO();
-        user4.setEmail("user4@mail.ru");
+        user4.setId(4L);
         user4.setUserType(UserTypeEnum.CUSTOMER);
     }
 
     @Test
     public void testAuthUser() throws Exception {
-        LOGGER.info("Test testAuthUser BEGIN");
         AuthUtil.authUser(httpSession, user1);
         Assert.assertTrue(AuthUtil.isUserAuthed(httpSession));
         AuthUtil.authUser(httpSession, null);
         Assert.assertFalse(AuthUtil.isUserAuthed(httpSession));
-        LOGGER.info("Test testAuthUser END");
     }
 
     @Test
     public void testGetAuthedUser() throws Exception {
-        LOGGER.info("Test testGetAuthedUser BEGIN");
         AuthUtil.authUser(httpSession, user2);
         Assert.assertNotNull(AuthUtil.getAuthedUser(httpSession));
         Assert.assertEquals(user2, AuthUtil.getAuthedUser(httpSession));
         Assert.assertNotEquals(user4, AuthUtil.getAuthedUser(httpSession));
-        LOGGER.info("Test testGetAuthedUser END");
     }
 
     @Test
     public void testGetAuthedUserType() throws Exception {
-        LOGGER.info("Test testGetAuthedUserType BEGIN");
         AuthUtil.authUser(httpSession, user3);
         Assert.assertNotNull(AuthUtil.getAuthedUserType(httpSession));
         Assert.assertEquals(user3.getUserType(), AuthUtil.getAuthedUserType(httpSession));
         Assert.assertNotEquals(user4.getUserType(), AuthUtil.getAuthedUserType(httpSession));
-        LOGGER.info("Test testGetAuthedUserType END");
     }
 
     @Test
     public void testDeauthUser() throws Exception {
-        LOGGER.info("Test testDeauthUser BEGIN");
         AuthUtil.authUser(httpSession, user4);
         AuthUtil.deauthUser(httpSession);
         Assert.assertFalse(AuthUtil.isUserAuthed(httpSession));
         Assert.assertNull(AuthUtil.getAuthedUser(httpSession));
-        LOGGER.info("Test testDeauthUser END");
     }
 
     @Test
     public void testDeauthedUserType() throws Exception {
-        LOGGER.info("Test testDeauthedUserType BEGIN");
         AuthUtil.authUser(httpSession, user1);
         AuthUtil.deauthUser(httpSession);
         Assert.assertNull(AuthUtil.getAuthedUserType(httpSession));
-        LOGGER.info("Test testDeauthedUserType END");
     }
 
     private class HttpSessionAdapter implements HttpSession {

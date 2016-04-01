@@ -6,6 +6,7 @@ import com.tsystems.javaschool.milkroad.dao.ProductDAO;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.model.*;
+import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
 import org.junit.Assert;
 import org.junit.Before;
@@ -77,5 +78,37 @@ public class OrderServiceTest extends AbstractServiceTest {
         Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(orderDTO.getCustomer().getId());
         Mockito.verify(mockAddressDAO, Mockito.times(1)).getByID(orderDTO.getAddress().getId());
         Mockito.verify(mockOrderDAO, Mockito.times(1)).persist(orderEntity);
+    }
+
+    @Test
+    public void testCreateOrderNegative1() throws Exception {
+        final OrderEntity orderEntity = orderEntities.get(0);
+        final OrderDTO orderDTO = EntityDTOConverter.orderDTO(orderEntity);
+        Mockito.when(mockUserDAO.getByID(orderDTO.getCustomer().getId())).thenReturn(null);
+        Mockito.when(mockAddressDAO.getByID(orderDTO.getAddress().getId())).thenReturn(orderEntity.getAddress());
+        try {
+            mockedOrderService.createOrder(orderDTO);
+            Assert.fail("Failed to assert: No exception thrown");
+        } catch (final MilkroadServiceException e) {
+            Assert.assertEquals(MilkroadServiceException.Type.USER_NOT_EXISTS, e.getType());
+        }
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(orderEntity.getAddress().getId());
+        Mockito.verify(mockAddressDAO, Mockito.times(0)).getByID(Mockito.anyLong());
+    }
+
+    @Test
+    public void testCreateOrderNegative2() throws Exception {
+        final OrderEntity orderEntity = orderEntities.get(0);
+        final OrderDTO orderDTO = EntityDTOConverter.orderDTO(orderEntity);
+        Mockito.when(mockUserDAO.getByID(orderDTO.getCustomer().getId())).thenReturn(orderEntity.getCustomer());
+        Mockito.when(mockAddressDAO.getByID(orderDTO.getAddress().getId())).thenReturn(null);
+        try {
+            mockedOrderService.createOrder(orderDTO);
+            Assert.fail("Failed to assert: No exception thrown");
+        } catch (final MilkroadServiceException e) {
+            Assert.assertEquals(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS, e.getType());
+        }
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(orderEntity.getAddress().getId());
+        Mockito.verify(mockAddressDAO, Mockito.times(1)).getByID(orderEntity.getAddress().getId());
     }
 }

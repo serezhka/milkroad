@@ -12,7 +12,6 @@ import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
 import com.tsystems.javaschool.milkroad.util.EntityDTOConverter;
-import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,7 +45,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     @Transactional
     public Map<ProductDTO, Integer> getTopProducts(final int count) throws MilkroadServiceException {
-        final List<Pair<ProductEntity, Integer>> topProductEntities;
+        final Map<ProductEntity, Integer> topProductEntities;
         try {
             topProductEntities = productDAO.getTopProducts(count);
         } catch (final MilkroadDAOException e) {
@@ -55,8 +53,9 @@ public class StatisticsServiceImpl implements StatisticsService {
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
         final Map<ProductDTO, Integer> topProductDTOs = new LinkedHashMap<>();
-        for (final Pair<ProductEntity, Integer> topProductEntity : topProductEntities) {
-            topProductDTOs.put(EntityDTOConverter.productDTO(topProductEntity.getKey()), topProductEntity.getValue());
+        for (final Map.Entry<ProductEntity, Integer> productEntityIntegerEntry : topProductEntities.entrySet()) {
+            topProductDTOs.put(EntityDTOConverter.productDTO(productEntityIntegerEntry.getKey()),
+                    productEntityIntegerEntry.getValue());
         }
         return topProductDTOs;
     }
@@ -64,7 +63,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     @Override
     @Transactional
     public Map<UserDTO, BigDecimal> getTopCustomers(final int count) throws MilkroadServiceException {
-        final List<Pair<UserEntity, BigDecimal>> topCustomersEntities;
+        final Map<UserEntity, BigDecimal> topCustomersEntities;
         try {
             topCustomersEntities = userDAO.getTopCustomers(count);
         } catch (final MilkroadDAOException e) {
@@ -72,8 +71,9 @@ public class StatisticsServiceImpl implements StatisticsService {
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
         final Map<UserDTO, BigDecimal> topCustomerDTOs = new LinkedHashMap<>();
-        for (final Pair<UserEntity, BigDecimal> topCustomersEntity : topCustomersEntities) {
-            topCustomerDTOs.put(EntityDTOConverter.userDTO(topCustomersEntity.getKey()), topCustomersEntity.getValue());
+        for (final Map.Entry<UserEntity, BigDecimal> userEntityBigDecimalEntry : topCustomersEntities.entrySet()) {
+            topCustomerDTOs.put(EntityDTOConverter.userDTO(userEntityBigDecimalEntry.getKey()),
+                    userEntityBigDecimalEntry.getValue());
         }
         return topCustomerDTOs;
     }

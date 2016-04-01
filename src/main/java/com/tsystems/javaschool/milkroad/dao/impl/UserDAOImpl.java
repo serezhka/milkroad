@@ -3,7 +3,6 @@ package com.tsystems.javaschool.milkroad.dao.impl;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
-import javafx.util.Pair;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
@@ -11,9 +10,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sergey on 10.02.2016.
@@ -44,20 +44,20 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
     }
 
     @Override
-    public List<Pair<UserEntity, BigDecimal>> getTopCustomers(final int count) throws MilkroadDAOException {
+    public Map<UserEntity, BigDecimal> getTopCustomers(final int count) throws MilkroadDAOException {
         try {
             final EntityManager entityManager = getEntityManager();
             final TypedQuery<Object[]> entityTypedQuery =
                     entityManager.createNamedQuery("OrderEntity.getTopCustomers", Object[].class);
-            final List<Pair<UserEntity, BigDecimal>> topCustomers = new ArrayList<>();
+            final Map<UserEntity, BigDecimal> topCustomers = new LinkedHashMap<>();
             final List<Object[]> result = entityTypedQuery.setMaxResults(count).getResultList();
             for (final Object[] object : result) {
-                topCustomers.add(new Pair<>((UserEntity) object[0], (BigDecimal) object[1]));
+                topCustomers.put((UserEntity) object[0], (BigDecimal) object[1]);
             }
             return topCustomers;
         } catch (final NoResultException e) {
             LOGGER.warn("No users found");
-            return Collections.emptyList();
+            return Collections.emptyMap();
         } catch (final Exception e1) {
             LOGGER.error("Error on find top customers " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
