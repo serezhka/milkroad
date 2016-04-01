@@ -1,11 +1,12 @@
 package com.tsystems.javaschool.milkroad.controller.rest.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Created by Sergey on 31.03.2016.
  */
-public class IncomeDTO {
+public class IncomeDTO implements Serializable {
     private BigDecimal totalCash;
     private BigDecimal totalCashThisMonth;
     private BigDecimal totalCashLast7Days;

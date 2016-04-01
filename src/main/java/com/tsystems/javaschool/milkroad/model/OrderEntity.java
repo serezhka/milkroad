@@ -16,9 +16,9 @@ import java.util.List;
                 query = "SELECT o.customer, sum(o.priceTotal) FROM OrderEntity o " +
                         "GROUP BY o.customer ORDER BY sum(o.priceTotal) DESC"),
         @NamedQuery(name = "OrderEntity.getTotalCash",
-                query = "SELECT sum(o.priceTotal) FROM OrderEntity o"),
+                query = "SELECT COALESCE(sum(o.priceTotal), 0) FROM OrderEntity o"),
         @NamedQuery(name = "OrderEntity.getTotalCashByPeriod",
-                query = "SELECT sum(o.priceTotal) FROM OrderEntity o " +
+                query = "SELECT COALESCE(sum(o.priceTotal), 0) FROM OrderEntity o " +
                         "WHERE o.date >= :from AND o.date <= :to")
 })
 public class OrderEntity {

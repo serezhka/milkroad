@@ -15,29 +15,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Sergey on 30.03.2016.
  */
 @RestController
-@RequestMapping("/rest")
+@RequestMapping(value = "/rest", produces = "application/json")
 public class StatisticsRestController {
     @Autowired
     private StatisticsService statisticsService;
 
     @RequestMapping("/topCustomers")
-    public ResponseEntity<Set<TopCustomerDTO>> topCustomerDTOs() {
+    public ResponseEntity<List<TopCustomerDTO>> topCustomerDTOs() {
         final Map<UserDTO, BigDecimal> topCustomers;
         try {
             topCustomers = statisticsService.getTopCustomers(10);
         } catch (final MilkroadServiceException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        final Set<TopCustomerDTO> topCustomerDTOs = new HashSet<>();
+        final List<TopCustomerDTO> topCustomerDTOs = new ArrayList<>();
         for (final UserDTO userDTO : topCustomers.keySet()) {
             topCustomerDTOs.add(new TopCustomerDTO(userDTO, topCustomers.get(userDTO)));
         }
@@ -45,14 +42,14 @@ public class StatisticsRestController {
     }
 
     @RequestMapping("/topProducts")
-    public ResponseEntity<Set<TopProductDTO>> topProductDTOs() {
+    public ResponseEntity<List<TopProductDTO>> topProductDTOs() {
         final Map<ProductDTO, Integer> topProducts;
         try {
             topProducts = statisticsService.getTopProducts(10);
         } catch (final MilkroadServiceException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        final Set<TopProductDTO> topProductDTOs = new HashSet<>();
+        final List<TopProductDTO> topProductDTOs = new ArrayList<>();
         for (final ProductDTO productDTO : topProducts.keySet()) {
             topProductDTOs.add(new TopProductDTO(productDTO, topProducts.get(productDTO)));
         }

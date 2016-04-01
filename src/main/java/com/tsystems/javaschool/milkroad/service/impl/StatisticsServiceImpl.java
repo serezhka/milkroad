@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +54,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             LOGGER.error("Error while loading top products");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
-        final Map<ProductDTO, Integer> topProductDTOs = new HashMap<>();
+        final Map<ProductDTO, Integer> topProductDTOs = new LinkedHashMap<>();
         for (final Pair<ProductEntity, Integer> topProductEntity : topProductEntities) {
             topProductDTOs.put(EntityDTOConverter.productDTO(topProductEntity.getKey()), topProductEntity.getValue());
         }
@@ -71,7 +71,7 @@ public class StatisticsServiceImpl implements StatisticsService {
             LOGGER.error("Error while loading top customers");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
         }
-        final Map<UserDTO, BigDecimal> topCustomerDTOs = new HashMap<>();
+        final Map<UserDTO, BigDecimal> topCustomerDTOs = new LinkedHashMap<>();
         for (final Pair<UserEntity, BigDecimal> topCustomersEntity : topCustomersEntities) {
             topCustomerDTOs.put(EntityDTOConverter.userDTO(topCustomersEntity.getKey()), topCustomersEntity.getValue());
         }
