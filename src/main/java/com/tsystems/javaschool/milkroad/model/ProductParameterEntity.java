@@ -74,4 +74,13 @@ public class ProductParameterEntity {
         if (!attribute.equals(that.attribute)) return false;
         return attributeValue.equals(that.attributeValue);
     }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (product != null ? product.hashCode() : 0);
+        result = 31 * result + (attribute != null ? attribute.hashCode() : 0);
+        result = 31 * result + (attributeValue != null ? attributeValue.hashCode() : 0);
+        return result;
+    }
 }

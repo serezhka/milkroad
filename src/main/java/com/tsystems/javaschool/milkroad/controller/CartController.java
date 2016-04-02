@@ -3,6 +3,7 @@ package com.tsystems.javaschool.milkroad.controller;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,8 +22,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
+    private static final Logger LOGGER = Logger.getLogger(CartController.class);
+
     @Autowired
     private CatalogService catalogService;
+
+    @Autowired
+    private String dbErrorMessage;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String cartPage() {
@@ -40,11 +46,11 @@ public class CartController {
             productDTO = catalogService.getProductByArticle(article);
             cart.put(productDTO, cart.getOrDefault(productDTO, 0) + 1);
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         // TODO Session attribute ?!
-        request.getSession().setAttribute("cart", cart);
+        request.getSession().setAttribute("cart", new HashMap<>(cart));
         BigDecimal total = BigDecimal.ZERO;
         for (final ProductDTO product : cart.keySet()) {
             total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
@@ -65,11 +71,11 @@ public class CartController {
             productDTO = catalogService.getProductByArticle(article);
             cart.remove(productDTO);
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         // TODO Session attribute ?!
-        request.getSession().setAttribute("cart", cart);
+        request.getSession().setAttribute("cart", new HashMap<>(cart));
         BigDecimal total = BigDecimal.ZERO;
         for (final ProductDTO product : cart.keySet()) {
             total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
@@ -94,11 +100,11 @@ public class CartController {
                 cart.put(productDTO, cart.get(productDTO) - 1);
             }
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         // TODO Session attribute ?!
-        request.getSession().setAttribute("cart", cart);
+        request.getSession().setAttribute("cart", new HashMap<>(cart));
         BigDecimal total = BigDecimal.ZERO;
         for (final ProductDTO product : cart.keySet()) {
             total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
@@ -119,5 +125,10 @@ public class CartController {
         final Object cartTotal = request.getSession().getAttribute("cartTotal");
         //noinspection unchecked
         return (cartTotal == null) ? null : (BigDecimal) cartTotal;
+    }
+
+    private String dbErrorPage(final HttpServletRequest request) {
+        request.setAttribute("message", dbErrorMessage);
+        return "single-message";
     }
 }

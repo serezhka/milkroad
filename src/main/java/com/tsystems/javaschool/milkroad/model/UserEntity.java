@@ -175,4 +175,20 @@ public class UserEntity {
             return false;
         return passSalt != null ? passSalt.equals(that.passSalt) : that.passSalt == null;
     }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (userType != null ? userType.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (passHash != null ? passHash.hashCode() : 0);
+        result = 31 * result + (passSalt != null ? passSalt.hashCode() : 0);
+        result = 31 * result + (adresses != null ? adresses.hashCode() : 0);
+        result = 31 * result + (products != null ? products.hashCode() : 0);
+        result = 31 * result + (orders != null ? orders.hashCode() : 0);
+        return result;
+    }
 }

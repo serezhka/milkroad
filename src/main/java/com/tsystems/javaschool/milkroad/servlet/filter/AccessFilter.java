@@ -13,6 +13,7 @@ import static com.tsystems.javaschool.milkroad.model.UserTypeEnum.*;
 /**
  * Created by Sergey on 23.02.2016.
  */
+@Deprecated
 public class AccessFilter implements Filter {
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {

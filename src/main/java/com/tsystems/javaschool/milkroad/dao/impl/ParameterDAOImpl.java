@@ -32,9 +32,11 @@ public class ParameterDAOImpl extends DAOImpl<ProductParameterEntity, Long> impl
             entityTypedQuery.setParameter("productID", productID);
             return entityTypedQuery.getResultList();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No parameters with product id = " + productID);
             return Collections.emptyList();
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find parameters by product id = " + productID + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
@@ -50,9 +52,11 @@ public class ParameterDAOImpl extends DAOImpl<ProductParameterEntity, Long> impl
             entityTypedQuery.setParameter("attrID", attrID);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No parameter with product id = " + productID + " and attr id = " + attrID);
             return null;
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find parameter by product id = " + productID + " and attr id = " + attrID + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }

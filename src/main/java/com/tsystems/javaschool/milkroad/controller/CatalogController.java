@@ -8,6 +8,7 @@ import com.tsystems.javaschool.milkroad.dto.ParameterDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,49 +28,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/catalog")
 public class CatalogController {
+    private static final Logger LOGGER = Logger.getLogger(CatalogController.class);
+
     @Autowired
     private CatalogService catalogService;
 
-    /*@RequestMapping(value = "/catalog", method = RequestMethod.GET)
-    public String catalogAll(final HttpServletRequest request) {
-        final List<CategoryDTO> categories;
-        final List<AttributeDTO> attributes;
-        final List<ProductDTO> products;
-        try {
-            categories = catalogService.getAllCategories();
-            attributes = catalogService.getAllAttributes();
-            products = catalogService.getAllProducts();
-            request.setAttribute("categories", categories);
-            request.setAttribute("attributes", attributes);
-            request.setAttribute("products", products);
-        } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
-        }
-        return "catalog";
-    }*/
-
-    /*@RequestMapping(value = "/catalog", params = "category", method = RequestMethod.GET)
-    public String catalogByCategory(
-            @RequestParam final String category,
-            final HttpServletRequest request) {
-        final List<CategoryDTO> categories;
-        final List<AttributeDTO> attributes;
-        final List<ProductDTO> products;
-        try {
-            categories = catalogService.getAllCategories();
-            attributes = catalogService.getAllAttributes();
-            products = catalogService.getAllProductsByCategory(category);
-            request.setAttribute("category", category);
-            request.setAttribute("categories", categories);
-            request.setAttribute("attributes", attributes);
-            request.setAttribute("products", products);
-        } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
-        }
-        return "catalog";
-    }*/
+    @Autowired
+    private String dbErrorMessage;
 
     @RequestMapping(method = RequestMethod.GET)
     public String catalogByFilter(
@@ -126,8 +91,8 @@ public class CatalogController {
             request.setAttribute("attributes", attributes);
             request.setAttribute("errors", errors);
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         return "catalog";
     }
@@ -147,8 +112,8 @@ public class CatalogController {
             request.setAttribute("attributes", attributes);
             request.setAttribute("products", products);
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         return "catalog";
     }
@@ -168,9 +133,14 @@ public class CatalogController {
             request.setAttribute("attributes", attributes);
             request.setAttribute("product", product);
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         return "catalog";
+    }
+
+    private String dbErrorPage(final HttpServletRequest request) {
+        request.setAttribute("message", dbErrorMessage);
+        return "single-message";
     }
 }

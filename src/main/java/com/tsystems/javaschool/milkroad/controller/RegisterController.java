@@ -4,6 +4,7 @@ import com.tsystems.javaschool.milkroad.controller.util.ControllerUtils;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -21,8 +22,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/register")
 public class RegisterController {
+    private static final Logger LOGGER = Logger.getLogger(RegisterController.class);
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private String dbErrorMessage;
 
     @RequestMapping(method = RequestMethod.GET)
     public String registerPage() {
@@ -41,9 +47,11 @@ public class RegisterController {
                 return new ModelAndView("single-message").addObject("message", "Registration successful");
             } catch (final MilkroadServiceException e) {
                 if (e.getType() == MilkroadServiceException.Type.USER_EMAIL_ALREADY_EXISTS) {
+                    LOGGER.info(e);
                     errors.put("email", "Email is already used");
                 } else {
-                    return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+                    LOGGER.error(e);
+                    return new ModelAndView("single-message").addObject("message", dbErrorMessage);
                 }
             }
         }

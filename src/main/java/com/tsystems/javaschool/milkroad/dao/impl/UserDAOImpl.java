@@ -35,9 +35,11 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
             entityTypedQuery.setParameter("email", email);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No users found with email " + email);
             return null;
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find user by email = " + email + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
@@ -56,9 +58,11 @@ public class UserDAOImpl extends DAOImpl<UserEntity, Long> implements UserDAO<Us
             }
             return topCustomers;
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No users found");
             return Collections.emptyMap();
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find top customers " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }

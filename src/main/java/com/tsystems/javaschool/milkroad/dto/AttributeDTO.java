@@ -1,11 +1,12 @@
 package com.tsystems.javaschool.milkroad.dto;
 
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created by Sergey on 01.03.2016.
  */
-public class AttributeDTO {
+public class AttributeDTO implements Serializable {
     private Long id;
     private String name;
     private String description;
@@ -51,5 +52,13 @@ public class AttributeDTO {
         if (!(o instanceof AttributeDTO)) return false;
         final AttributeDTO that = (AttributeDTO) o;
         return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 }

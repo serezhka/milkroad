@@ -8,6 +8,7 @@ import com.tsystems.javaschool.milkroad.service.AddressService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,12 +29,17 @@ import java.util.Map;
 @Controller
 @RequestMapping("/profile")
 public class ProfileController {
+    private static final Logger LOGGER = Logger.getLogger(ProfileController.class);
+
     @Autowired
     private OrderService orderService;
     @Autowired
     private UserService userService;
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private String dbErrorMessage;
 
     @RequestMapping(method = RequestMethod.GET)
     public String profilePage(final HttpServletRequest request) {
@@ -45,8 +51,8 @@ public class ProfileController {
             request.setAttribute("user", userDTO);
             request.setAttribute("orders", orderDTOs);
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error! Please, try later");
-            return "single-message";
+            LOGGER.error(e);
+            return dbErrorPage(request);
         }
         return "profile";
     }
@@ -69,8 +75,8 @@ public class ProfileController {
                 }
                 return "redirect:/profile";
             } catch (final MilkroadServiceException e) {
-                request.setAttribute("message", "DB error! Please, try later");
-                return "single-message";
+                LOGGER.error(e);
+                return dbErrorPage(request);
             }
         }
         request.setAttribute("errors", errors);
@@ -88,8 +94,8 @@ public class ProfileController {
                 addressService.updateAddress(addressDTO);
                 return "redirect:/profile";
             } catch (final MilkroadServiceException e) {
-                request.setAttribute("message", "DB error! Please, try later");
-                return "single-message";
+                LOGGER.error(e);
+                return dbErrorPage(request);
             }
         }
         request.setAttribute("errors", errors);
@@ -109,11 +115,16 @@ public class ProfileController {
                 addressService.addAddressToUser(userDTO, addressDTO);
                 return "redirect:/profile";
             } catch (final MilkroadServiceException e) {
-                request.setAttribute("message", "DB error! Please, try later");
-                return "single-message";
+                LOGGER.error(e);
+                return dbErrorPage(request);
             }
         }
         request.setAttribute("errors", errors);
         return profilePage(request);
+    }
+
+    private String dbErrorPage(final HttpServletRequest request) {
+        request.setAttribute("message", dbErrorMessage);
+        return "single-message";
     }
 }

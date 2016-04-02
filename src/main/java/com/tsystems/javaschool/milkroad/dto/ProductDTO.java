@@ -3,6 +3,7 @@ package com.tsystems.javaschool.milkroad.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by Sergey on 14.02.2016.
  */
-public class ProductDTO {
+public class ProductDTO implements Serializable {
     private Long article;
     private UserDTO seller;
     private String name;
@@ -121,6 +122,14 @@ public class ProductDTO {
 
     @Override
     public int hashCode() {
-        return article != null ? article.hashCode() : 0;
+        int result = article != null ? article.hashCode() : 0;
+        result = 31 * result + (seller != null ? seller.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        result = 31 * result + (count != null ? count.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (parameters != null ? parameters.hashCode() : 0);
+        return result;
     }
 }

@@ -7,6 +7,7 @@ import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Sergey on 30.03.2016.
@@ -23,6 +27,8 @@ import java.util.*;
 @RestController
 @RequestMapping(value = "/rest", produces = "application/json")
 public class StatisticsRestController {
+    private final static Logger LOGGER = Logger.getLogger(StatisticsRestController.class);
+
     @Autowired
     private StatisticsService statisticsService;
 
@@ -32,6 +38,7 @@ public class StatisticsRestController {
         try {
             topCustomers = statisticsService.getTopCustomers(10);
         } catch (final MilkroadServiceException e) {
+            LOGGER.error(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         final List<TopCustomerDTO> topCustomerDTOs = new ArrayList<>();
@@ -47,6 +54,7 @@ public class StatisticsRestController {
         try {
             topProducts = statisticsService.getTopProducts(10);
         } catch (final MilkroadServiceException e) {
+            LOGGER.error(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         final List<TopProductDTO> topProductDTOs = new ArrayList<>();
@@ -72,6 +80,7 @@ public class StatisticsRestController {
             totalCashThisMonth = statisticsService.getTotalCashByPeriod(new Date(monthFirstDay), new Date(currentDay));
             totalCashLast7Days = statisticsService.getTotalCashByPeriod(new Date(sevenDaysAgo), new Date(currentDay));
         } catch (final MilkroadServiceException e) {
+            LOGGER.error(e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new IncomeDTO(totalCash, totalCashThisMonth, totalCashLast7Days), HttpStatus.OK);

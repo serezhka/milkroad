@@ -31,9 +31,11 @@ public class OrderDAOImpl extends DAOImpl<OrderEntity, Long> implements OrderDAO
                     entityManager.createNamedQuery("OrderEntity.getTotalCash", BigDecimal.class);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No total cash");
             return null;
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on get total cash " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
@@ -49,9 +51,11 @@ public class OrderDAOImpl extends DAOImpl<OrderEntity, Long> implements OrderDAO
             entityTypedQuery.setParameter("to", to);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No total cash by period from " + from + " to " + to);
             return null;
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on get total cash by period from " + from + " to " + to + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }

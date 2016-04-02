@@ -1,8 +1,9 @@
-package com.tsystems.javaschool.milkroad.service.security;
+package com.tsystems.javaschool.milkroad.controller.security;
 
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.UserService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -18,10 +19,14 @@ import java.io.IOException;
  */
 @Component
 public class CustomAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+    private static final Logger LOGGER = Logger.getLogger(CustomAuthenticationHandler.class);
     private static final String AUTHED_USER = "AUTHED_USER";
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private String dbErrorMessage;
 
     public CustomAuthenticationHandler() {
     }
@@ -36,7 +41,8 @@ public class CustomAuthenticationHandler extends SavedRequestAwareAuthentication
         try {
             userDTO = userService.getUserByEmail(authentication.getName());
         } catch (final MilkroadServiceException e) {
-            request.setAttribute("message", "DB error");
+            LOGGER.error(e);
+            request.setAttribute("message", dbErrorMessage);
             getRedirectStrategy().sendRedirect(request, response, "/error");
             return;
         }

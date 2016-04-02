@@ -1,11 +1,12 @@
 package com.tsystems.javaschool.milkroad.dto;
 
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created by Sergey on 14.02.2016.
  */
-public class AddressDTO {
+public class AddressDTO implements Serializable {
     private Long id;
     private String country;
     private String city;
@@ -94,6 +95,18 @@ public class AddressDTO {
         if (!(o instanceof AddressDTO)) return false;
         final AddressDTO that = (AddressDTO) o;
         return id != null ? id.equals(that.id) : that.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (building != null ? building.hashCode() : 0);
+        result = 31 * result + (apartment != null ? apartment.hashCode() : 0);
+        return result;
     }
 
     @Override

@@ -38,6 +38,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         try {
             getEntityManager().persist(entity);
         } catch (final Exception e) {
+            LOGGER.error(e);
             LOGGER.error("Error on persist entity " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e, MilkroadDAOException.Type.PERSIST_ERROR);
         }
@@ -47,6 +48,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         try {
             getEntityManager().merge(entity);
         } catch (final Exception e) {
+            LOGGER.error(e);
             LOGGER.error("Error on merge entity " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e, MilkroadDAOException.Type.MERGE_ERROR);
         }
@@ -56,6 +58,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         try {
             getEntityManager().remove(entity);
         } catch (final Exception e) {
+            LOGGER.error(e);
             LOGGER.error("Error on remove entity " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e, MilkroadDAOException.Type.REMOVE_ERROR);
         }
@@ -65,6 +68,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         try {
             return getEntityManager().find(entityClass, id);
         } catch (final Exception e) {
+            LOGGER.error(e);
             LOGGER.error("Error on load entity " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e, MilkroadDAOException.Type.FIND_ERROR);
         }
@@ -76,6 +80,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
             //noinspection unchecked
             entities = getEntityManager().createQuery("SELECT o FROM " + entityClass.getSimpleName() + " o").getResultList();
         } catch (final Exception e) {
+            LOGGER.error(e);
             LOGGER.error("Error on load entities " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e, MilkroadDAOException.Type.FIND_ERROR);
         }

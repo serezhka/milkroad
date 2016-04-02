@@ -32,9 +32,11 @@ public class AddressDAOImpl extends DAOImpl<AddressEntity, Long> implements Addr
             entityTypedQuery.setParameter("email", email);
             return entityTypedQuery.getResultList();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No addresses with user email = " + email);
             return Collections.emptyList();
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find address by user email = " + email + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }

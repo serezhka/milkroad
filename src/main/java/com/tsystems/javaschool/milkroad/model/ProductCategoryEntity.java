@@ -80,4 +80,13 @@ public class ProductCategoryEntity {
         if (description != null ? !description.equals(that.description) : that.description != null) return false;
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (categoryName != null ? categoryName.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (products != null ? products.hashCode() : 0);
+        return result;
+    }
 }

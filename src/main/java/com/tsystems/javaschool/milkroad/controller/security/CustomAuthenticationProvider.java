@@ -1,9 +1,10 @@
-package com.tsystems.javaschool.milkroad.service.security;
+package com.tsystems.javaschool.milkroad.controller.security;
 
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
 import com.tsystems.javaschool.milkroad.util.PassUtil;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -25,8 +26,13 @@ import java.util.List;
  */
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
+    private static final Logger LOGGER = Logger.getLogger(CustomAuthenticationProvider.class);
+
     @Autowired
     private UserDAO<UserEntity, Long> userDAO;
+
+    @Autowired
+    private String dbErrorMessage;
 
     @Override
     @Transactional
@@ -37,7 +43,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         try {
             userEntity = userDAO.getByEmail(email);
         } catch (final MilkroadDAOException e) {
-            throw new AuthenticationServiceException("DB error");
+            LOGGER.error(e);
+            throw new AuthenticationServiceException(dbErrorMessage);
         }
         if (userEntity == null) {
             throw new BadCredentialsException("Username not found");
@@ -47,6 +54,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                 throw new BadCredentialsException("Wrong password");
             }
         } catch (final NoSuchAlgorithmException e) {
+            LOGGER.error(e);
             throw new AuthenticationServiceException("Pass utils error");
         }
         final List<GrantedAuthority> grantedAuthorities = new ArrayList<>();

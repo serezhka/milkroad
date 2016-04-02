@@ -167,4 +167,20 @@ public class OrderEntity {
         if (note != null ? !note.equals(that.note) : that.note != null) return false;
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (priceTotal != null ? priceTotal.hashCode() : 0);
+        result = 31 * result + (paymentMethod != null ? paymentMethod.hashCode() : 0);
+        result = 31 * result + (shippingMethod != null ? shippingMethod.hashCode() : 0);
+        result = 31 * result + (paymentStatus != null ? paymentStatus.hashCode() : 0);
+        result = 31 * result + (shippingStatus != null ? shippingStatus.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (note != null ? note.hashCode() : 0);
+        result = 31 * result + (orderDetails != null ? orderDetails.hashCode() : 0);
+        return result;
+    }
 }

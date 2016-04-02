@@ -153,4 +153,17 @@ public class AddressEntity {
         if (apartment != null ? !apartment.equals(that.apartment) : that.apartment != null) return false;
         return true;
     }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (postcode != null ? postcode.hashCode() : 0);
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (building != null ? building.hashCode() : 0);
+        result = 31 * result + (apartment != null ? apartment.hashCode() : 0);
+        return result;
+    }
 }

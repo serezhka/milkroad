@@ -7,6 +7,7 @@ import com.tsystems.javaschool.milkroad.service.CatalogService;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.StatisticsService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/management")
 public class ManagementController {
+    private static final Logger LOGGER = Logger.getLogger(ManagementController.class);
+
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -45,6 +48,9 @@ public class ManagementController {
 
     @Autowired
     private ProductDTOCategoryInitValidator categoryInitValidator;
+
+    @Autowired
+    private String dbErrorMessage;
 
     @Value("#{servletContext.getRealPath('/images/product')}")
     private String productImagesPath;
@@ -61,7 +67,8 @@ public class ManagementController {
         try {
             orders = orderService.getAllOrders();
         } catch (final MilkroadServiceException e) {
-            return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+            LOGGER.error(e);
+            return dbErrorPage();
         }
         return new ModelAndView("orderlist").addObject("orders", orders);
     }
@@ -74,7 +81,8 @@ public class ManagementController {
             categories = catalogService.getAllCategories();
             attributes = catalogService.getAllAttributes();
         } catch (final MilkroadServiceException e) {
-            return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+            LOGGER.error(e);
+            return dbErrorPage();
         }
         return new ModelAndView("categories-attributes")
                 .addObject("categories", categories)
@@ -87,7 +95,8 @@ public class ManagementController {
         try {
             products = catalogService.getAllProducts();
         } catch (final MilkroadServiceException e) {
-            return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+            LOGGER.error(e);
+            return dbErrorPage();
         }
         return new ModelAndView("productlist")
                 .addObject("products", products);
@@ -103,7 +112,8 @@ public class ManagementController {
             categories = catalogService.getAllCategories();
             attributes = catalogService.getAllAttributes();
         } catch (final MilkroadServiceException e) {
-            return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+            LOGGER.error(e);
+            return dbErrorPage();
         }
         return new ModelAndView("product-edit")
                 .addObject("product", product)
@@ -119,7 +129,8 @@ public class ManagementController {
             categories = catalogService.getAllCategories();
             attributes = catalogService.getAllAttributes();
         } catch (final MilkroadServiceException e) {
-            return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+            LOGGER.error(e);
+            return dbErrorPage();
         }
         return new ModelAndView("product-edit")
                 .addObject("categories", categories)
@@ -145,7 +156,8 @@ public class ManagementController {
             totalCashThisMonth = statisticsService.getTotalCashByPeriod(new Date(monthFirstDay), new Date(currentDay));
             totalCashLast7Days = statisticsService.getTotalCashByPeriod(new Date(sevenDaysAgo), new Date(currentDay));
         } catch (final MilkroadServiceException e) {
-            return new ModelAndView("single-message").addObject("message", "DB error! Please, try later");
+            LOGGER.error(e);
+            return dbErrorPage();
         }
         return new ModelAndView("statistics")
                 .addObject("products", products)
@@ -163,6 +175,7 @@ public class ManagementController {
         try {
             if (errors.isEmpty()) orderService.updateOrder(orderDTO);
         } catch (final MilkroadServiceException e) {
+            LOGGER.warn(e);
             errors.put("milkroad", e.getType().name());
         }
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
@@ -176,6 +189,7 @@ public class ManagementController {
         try {
             if (errors.isEmpty()) catalogService.updateCategory(categoryDTO);
         } catch (final MilkroadServiceException e) {
+            LOGGER.warn(e);
             errors.put("milkroad", e.getType().name());
         }
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
@@ -189,6 +203,7 @@ public class ManagementController {
         try {
             if (errors.isEmpty()) catalogService.updateAttribute(attributeDTO);
         } catch (final MilkroadServiceException e) {
+            LOGGER.warn(e);
             errors.put("milkroad", e.getType().name());
         }
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
@@ -202,6 +217,7 @@ public class ManagementController {
         try {
             if (errors.isEmpty()) catalogService.createCategory(categoryDTO);
         } catch (final MilkroadServiceException e) {
+            LOGGER.warn(e);
             errors.put("milkroad", e.getType().name());
         }
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
@@ -215,6 +231,7 @@ public class ManagementController {
         try {
             if (errors.isEmpty()) catalogService.createAttribute(attributeDTO);
         } catch (final MilkroadServiceException e) {
+            LOGGER.warn(e);
             errors.put("milkroad", e.getType().name());
         }
         return new ModelAndView(new MappingJackson2JsonView()).addObject("errors", errors);
@@ -236,6 +253,7 @@ public class ManagementController {
                     saveProductImage(image, article, errors);
                 }
             } catch (final MilkroadServiceException e) {
+                LOGGER.warn(e);
                 errors.put("milkroad", e.getType().name());
             }
         }
@@ -256,6 +274,7 @@ public class ManagementController {
                     saveProductImage(image, article, errors);
                 }
             } catch (final MilkroadServiceException e) {
+                LOGGER.warn(e);
                 errors.put("milkroad", e.getType().name());
             }
         }
@@ -264,7 +283,7 @@ public class ManagementController {
 
     @ExceptionHandler(TypeMismatchException.class)
     public void handleIOException(final TypeMismatchException e, final HttpServletRequest request) {
-        System.out.println("debug");
+        LOGGER.error(e);
     }
 
     /**
@@ -282,7 +301,12 @@ public class ManagementController {
             final BufferedImage bufferedImage = ImageIO.read(image.getInputStream());
             ImageIO.write(bufferedImage, imageExt, imageFile);
         } catch (final IOException e) {
+            LOGGER.error(e);
             errors.put("image", "Can't load product image");
         }
+    }
+
+    private ModelAndView dbErrorPage() {
+        return new ModelAndView("single-message").addObject("message", dbErrorMessage);
     }
 }

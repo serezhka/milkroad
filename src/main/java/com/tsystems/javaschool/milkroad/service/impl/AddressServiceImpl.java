@@ -39,21 +39,15 @@ public class AddressServiceImpl implements AddressService {
         final UserEntity userEntity;
         final AddressEntity addressEntity = DTOEntityConverter.addressEntity(addressDTO);
         try {
-//            entityManager.getTransaction().begin();
             userEntity = userDAO.getByID(userDTO.getId());
             if (userEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
             }
             userEntity.addAddress(addressEntity);
             userDAO.merge(userEntity);
-//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while adding address for user with email = " + userDTO.getEmail());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }
@@ -63,8 +57,6 @@ public class AddressServiceImpl implements AddressService {
     public AddressDTO updateAddress(final AddressDTO addressDTO) throws MilkroadServiceException {
         final AddressEntity addressEntity;
         try {
-
-//            entityManager.getTransaction().begin();
             addressEntity = addressDAO.getByID(addressDTO.getId());
             if (addressEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS);
@@ -76,14 +68,9 @@ public class AddressServiceImpl implements AddressService {
             addressEntity.setBuilding(addressDTO.getBuilding());
             addressEntity.setApartment(addressDTO.getApartment());
             addressDAO.merge(addressEntity);
-//            entityManager.getTransaction().commit();
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while updating address with id = " + addressDTO.getId());
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.addressDTO(addressEntity);
     }

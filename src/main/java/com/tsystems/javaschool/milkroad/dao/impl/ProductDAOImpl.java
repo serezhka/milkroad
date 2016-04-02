@@ -34,9 +34,11 @@ public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements Prod
             entityTypedQuery.setParameter("category", category);
             return entityTypedQuery.getResultList();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No products found with category " + category);
             return Collections.emptyList();
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find products by category = " + category + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
@@ -55,9 +57,11 @@ public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements Prod
             }
             return topProducts;
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No products found");
             return Collections.emptyMap();
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find top products with count =" + count + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }
@@ -72,9 +76,11 @@ public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements Prod
             entityTypedQuery.setParameter("pattern", "%" + pattern.toLowerCase() + "%");
             return entityTypedQuery.getResultList();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No products found by pattern " + pattern);
             return Collections.emptyList();
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find products by pattern = " + pattern + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }

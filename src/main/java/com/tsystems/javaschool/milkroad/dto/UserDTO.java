@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by Sergey on 10.02.2016.
  */
-public class UserDTO {
+public class UserDTO implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
@@ -108,5 +109,17 @@ public class UserDTO {
         if (!(o instanceof UserDTO)) return false;
         final UserDTO userDTO = (UserDTO) o;
         return id != null ? id.equals(userDTO.id) : userDTO.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (userType != null ? userType.hashCode() : 0);
+        result = 31 * result + (addresses != null ? addresses.hashCode() : 0);
+        return result;
     }
 }

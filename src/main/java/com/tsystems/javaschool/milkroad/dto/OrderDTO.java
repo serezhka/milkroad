@@ -5,6 +5,7 @@ import com.tsystems.javaschool.milkroad.model.PaymentStatusEnum;
 import com.tsystems.javaschool.milkroad.model.ShippingMethodEnum;
 import com.tsystems.javaschool.milkroad.model.ShippingStatusEnum;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 /**
  * Created by Sergey on 15.02.2016.
  */
-public class OrderDTO {
+public class OrderDTO implements Serializable {
     private Long id;
     private UserDTO customer;
     private AddressDTO address;
@@ -139,7 +140,7 @@ public class OrderDTO {
         this.details.add(new Detail(product, count, totalPrice));
     }
 
-    public class Detail {
+    public class Detail implements Serializable {
         private ProductDTO product;
         private int count;
         private BigDecimal totalPrice;
@@ -184,5 +185,21 @@ public class OrderDTO {
         if (!(o instanceof OrderDTO)) return false;
         final OrderDTO orderDTO = (OrderDTO) o;
         return id != null ? id.equals(orderDTO.id) : orderDTO.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (totalPrice != null ? totalPrice.hashCode() : 0);
+        result = 31 * result + (paymentMethod != null ? paymentMethod.hashCode() : 0);
+        result = 31 * result + (paymentStatus != null ? paymentStatus.hashCode() : 0);
+        result = 31 * result + (shippingMethod != null ? shippingMethod.hashCode() : 0);
+        result = 31 * result + (shippingStatus != null ? shippingStatus.hashCode() : 0);
+        result = 31 * result + (date != null ? date.hashCode() : 0);
+        result = 31 * result + (note != null ? note.hashCode() : 0);
+        result = 31 * result + (details != null ? details.hashCode() : 0);
+        return result;
     }
 }

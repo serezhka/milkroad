@@ -30,9 +30,11 @@ public class CategoryDAOImpl extends DAOImpl<ProductCategoryEntity, Long> implem
             entityTypedQuery.setParameter("name", name);
             return entityTypedQuery.getSingleResult();
         } catch (final NoResultException e) {
+            LOGGER.warn(e);
             LOGGER.warn("No categories found with name " + name);
             return null;
         } catch (final Exception e1) {
+            LOGGER.error(e1);
             LOGGER.error("Error on find category by name = " + name + " " + entityClass.getSimpleName());
             throw new MilkroadDAOException(e1, MilkroadDAOException.Type.FIND_ERROR);
         }

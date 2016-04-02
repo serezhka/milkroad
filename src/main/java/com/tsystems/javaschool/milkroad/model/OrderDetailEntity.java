@@ -83,4 +83,14 @@ public class OrderDetailEntity {
         if (!productCount.equals(that.productCount)) return false;
         return priceTotal.equals(that.priceTotal);
     }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (product != null ? product.hashCode() : 0);
+        result = 31 * result + (productCount != null ? productCount.hashCode() : 0);
+        result = 31 * result + (priceTotal != null ? priceTotal.hashCode() : 0);
+        return result;
+    }
 }

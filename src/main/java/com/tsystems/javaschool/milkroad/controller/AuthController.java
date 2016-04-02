@@ -17,39 +17,10 @@ public class AuthController {
         return "login";
     }
 
-    /*@RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String processLogin(
-            @ModelAttribute @Valid final LoginForm loginForm,
-            final BindingResult bindingResult,
-            final HttpServletRequest request) {
-        final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
-        if (errors.size() == 0) {
-            final UserDTO user;
-            try {
-                user = userService.getUserByEmailAndPass(loginForm.getEmail(), loginForm.getPass());
-                AuthUtil.authUser(request.getSession(), user);
-                return "redirect:/";
-            } catch (final MilkroadServiceException e) {
-                if (e.getType() == MilkroadServiceException.Type.USER_NOT_EXISTS) {
-                    errors.put("email", "User with email not exists");
-                } else if (e.getType() == MilkroadServiceException.Type.PASS_INVALID) {
-                    errors.put("pass", "Invalid pass");
-                } else {
-                    request.setAttribute("message", "DB error! Please, try later");
-                    return "single-message";
-                }
-            }
-        }
-        request.setAttribute("errors", errors);
-        request.setAttribute("input", Collections.singletonMap("email", loginForm.getEmail()));
-        return "login";
-    }*/
-
     @RequestMapping("/logoutSuccess")
     public String processLogout(final HttpServletRequest request) {
         request.getSession().setAttribute("cart", null);
         request.getSession().setAttribute("cartTotal", null);
-//        AuthUtil.deauthUser(request.getSession());
         return "redirect:/";
     }
 

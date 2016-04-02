@@ -5,6 +5,7 @@ import com.tsystems.javaschool.milkroad.dto.OrderDTO;
 import com.tsystems.javaschool.milkroad.dto.ProductDTO;
 import com.tsystems.javaschool.milkroad.service.OrderService;
 import com.tsystems.javaschool.milkroad.service.exception.MilkroadServiceException;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,8 +24,13 @@ import java.util.Map;
 @Controller
 @RequestMapping("/checkout")
 public class CheckoutController {
+    private static final Logger LOGGER = Logger.getLogger(CheckoutController.class);
+
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private String dbErrorMessage;
 
     @RequestMapping(method = RequestMethod.GET)
     public String checkoutPage() {
@@ -54,13 +60,18 @@ public class CheckoutController {
                 return "single-message";
             } catch (final MilkroadServiceException e) {
                 if (e.getType() == MilkroadServiceException.Type.PRODUCT_NOT_ENOUGH) {
-                    request.setAttribute("message", "Some products in Your cart are missing in our storage");
-                    return "single-message";
+                    LOGGER.info(e);
+                    return singleMessagePage(request, "Some products in Your cart are missing in our storage");
                 }
-                request.setAttribute("message", "DB error! Please, try later");
-                return "single-message";
+                LOGGER.error(e);
+                return singleMessagePage(request, dbErrorMessage);
             }
         }
         return "checkout";
+    }
+
+    private String singleMessagePage(final HttpServletRequest request, final String message) {
+        request.setAttribute("message", message);
+        return "single-message";
     }
 }

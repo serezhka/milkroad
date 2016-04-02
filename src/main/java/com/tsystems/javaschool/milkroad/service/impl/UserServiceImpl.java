@@ -75,6 +75,7 @@ public class UserServiceImpl implements UserService {
                     throw new MilkroadServiceException(MilkroadServiceException.Type.PASS_INVALID);
                 }
             } catch (final NoSuchAlgorithmException e) {
+                LOGGER.error(e);
                 LOGGER.error("PassUtils error. Email = " + email + ", pass =" + pass);
                 throw new MilkroadServiceException(MilkroadServiceException.Type.PASS_UTILS_ERROR);
             }
@@ -95,19 +96,13 @@ public class UserServiceImpl implements UserService {
             final PassHash passHash = PassUtil.createPassHash(pass);
             userEntity.setPassHash(passHash.getHash());
             userEntity.setPassSalt(passHash.getSalt());
-//            entityManager.getTransaction().begin();
             userDAO.persist(userEntity);
-//            entityManager.getTransaction().commit();
         } catch (final NoSuchAlgorithmException e) {
             LOGGER.error("PassUtils Error while adding new user");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.PASS_UTILS_ERROR);
         } catch (final MilkroadDAOException e) {
             LOGGER.error("Error while adding new user");
             throw new MilkroadServiceException(e, MilkroadServiceException.Type.DAO_ERROR);
-//        } finally {
-//            if (entityManager.getTransaction().isActive()) {
-//                entityManager.getTransaction().rollback();
-//            }
         }
         return EntityDTOConverter.userDTO(userEntity);
     }
