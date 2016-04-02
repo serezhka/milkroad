@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.milkroad.dao.impl;
 
-import com.tsystems.javaschool.milkroad.MilkroadAppContext;
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;
 import com.tsystems.javaschool.milkroad.model.UserEntity;
@@ -32,9 +31,9 @@ public class UserDAOImplTest {
 
     @Before
     public void setUp() throws Exception {
-        final MilkroadAppContext milkroadAppContext = MilkroadAppContext.getInstance();
-        entityManager = milkroadAppContext.getEntityManager();
-        userDAO = milkroadAppContext.getUserDAO();
+        //final MilkroadAppContext milkroadAppContext = MilkroadAppContext.getInstance();
+        //entityManager = milkroadAppContext.getEntityManager();
+        //userDAO = milkroadAppContext.getUserDAO();
     }
 
     @After

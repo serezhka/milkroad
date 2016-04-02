@@ -33,6 +33,9 @@ public class AddressServiceImpl implements AddressService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public UserDTO addAddressToUser(final UserDTO userDTO, final AddressDTO addressDTO) throws MilkroadServiceException {
@@ -52,6 +55,9 @@ public class AddressServiceImpl implements AddressService {
         return EntityDTOConverter.userDTO(userEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public AddressDTO updateAddress(final AddressDTO addressDTO) throws MilkroadServiceException {

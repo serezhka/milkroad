@@ -14,6 +14,10 @@ import com.tsystems.javaschool.milkroad.model.UserEntity;
  */
 public class DTOEntityConverter {
 
+    private DTOEntityConverter() {
+        // DTOEntityConverter is stateless
+    }
+
     /**
      * Converts AttributeDTO -> ProductAttributeEntity
      *

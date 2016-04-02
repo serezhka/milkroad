@@ -42,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
         this.productDAO = productDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<OrderDTO> getAllOrders() throws MilkroadServiceException {
@@ -59,6 +62,9 @@ public class OrderServiceImpl implements OrderService {
         return orderDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public OrderDTO createOrder(final OrderDTO orderDTO) throws MilkroadServiceException {
@@ -88,6 +94,9 @@ public class OrderServiceImpl implements OrderService {
             for (final OrderDTO.Detail detail : orderDTO.getDetails()) {
                 final OrderDetailEntity detailEntity = new OrderDetailEntity();
                 final ProductEntity productEntity = productDAO.getByID(detail.getProduct().getArticle());
+                if (productEntity == null) {
+                    throw new MilkroadServiceException(MilkroadServiceException.Type.PRODUCT_NOT_EXISTS);
+                }
                 if (detail.getCount() > productEntity.getRemainCount()) {
                     throw new MilkroadServiceException(MilkroadServiceException.Type.PRODUCT_NOT_ENOUGH);
                 } else {
@@ -106,12 +115,18 @@ public class OrderServiceImpl implements OrderService {
         return EntityDTOConverter.orderDTO(orderEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<OrderDTO> getOrdersByUser(final UserDTO userDTO) throws MilkroadServiceException {
         final List<OrderDTO> orderDTOs = new ArrayList<>();
         try {
             final UserEntity userEntity = userDAO.getByID(userDTO.getId());
+            if (userEntity == null) {
+                throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
+            }
             final List<OrderEntity> orderEntities = userEntity.getOrders();
             for (final OrderEntity orderEntity : orderEntities) {
                 orderDTOs.add(EntityDTOConverter.orderDTO(orderEntity));
@@ -123,6 +138,11 @@ public class OrderServiceImpl implements OrderService {
         return orderDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Updates order payment and shipping status
+     */
     @Override
     @Transactional
     public OrderDTO updateOrder(final OrderDTO orderDTO) throws MilkroadServiceException {

@@ -38,7 +38,6 @@ public class CartController {
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
     public String addProduct(
             @ModelAttribute("cart") final Map<ProductDTO, Integer> cart,
-            @ModelAttribute("cartTotal") final BigDecimal cartTotal,
             @RequestParam("article") final Long article,
             final HttpServletRequest request) {
         final ProductDTO productDTO;
@@ -51,19 +50,15 @@ public class CartController {
         }
         // TODO Session attribute ?!
         request.getSession().setAttribute("cart", new HashMap<>(cart));
-        BigDecimal total = BigDecimal.ZERO;
-        for (final ProductDTO product : cart.keySet()) {
-            total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
-        }
-        request.getSession().setAttribute("cartTotal", (BigDecimal.ZERO.equals(total)) ? null : total);
-        request.setAttribute("cartTotal", (BigDecimal.ZERO.equals(total)) ? null : total);
+        final BigDecimal total = calcCartTotal(cart);
+        request.getSession().setAttribute("cartTotal", total);
+        request.setAttribute("cartTotal", total);
         return "redirect:/cart";
     }
 
     @RequestMapping(value = "/removeProduct", method = RequestMethod.POST)
     public String removeProduct(
             @ModelAttribute("cart") final Map<ProductDTO, Integer> cart,
-            @ModelAttribute("cartTotal") final BigDecimal cartTotal,
             @RequestParam("article") final Long article,
             final HttpServletRequest request) {
         final ProductDTO productDTO;
@@ -76,18 +71,13 @@ public class CartController {
         }
         // TODO Session attribute ?!
         request.getSession().setAttribute("cart", new HashMap<>(cart));
-        BigDecimal total = BigDecimal.ZERO;
-        for (final ProductDTO product : cart.keySet()) {
-            total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
-        }
-        request.getSession().setAttribute("cartTotal", (BigDecimal.ZERO.equals(total)) ? null : total);
+        request.getSession().setAttribute("cartTotal", calcCartTotal(cart));
         return "redirect:/cart";
     }
 
     @RequestMapping(value = "/removeProductOnce", method = RequestMethod.POST)
     public String removeProductOnce(
             @ModelAttribute("cart") final Map<ProductDTO, Integer> cart,
-            @ModelAttribute("cartTotal") final BigDecimal cartTotal,
             @RequestParam("article") final Long article,
             final HttpServletRequest request) {
         final ProductDTO productDTO;
@@ -105,11 +95,7 @@ public class CartController {
         }
         // TODO Session attribute ?!
         request.getSession().setAttribute("cart", new HashMap<>(cart));
-        BigDecimal total = BigDecimal.ZERO;
-        for (final ProductDTO product : cart.keySet()) {
-            total = total.add(product.getPrice().multiply(new BigDecimal(cart.get(product))));
-        }
-        request.getSession().setAttribute("cartTotal", (BigDecimal.ZERO.equals(total)) ? null : total);
+        request.getSession().setAttribute("cartTotal", calcCartTotal(cart));
         return "redirect:/cart";
     }
 
@@ -130,5 +116,13 @@ public class CartController {
     private String dbErrorPage(final HttpServletRequest request) {
         request.setAttribute("message", dbErrorMessage);
         return "single-message";
+    }
+
+    private BigDecimal calcCartTotal(final Map<ProductDTO, Integer> cart) {
+        BigDecimal total = BigDecimal.ZERO;
+        for (final Map.Entry<ProductDTO, Integer> entry : cart.entrySet()) {
+            total = total.add(entry.getKey().getPrice().multiply(new BigDecimal(entry.getValue())));
+        }
+        return total;
     }
 }

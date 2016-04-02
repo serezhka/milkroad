@@ -1,6 +1,5 @@
 package com.tsystems.javaschool.milkroad.util;
 
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,8 +9,6 @@ import java.math.BigDecimal;
  * Created by Sergey on 05.03.2016.
  */
 public class FormDataValidatorTest {
-    private static final Logger LOGGER = Logger.getLogger(FormDataValidatorTest.class);
-
     /**
      * Email validation test
      * Email must be matched with pattern:

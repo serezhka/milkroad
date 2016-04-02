@@ -3,6 +3,8 @@ package com.tsystems.javaschool.milkroad.model;
 import javax.persistence.*;
 
 /**
+ * @deprecated City stored as String for awhile
+ * <p>
  * Created by Sergey on 13.02.2016.
  */
 

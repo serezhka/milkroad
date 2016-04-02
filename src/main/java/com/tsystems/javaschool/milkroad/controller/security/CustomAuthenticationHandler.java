@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 @Component
 public class CustomAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-    private static final Logger LOGGER = Logger.getLogger(CustomAuthenticationHandler.class);
+    private static final Logger LOG4J_LOGGER = Logger.getLogger(CustomAuthenticationHandler.class);
     private static final String AUTHED_USER = "AUTHED_USER";
 
     @Autowired
@@ -41,7 +41,7 @@ public class CustomAuthenticationHandler extends SavedRequestAwareAuthentication
         try {
             userDTO = userService.getUserByEmail(authentication.getName());
         } catch (final MilkroadServiceException e) {
-            LOGGER.error(e);
+            LOG4J_LOGGER.error(e);
             request.setAttribute("message", dbErrorMessage);
             getRedirectStrategy().sendRedirect(request, response, "/error");
             return;

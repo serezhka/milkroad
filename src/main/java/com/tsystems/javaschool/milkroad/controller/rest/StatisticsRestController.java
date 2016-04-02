@@ -42,8 +42,8 @@ public class StatisticsRestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         final List<TopCustomerDTO> topCustomerDTOs = new ArrayList<>();
-        for (final UserDTO userDTO : topCustomers.keySet()) {
-            topCustomerDTOs.add(new TopCustomerDTO(userDTO, topCustomers.get(userDTO)));
+        for (final Map.Entry<UserDTO, BigDecimal> entry : topCustomers.entrySet()) {
+            topCustomerDTOs.add(new TopCustomerDTO(entry.getKey(), entry.getValue()));
         }
         return new ResponseEntity<>(topCustomerDTOs, HttpStatus.OK);
     }
@@ -58,8 +58,8 @@ public class StatisticsRestController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         final List<TopProductDTO> topProductDTOs = new ArrayList<>();
-        for (final ProductDTO productDTO : topProducts.keySet()) {
-            topProductDTOs.add(new TopProductDTO(productDTO, topProducts.get(productDTO)));
+        for (final Map.Entry<ProductDTO, Integer> entry : topProducts.entrySet()) {
+            topProductDTOs.add(new TopProductDTO(entry.getKey(), entry.getValue()));
         }
         return new ResponseEntity<>(topProductDTOs, HttpStatus.OK);
     }

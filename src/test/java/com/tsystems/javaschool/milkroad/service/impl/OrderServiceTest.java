@@ -44,7 +44,6 @@ public class OrderServiceTest extends AbstractServiceTest {
     public void setUp() throws Exception {
         super.setUp();
         final UserEntity userEntity = createUserEntity(0);
-        userEntities = Collections.singletonList(userEntity);
         final AddressEntity addressEntity = new AddressEntity(0L, "Russia", "Moscow", 127001, "Arbat", "7A", "8B");
         addressEntities = Collections.singletonList(addressEntity);
         final OrderEntity orderEntity = new OrderEntity();
@@ -58,6 +57,8 @@ public class OrderServiceTest extends AbstractServiceTest {
         orderEntity.setShippingStatus(randomEnum(ShippingStatusEnum.class));
         orderEntities = Collections.singletonList(orderEntity);
         orderDTOs = Collections.singletonList(EntityDTOConverter.orderDTO(orderEntity));
+        userEntity.setOrders(orderEntities);
+        userEntities = Collections.singletonList(userEntity);
     }
 
     @Test
@@ -110,5 +111,25 @@ public class OrderServiceTest extends AbstractServiceTest {
         }
         Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(orderEntity.getAddress().getId());
         Mockito.verify(mockAddressDAO, Mockito.times(1)).getByID(orderEntity.getAddress().getId());
+    }
+
+
+    @Test
+    public void testGetOrdersByUserPositive() throws Exception {
+        Mockito.when(mockUserDAO.getByID(orderDTOs.get(0).getCustomer().getId()))
+                .thenReturn(orderEntities.get(0).getCustomer());
+        Assert.assertArrayEquals(orderDTOs.toArray(),
+                mockedOrderService.getOrdersByUser(orderDTOs.get(0).getCustomer()).toArray());
+        Mockito.verify(mockUserDAO, Mockito.times(1)).getByID(orderDTOs.get(0).getCustomer().getId());
+    }
+
+    @Test
+    public void testGetOrdersByUserNegative() throws Exception {
+        try {
+            mockedOrderService.getOrdersByUser(orderDTOs.get(0).getCustomer());
+            Assert.fail("Failed to assert: No exception thrown");
+        } catch (final MilkroadServiceException e) {
+            Assert.assertEquals(MilkroadServiceException.Type.USER_NOT_EXISTS, e.getType());
+        }
     }
 }

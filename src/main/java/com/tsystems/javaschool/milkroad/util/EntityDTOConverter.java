@@ -7,6 +7,11 @@ import com.tsystems.javaschool.milkroad.model.*;
  * Created by Sergey on 09.03.2016.
  */
 public class EntityDTOConverter {
+
+    private EntityDTOConverter() {
+        // EntityDTOConverter is stateless
+    }
+
     /**
      * Converts ProductAttributeEntity -> AttributeDTO
      *

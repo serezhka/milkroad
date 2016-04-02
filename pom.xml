@@ -233,6 +233,7 @@
                             <target>${java.version}</target>
                             <excludes>
                                 <exclude>**/milkroad/servlet/**/*.java</exclude>
+                                <exclude>**/milkroad/MilkroadAppContext.java</exclude>
                             </excludes>
                         </configuration>
                     </plugin>

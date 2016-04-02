@@ -21,6 +21,10 @@ public class ControllerUtils {
         messageSource = source;
     }
 
+    private ControllerUtils() {
+        // ControllerUtils is stateless
+    }
+
     /**
      * Errors map:
      * key - field name

@@ -33,6 +33,9 @@ public class UserServiceImpl implements UserService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<UserDTO> getAllUsers() throws MilkroadServiceException {
@@ -50,6 +53,9 @@ public class UserServiceImpl implements UserService {
         return userDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public UserDTO getUserByEmail(final String email) throws MilkroadServiceException {
@@ -62,6 +68,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public UserDTO getUserByEmailAndPass(final String email, final String pass) throws MilkroadServiceException {
@@ -85,6 +94,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public UserDTO addNewUser(final UserDTO userDTO, final String pass) throws MilkroadServiceException {
@@ -107,6 +119,9 @@ public class UserServiceImpl implements UserService {
         return EntityDTOConverter.userDTO(userEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public UserDTO updateUserInfo(final UserDTO userDTO) throws MilkroadServiceException {
@@ -127,6 +142,9 @@ public class UserServiceImpl implements UserService {
         return EntityDTOConverter.userDTO(userEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public UserDTO updateUserPass(final UserDTO userDTO, final String pass) throws MilkroadServiceException {
@@ -151,6 +169,13 @@ public class UserServiceImpl implements UserService {
         return EntityDTOConverter.userDTO(userEntity);
     }
 
+    /**
+     * Returns user entity by email
+     *
+     * @param email email
+     * @return user entity
+     * @throws MilkroadServiceException if db error occurs
+     */
     private UserEntity getUserEntityByEmail(final String email) throws MilkroadServiceException {
         try {
             return userDAO.getByEmail(email);

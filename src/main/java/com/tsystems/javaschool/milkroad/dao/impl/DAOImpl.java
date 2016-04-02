@@ -34,6 +34,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         this.entityClass = entityClass;
     }
 
+    @Override
     public void persist(final T entity) throws MilkroadDAOException {
         try {
             getEntityManager().persist(entity);
@@ -44,6 +45,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         }
     }
 
+    @Override
     public void merge(final T entity) throws MilkroadDAOException {
         try {
             getEntityManager().merge(entity);
@@ -54,6 +56,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         }
     }
 
+    @Override
     public void remove(final T entity) throws MilkroadDAOException {
         try {
             getEntityManager().remove(entity);
@@ -64,6 +67,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         }
     }
 
+    @Override
     public T getByID(final K id) throws MilkroadDAOException {
         try {
             return getEntityManager().find(entityClass, id);
@@ -74,6 +78,7 @@ public abstract class DAOImpl<T, K> implements DAO<T, K> {
         }
     }
 
+    @Override
     public List<T> getAll() throws MilkroadDAOException {
         final List<T> entities;
         try {

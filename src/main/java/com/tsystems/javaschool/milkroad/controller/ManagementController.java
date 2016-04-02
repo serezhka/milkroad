@@ -19,8 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -241,13 +239,11 @@ public class ManagementController {
     public ModelAndView createProduct(
             @ModelAttribute @Valid final ProductDTO productDTO,
             final BindingResult bindingResult,
-            @RequestParam(value = "image", required = false) final MultipartFile image,
-            final HttpSession session) {
+            @RequestParam(value = "image", required = false) final MultipartFile image) {
         categoryInitValidator.validate(productDTO, bindingResult);
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.isEmpty()) {
             try {
-                //productDTO.setSeller(AuthUtil.getAuthedUser(session));
                 final Long article = catalogService.createProduct(productDTO).getArticle();
                 if (!image.isEmpty()) {
                     saveProductImage(image, article, errors);
@@ -282,7 +278,7 @@ public class ManagementController {
     }
 
     @ExceptionHandler(TypeMismatchException.class)
-    public void handleIOException(final TypeMismatchException e, final HttpServletRequest request) {
+    public void handleIOException(final TypeMismatchException e) {
         LOGGER.error(e);
     }
 

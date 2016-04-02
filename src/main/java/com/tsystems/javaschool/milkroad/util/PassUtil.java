@@ -9,6 +9,10 @@ import java.security.SecureRandom;
  */
 public class PassUtil {
 
+    private PassUtil() {
+        // Pass util is stateless
+    }
+
     /**
      * @param pass clean pass
      * @return PassHash, where

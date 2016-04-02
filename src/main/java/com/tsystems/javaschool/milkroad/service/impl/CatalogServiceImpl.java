@@ -45,6 +45,9 @@ public class CatalogServiceImpl implements CatalogService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<AttributeDTO> getAllAttributes() throws MilkroadServiceException {
@@ -62,6 +65,9 @@ public class CatalogServiceImpl implements CatalogService {
         return attributeDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<CategoryDTO> getAllCategories() throws MilkroadServiceException {
@@ -79,6 +85,9 @@ public class CatalogServiceImpl implements CatalogService {
         return categoryDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<ProductDTO> getAllProducts() throws MilkroadServiceException {
@@ -96,6 +105,9 @@ public class CatalogServiceImpl implements CatalogService {
         return productDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<ProductDTO> getAllProductsByCategory(final String category) throws MilkroadServiceException {
@@ -113,6 +125,9 @@ public class CatalogServiceImpl implements CatalogService {
         return productDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public ProductDTO getProductByArticle(final Long article) throws MilkroadServiceException {
@@ -130,6 +145,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.productDTO(productEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public CategoryDTO updateCategory(final CategoryDTO categoryDTO) throws MilkroadServiceException {
@@ -154,6 +172,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.categoryDTO(categoryEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public CategoryDTO createCategory(final CategoryDTO categoryDTO) throws MilkroadServiceException {
@@ -171,6 +192,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.categoryDTO(categoryEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public AttributeDTO updateAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException {
@@ -195,6 +219,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.attributeDTO(attributeEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public AttributeDTO createAttribute(final AttributeDTO attributeDTO) throws MilkroadServiceException {
@@ -212,6 +239,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.attributeDTO(attributeEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public ProductDTO updateProduct(final ProductDTO productDTO) throws MilkroadServiceException {
@@ -258,6 +288,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.productDTO(productEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public ProductDTO createProduct(final ProductDTO productDTO) throws MilkroadServiceException {
@@ -300,6 +333,9 @@ public class CatalogServiceImpl implements CatalogService {
         return EntityDTOConverter.productDTO(productEntity);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public List<ProductDTO> searchProductByName(final String pattern) throws MilkroadServiceException {

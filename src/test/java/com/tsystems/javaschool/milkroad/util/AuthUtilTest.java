@@ -2,7 +2,6 @@ package com.tsystems.javaschool.milkroad.util;
 
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.model.UserTypeEnum;
-import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,8 +17,6 @@ import java.util.Map;
  * Created by Sergey on 05.03.2016.
  */
 public class AuthUtilTest {
-    private static final Logger LOGGER = Logger.getLogger(AuthUtilTest.class);
-
     private HttpSession httpSession;
     private UserDTO user1;
     private UserDTO user2;

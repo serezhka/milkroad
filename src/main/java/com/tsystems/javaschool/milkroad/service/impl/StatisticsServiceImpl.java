@@ -42,6 +42,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         this.orderDAO = orderDAO;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public Map<ProductDTO, Integer> getTopProducts(final int count) throws MilkroadServiceException {
@@ -60,6 +63,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         return topProductDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public Map<UserDTO, BigDecimal> getTopCustomers(final int count) throws MilkroadServiceException {
@@ -78,6 +84,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         return topCustomerDTOs;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public BigDecimal getTotalCash() throws MilkroadServiceException {
@@ -89,6 +98,9 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Transactional
     public BigDecimal getTotalCashByPeriod(final Date from, final Date to) throws MilkroadServiceException {

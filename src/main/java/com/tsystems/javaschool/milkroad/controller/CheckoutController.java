@@ -47,10 +47,10 @@ public class CheckoutController {
             orderDTO.setTotalPrice((BigDecimal) request.getSession().getAttribute("cartTotal"));
             //noinspection unchecked
             final Map<ProductDTO, Integer> cart = (Map<ProductDTO, Integer>) request.getSession().getAttribute("cart");
-            for (final ProductDTO productDTO : cart.keySet()) {
-                final BigDecimal price = productDTO.getPrice();
-                final int count = cart.get(productDTO);
-                orderDTO.addDetail(productDTO, count, price.multiply(new BigDecimal(count)));
+            for (final Map.Entry<ProductDTO, Integer> entry : cart.entrySet()) {
+                final BigDecimal price = entry.getKey().getPrice();
+                final int count = entry.getValue();
+                orderDTO.addDetail(entry.getKey(), count, price.multiply(new BigDecimal(count)));
             }
             try {
                 orderService.createOrder(orderDTO);

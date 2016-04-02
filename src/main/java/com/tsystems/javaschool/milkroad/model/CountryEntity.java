@@ -4,6 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
+ * @deprecated Country stored as String for awhile
+ * <p>
  * Created by Sergey on 11.02.2016.
  */
 @SuppressWarnings("JpaDataSourceORMInspection")

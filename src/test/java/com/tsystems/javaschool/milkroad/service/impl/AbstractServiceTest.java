@@ -16,6 +16,8 @@ import java.sql.Date;
 import java.util.Random;
 
 /**
+ * Provides entity manager and some methods used in tests
+ * <p>
  * Created by Sergey on 07.03.2016.
  */
 public class AbstractServiceTest {
