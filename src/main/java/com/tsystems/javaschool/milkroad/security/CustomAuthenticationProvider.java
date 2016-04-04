@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.milkroad.controller.security;
+package com.tsystems.javaschool.milkroad.security;
 
 import com.tsystems.javaschool.milkroad.dao.UserDAO;
 import com.tsystems.javaschool.milkroad.dao.exception.MilkroadDAOException;

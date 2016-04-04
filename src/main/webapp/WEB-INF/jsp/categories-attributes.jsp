@@ -93,3 +93,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_categories_attributes").addClass("active");
+</script>

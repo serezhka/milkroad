@@ -67,6 +67,9 @@ public class ProductDAOImpl extends DAOImpl<ProductEntity, Long> implements Prod
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ProductEntity> searchByName(final String pattern) throws MilkroadDAOException {
         try {

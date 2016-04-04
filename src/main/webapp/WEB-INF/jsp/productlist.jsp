@@ -51,3 +51,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_products").addClass("active");
+</script>

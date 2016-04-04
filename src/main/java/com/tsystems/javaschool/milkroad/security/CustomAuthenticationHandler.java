@@ -1,4 +1,4 @@
-package com.tsystems.javaschool.milkroad.controller.security;
+package com.tsystems.javaschool.milkroad.security;
 
 import com.tsystems.javaschool.milkroad.dto.UserDTO;
 import com.tsystems.javaschool.milkroad.service.UserService;

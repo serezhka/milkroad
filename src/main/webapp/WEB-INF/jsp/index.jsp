@@ -15,3 +15,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_home").addClass("active");
+</script>

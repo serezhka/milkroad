@@ -112,3 +112,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_edit_product").addClass("active");
+</script>

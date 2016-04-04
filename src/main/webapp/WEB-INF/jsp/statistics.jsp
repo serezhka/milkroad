@@ -89,3 +89,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_statistics").addClass("active");
+</script>

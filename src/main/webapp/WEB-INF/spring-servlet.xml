@@ -22,9 +22,6 @@
     <bean id="myBeansValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
           p:validationMessageSource-ref="messageSource"/> <!-- TODO Doesn't work! -->
 
-    <bean id="dbErrorMessage" class="java.lang.String">
-        <constructor-arg type="java.lang.String" value="DB error! Please, try later"/>
-    </bean>
 
     <context:annotation-config/>
     <context:component-scan base-package="com.tsystems.javaschool.milkroad.controller"/>

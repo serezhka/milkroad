@@ -21,3 +21,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_catalog").addClass("active");
+</script>

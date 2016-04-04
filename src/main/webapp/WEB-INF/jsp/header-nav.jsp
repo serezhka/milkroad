@@ -21,31 +21,31 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li>
+                <li id="nav_home">
                     <a href="${pageContext.request.contextPath}/">Home</a>
                 </li>
-                <li>
+                <li id="nav_catalog">
                     <a href="${pageContext.request.contextPath}/catalog">Catalog</a>
                 </li>
                 <c:choose>
                     <c:when test="${(user.userType eq 'ADMIN') or (user.userType eq 'SELLER')}">
-                        <li>
+                        <li id="nav_orders">
                             <c:url value="/management/editOrders" var="ordersURL"/>
                             <a href="${ordersURL}">Orders</a>
                         </li>
-                        <li>
+                        <li id="nav_categories_attributes">
                             <c:url value="/management/editCategories" var="categoriesURL"/>
                             <a href="${categoriesURL}">Categories & attributes</a>
                         </li>
-                        <li>
+                        <li id="nav_products">
                             <c:url value="/management/editProducts" var="productsURL"/>
                             <a href="${productsURL}">Products</a>
                         </li>
-                        <li>
+                        <li id="nav_edit_product">
                             <c:url value="/management/addProduct" var="productsURL"/>
                             <a href="${productsURL}">Add product</a>
                         </li>
-                        <li>
+                        <li id="nav_statistics">
                             <c:url value="/management/statistics" var="statisticsURL"/>
                             <a href="${statisticsURL}">Statistics</a>
                         </li>
@@ -53,7 +53,7 @@
                     <c:otherwise>
                     </c:otherwise>
                 </c:choose>
-                <li>
+                <li id="nav_profile">
                     <a href="${pageContext.request.contextPath}/profile">Profile</a>
                 </li>
             </ul>

@@ -115,3 +115,7 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
+
+<script>
+    $(".nav li#nav_orders").addClass("active");
+</script>
