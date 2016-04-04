@@ -1,5 +1,6 @@
 package com.tsystems.javaschool.milkroad.controller;
 
+import com.tsystems.javaschool.milkroad.controller.form.FilterAttribute;
 import com.tsystems.javaschool.milkroad.controller.form.FilterForm;
 import com.tsystems.javaschool.milkroad.controller.util.ControllerUtils;
 import com.tsystems.javaschool.milkroad.dto.AttributeDTO;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class CatalogController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String catalogByFilter(
-            @ModelAttribute final FilterForm filterForm,
+            @ModelAttribute @Valid final FilterForm filterForm,
             final BindingResult bindingResult,
             final HttpServletRequest request) {
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
@@ -67,17 +69,28 @@ public class CatalogController {
                         iterator.remove();
                         continue;
                     }
-                    /* All attributes exists check */
+                    /* All attributes check */
                     if (filterForm.getAttributes() != null && !filterForm.getAttributes().isEmpty()) {
-                        for (final Long attributeID : filterForm.getAttributes()) {
-                            boolean attrExists = false;
+                        for (final FilterAttribute attribute : filterForm.getAttributes()) {
+                            if (attribute == null || attribute.getId() == null) {
+                                continue;
+                            }
+                            boolean attrValid = false;
                             for (final ParameterDTO parameterDTO : product.getParameters()) {
-                                if (parameterDTO.getAttribute().getId().equals(attributeID)) {
-                                    attrExists = true;
+                                if (parameterDTO.getAttribute().getId().equals(attribute.getId())) {
+                                    boolean minBoundValid = true;
+                                    boolean maxBoundValid = true;
+                                    if (attribute.getMinValue() != null && !attribute.getMinValue().isEmpty()) {
+                                        minBoundValid = parameterDTO.getValue().compareToIgnoreCase(attribute.getMinValue()) >= 0;
+                                    }
+                                    if (attribute.getMaxValue() != null && !attribute.getMaxValue().isEmpty()) {
+                                        maxBoundValid = parameterDTO.getValue().compareToIgnoreCase(attribute.getMaxValue()) <= 0;
+                                    }
+                                    attrValid = minBoundValid && maxBoundValid;
                                     break;
                                 }
                             }
-                            if (!attrExists) {
+                            if (!attrValid) {
                                 iterator.remove();
                                 break;
                             }

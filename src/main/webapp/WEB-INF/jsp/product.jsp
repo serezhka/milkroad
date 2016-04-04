@@ -17,7 +17,9 @@
         <p>${product.description}</p>
         <ul class="product-attributes">
             <c:forEach items="${product.parameters}" var="parameter">
-                <li><span>${parameter.attribute.name}</span><span>: ${parameter.value}</span></li>
+                <li>
+                    <span>${parameter.attribute.name}</span><span>: ${parameter.value}${parameter.attribute.description}</span>
+                </li>
             </c:forEach>
             <li><span>Remain count</span><span>: ${product.count}</span></li>
         </ul>

@@ -18,8 +18,8 @@ import java.io.IOException;
  * Created by Sergey on 30.03.2016.
  */
 @Component
-public class CustomAuthenticationHandler extends SavedRequestAwareAuthenticationSuccessHandler {
-    private static final Logger LOG4J_LOGGER = Logger.getLogger(CustomAuthenticationHandler.class);
+public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+    private static final Logger LOG4J_LOGGER = Logger.getLogger(CustomAuthenticationSuccessHandler.class);
     private static final String AUTHED_USER = "AUTHED_USER";
 
     @Autowired
@@ -28,10 +28,10 @@ public class CustomAuthenticationHandler extends SavedRequestAwareAuthentication
     @Autowired
     private String dbErrorMessage;
 
-    public CustomAuthenticationHandler() {
+    public CustomAuthenticationSuccessHandler() {
     }
 
-    public CustomAuthenticationHandler(final String defaultTargetUrl) {
+    public CustomAuthenticationSuccessHandler(final String defaultTargetUrl) {
         setDefaultTargetUrl(defaultTargetUrl);
     }
 
@@ -47,6 +47,7 @@ public class CustomAuthenticationHandler extends SavedRequestAwareAuthentication
             return;
         }
         request.getSession().setAttribute(AUTHED_USER, userDTO);
+        LOG4J_LOGGER.info("User logged in. Email: " + userDTO.getEmail());
         super.onAuthenticationSuccess(request, response, authentication);
     }
 }

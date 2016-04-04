@@ -574,10 +574,16 @@ span.error,
 
 .filter .catalog-left-menu > li {
     margin-bottom: 10px;
+    display: block;
 }
 
 .catalog-left-menu > li > label {
+    width: 32%;
     font-weight: normal;
+}
+
+.catalog-left-menu > li > label > input {
+    width: inherit;
 }
 
 .catalog-left-menu > li > div > input {

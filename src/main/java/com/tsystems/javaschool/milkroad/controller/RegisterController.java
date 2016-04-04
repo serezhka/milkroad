@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -39,7 +40,7 @@ public class RegisterController {
     public ModelAndView processRegister(
             @ModelAttribute @Valid final UserDTO userDTO,
             final BindingResult bindingResult,
-            @ModelAttribute final String pass) {
+            @RequestParam final String pass) {
         final Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
         if (errors.size() == 0) {
             try {

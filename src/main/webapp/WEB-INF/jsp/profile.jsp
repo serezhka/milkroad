@@ -144,7 +144,11 @@
                         <c:forEach items="${orders}" var="order">
                             <c:set var="details_count">${fn:length(order.details) + 1}</c:set>
                             <tr>
-                            <td rowspan=${details_count}>${order.id}</td>
+                            <c:set var="addressRow" value="${0}"/>
+                            <c:if test="${order.shippingMethod eq 'POST'}">
+                                <c:set var="addressRow" value="${1}"/>
+                            </c:if>
+                            <td rowspan=${details_count + addressRow}>${order.id}</td>
                             <td rowspan=${details_count}>${order.paymentMethod}</td>
                             <td rowspan=${details_count}>${order.paymentStatus}</td>
                             <td rowspan=${details_count}>${order.shippingMethod}</td>
@@ -157,6 +161,11 @@
                             </c:forEach>
                             <td colspan=2><b>Total price</b></td>
                             <td><b>${order.totalPrice}</b></td>
+                            <c:if test="${order.shippingMethod eq 'POST'}">
+                                <tr>
+                                    <td colspan="7"><b>Delivery address: </b>${order.address}</td>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                         </tbody>
                     </table>

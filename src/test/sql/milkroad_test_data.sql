@@ -52,11 +52,11 @@ SET FOREIGN_KEY_CHECKS = 1;
 # @formatter:off (for IntelliJIDEA)
 INSERT INTO user (user_type, first_name, last_name, birthday, email, pass_hash, pass_salt)
 VALUES
-  ('ADMIN', 'Admin', 'Admin', '1993-03-08', 'admin@mail.ru', '1c76c47e1e9de8f8fe07b353bde4fe47', '3241530acd90b347ee79c5596746fcb4');
+  ('ADMIN', 'Stepa', 'Kowalski', '1993-03-08', 'admin@mail.ru', '1c76c47e1e9de8f8fe07b353bde4fe47', '3241530acd90b347ee79c5596746fcb4');
 
 INSERT INTO user (first_name, last_name, birthday, email, pass_hash, pass_salt)
 VALUES
-  ('Sergey', 'Fedorov', '1993-03-08', 'user@mail.ru', '1c76c47e1e9de8f8fe07b353bde4fe47', '3241530acd90b347ee79c5596746fcb4'),
+  ('Sergey', 'Fedorov', '1993-03-08', 'serezhka@mail.ru', '1c76c47e1e9de8f8fe07b353bde4fe47', '3241530acd90b347ee79c5596746fcb4'),
   ('Vasya', 'Ivanov', '1993-03-08', 'serezhka@xakep.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
   ('Anton', 'Laletin', '1989-02-07', 'anton.laletin@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
   ('Alex', 'Petrov', '2000-05-17', 'alex.petrov@mail.ru', '12345678123456781234567812345678', '12345678123456781234567812345678'),
@@ -105,10 +105,11 @@ VALUES
 # fill product attributes table
 INSERT INTO product_attribute (attribute_name, description)
 VALUES
-  ('weight', 'in kilograms'),
-  ('height', 'in meters'),
-  ('volume', 'in liters'),
-  ('power', 'in watts'),
+  ('weight', 'Kg'),
+  ('height', 'm'),
+  ('volume', 'L'),
+  ('power', 'W'),
+  ('year', ''),
   ('color', '');
 
 # fill products table
@@ -144,7 +145,10 @@ VALUES
   'Bike', 100.45, 1, 'BMX'),
   ((SELECT id FROM user WHERE first_name = 'Alex'),
    (SELECT id FROM product_category WHERE category_name = 'Media'),
-  'Deadpool', 20.45, 1, 'Deadpool movie');
+  'Deadpool', 20.45, 1, 'Deadpool movie'),
+  ((SELECT id FROM user WHERE first_name = 'Alex'),
+   (SELECT id FROM product_category WHERE category_name = 'Food'),
+  'BonAqua', 42.45, 2, 'Still water');
 # @formatter:on (for IntelliJIDEA)
 
 # fill product parameters table
@@ -153,19 +157,19 @@ INSERT INTO product_parameter (product_id, attribute_id, attribute_value)
 VALUES
   ((SELECT id FROM product WHERE product_name = 'Pepsi'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'volume'),
-  '0.3L'),
+  '0.3'),
   ((SELECT id FROM product WHERE product_name = 'Pepsi'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'color'),
   'Blue'),
   ((SELECT id FROM product WHERE product_name = 'Sprite'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'volume'),
-  '0.3L'),
+  '0.3'),
   ((SELECT id FROM product WHERE product_name = 'Sprite'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'color'),
   'Green'),
   ((SELECT id FROM product WHERE product_name = 'Coca cola'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'volume'),
-  '0.3L'),
+  '0.3'),
   ((SELECT id FROM product WHERE product_name = 'Coca cola'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'color'),
   'Red'),
@@ -174,16 +178,22 @@ VALUES
   'Blue'),
   ((SELECT id FROM product WHERE product_name = 'Bike'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'weight'),
-  '10Kg'),
+  '10'),
   ((SELECT id FROM product WHERE product_name = 'Bandage' AND description = 'Simple bandage'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'color'),
-  'White'),
+  'Bisque'),
   ((SELECT id FROM product WHERE product_name = 'Bandage' AND description = 'Wide bandage'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'color'),
-  'White'),
+  'Blue'),
   ((SELECT id FROM product WHERE product_name = 'Helmet'),
    (SELECT id FROM product_attribute WHERE attribute_name = 'color'),
-  'Black');
+  'Black'),
+  ((SELECT id FROM product WHERE product_name = 'BonAqua'),
+   (SELECT id FROM product_attribute WHERE attribute_name = 'volume'),
+  '20'),
+  ((SELECT id FROM product WHERE product_name = 'BonAqua'),
+   (SELECT id FROM product_attribute WHERE attribute_name = 'weight'),
+  '20');
 # @formatter:on (for IntelliJIDEA)
 
 # fill orders table

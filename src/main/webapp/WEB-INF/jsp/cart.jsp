@@ -48,7 +48,7 @@
                             </h3>
                             <ul class="cart-item-details">
                                 <c:forEach items="${cartItem.key.parameters}" var="parameter">
-                                    <li><p>${parameter.attribute.name} : ${parameter.value}</p></li>
+                                    <li><p>${parameter.attribute.name} : ${parameter.value}${parameter.attribute.description}</p></li>
                                 </c:forEach>
                                 <li><p>Remain count : ${cartItem.key.count}</p></li>
                             </ul>

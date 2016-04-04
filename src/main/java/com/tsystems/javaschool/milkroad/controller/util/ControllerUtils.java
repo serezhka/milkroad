@@ -17,7 +17,7 @@ public class ControllerUtils {
     private static MessageSource messageSource;
 
     @Autowired
-    public static void setMessageSource(final MessageSource source) {
+    public void setMessageSource(final MessageSource source) {
         messageSource = source;
     }
 

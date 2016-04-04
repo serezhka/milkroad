@@ -3,11 +3,12 @@ package com.tsystems.javaschool.milkroad.controller.form;
 import org.hibernate.validator.constraints.Email;
 
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
  * Created by Sergey on 24.03.2016.
  */
-public class LoginForm {
+public class LoginForm implements Serializable {
     private String email;
     private String pass;
 

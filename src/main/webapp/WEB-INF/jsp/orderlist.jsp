@@ -33,7 +33,11 @@
                 <c:forEach items="${orders}" var="order">
                     <c:set var="details_count">${fn:length(order.details)+1}</c:set>
                     <tr id="order_${order.id}">
-                    <td rowspan=${details_count}>${order.id}</td>
+                    <c:set var="addressRow" value="${0}"/>
+                    <c:if test="${order.shippingMethod eq 'POST'}">
+                        <c:set var="addressRow" value="${1}"/>
+                    </c:if>
+                    <td rowspan=${details_count + addressRow}>${order.id}</td>
                     <td rowspan=${details_count}>${order.customer.email}</td>
                     <%-- TODO Try to avoid string constants --%>
                     <td rowspan=${details_count}>
@@ -107,6 +111,11 @@
                     </c:forEach>
                     <td colspan=2><b>Total price</b></td>
                     <td><b>${order.totalPrice}</b></td>
+                    <c:if test="${order.shippingMethod eq 'POST'}">
+                        <tr>
+                            <td colspan=9><b>Delivery address: </b>${order.address}</td>
+                        </tr>
+                    </c:if>
                 </c:forEach>
                 </tbody>
             </table>

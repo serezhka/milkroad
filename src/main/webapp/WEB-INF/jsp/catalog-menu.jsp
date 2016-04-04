@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<%--@elvariable id="category" type="com.tsystems.javaschool.milkroad.dto.CategoryDTO"--%>
 <%--@elvariable id="categories" type="java.util.List<com.tsystems.javaschool.milkroad.dto.CategoryDTO>"--%>
 <%--@elvariable id="attributes" type="java.util.List<com.tsystems.javaschool.milkroad.dto.AttributeDTO>"--%>
 <%--@elvariable id="errors" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
@@ -19,7 +18,7 @@
                 <c:url value="/catalog" var="categoryURL">
                     <c:param name="category" value="${category.name}"/>
                 </c:url>
-                <li><a href="${categoryURL}">${category.name}</a></li>
+                <li title="${category.description}"><a href="${categoryURL}">${category.name}</a></li>
             </c:forEach>
         </ul>
     </div>
@@ -42,9 +41,28 @@
                     <div>Max price <input name="maxPrice" type="text" value="${filter.maxPrice}"></div>
                 </li>
                 <c:forEach items="${attributes}" var="attribute" varStatus="status">
-                    <li><label><input type="checkbox" name="attributes" value="${attribute.id}"
-                                      <c:if test="${not empty filter.attributes && filter.attributes.contains(attribute.id)}">checked</c:if>
-                    />${attribute.name}</label></li>
+                    <li>
+                        <c:choose>
+                            <c:when test="${not empty filter.attributes
+                                      && filter.attributes.size() > status.index
+                                      && not empty filter.attributes[status.index].id}">
+                                <label><input type="checkbox" name="attributes[${status.index}].id"
+                                              value="${attribute.id}" checked/>${attribute.name}</label>
+                                <label><input name="attributes[${status.index}].minValue" type="text"
+                                              value="${filter.attributes[status.index].minValue}">min</label>
+                                <label><input name="attributes[${status.index}].maxValue" type="text"
+                                              value="${filter.attributes[status.index].maxValue}">max</label>
+                            </c:when>
+                            <c:otherwise>
+                                <label><input type="checkbox" name="attributes[${status.index}].id"
+                                              value="${attribute.id}"/>${attribute.name}</label>
+                                <label><input name="attributes[${status.index}].minValue" type="text"
+                                              value="">min</label>
+                                <label><input name="attributes[${status.index}].maxValue" type="text"
+                                              value="">max</label>
+                            </c:otherwise>
+                        </c:choose>
+                    </li>
                 </c:forEach>
             </ul>
             <input type="submit" value="Apply"/>

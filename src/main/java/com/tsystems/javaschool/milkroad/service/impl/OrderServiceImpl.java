@@ -74,8 +74,7 @@ public class OrderServiceImpl implements OrderService {
             if (userEntity == null) {
                 throw new MilkroadServiceException(MilkroadServiceException.Type.USER_NOT_EXISTS);
             }
-            final Long addressId = orderDTO.getAddress().getId();
-            if (addressId != null) {
+            if (orderDTO.getAddress() != null && orderDTO.getAddress().getId() != null) {
                 final AddressEntity addressEntity = addressDAO.getByID(orderDTO.getAddress().getId());
                 if (addressEntity == null) {
                     throw new MilkroadServiceException(MilkroadServiceException.Type.ADDRESS_NOT_EXISTS);

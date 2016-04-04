@@ -6,9 +6,6 @@
 <jsp:include page="header-top.jsp"/>
 <jsp:include page="header-nav.jsp"/>
 
-<%--@elvariable id="errors" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
-<%--@elvariable id="input" type="java.util.HashMap<java.lang.String, java.lang.String>"--%>
-
 <%--suppress HtmlFormInputWithoutLabel --%>
 <div class="container">
     <div class="account">
@@ -20,17 +17,10 @@
                     </c:if>
                     <div>
                         <span>Email</span>
-                        <c:if test="${not empty errors && errors.containsKey('email')}">
-                            <span class="error">${errors.get('email')}</span>
-                        </c:if>
-                        <input name="email" type="text" value="${input.get('email')}">
+                        <input name="email" type="text" value="">
                     </div>
                     <div>
                         <span>Password</span>
-                        <c:if test="${not empty errors && errors.containsKey('pass')}">
-                            <span class="error">${errors.get('pass')}</span>
-                        </c:if>
-                        <%-- TODO encrypt? --%>
                         <input name="pass" type="password">
                     </div>
                     <%--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>--%>
